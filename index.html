@@ -2,75 +2,163 @@
 <html lang="fi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Family">
   <meta name="theme-color" content="#0a0a0d">
   <title>Family Dashboard</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0d; overflow-x: hidden; }
-    #root { min-height: 100vh; }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    body { background:#0a0a0d; color:#ffffff; font-family:system-ui,-apple-system,sans-serif; min-height:100vh; }
+    .app { display:flex; flex-direction:column; min-height:100vh; }
+
+    /* TOP BAR */
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:13px 14px 11px; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .title { font-size:clamp(15px,4vw,20px); font-weight:800; letter-spacing:-0.5px; background:linear-gradient(90deg,#fff 30%,#60b4ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .subtitle { font-size:10px; color:#5dd68a; margin-top:2px; }
+    .clock-time { font-size:clamp(26px,6.5vw,44px); font-weight:800; letter-spacing:-2px; color:#fff; text-align:right; line-height:1; }
+    .clock-sec { font-size:clamp(12px,3vw,16px); color:#555; margin-left:2px; }
+    .clock-date { font-size:11px; color:#777; margin-top:3px; text-align:right; }
+
+    /* WEEK STRIP */
+    .week { display:flex; gap:3px; padding:9px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .week-day { flex:1; text-align:center; padding:6px 2px; border-radius:8px; border:1px solid transparent; }
+    .week-day.today { background:linear-gradient(135deg,#2a5298,#1a73e8); border-color:rgba(96,180,255,0.5); }
+    .week-day.wknd { background:rgba(255,255,255,0.02); }
+    .week-day.normal { background:rgba(255,255,255,0.05); }
+    .week-label { font-size:8px; letter-spacing:0.06em; margin-bottom:2px; }
+    .week-date { font-size:13px; font-weight:700; }
+    .week-day.today .week-label, .week-day.today .week-date { color:#fff; }
+    .week-day.wknd .week-label, .week-day.wknd .week-date { color:#444; }
+    .week-day.normal .week-label, .week-day.normal .week-date { color:#888; }
+
+    /* GRID */
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:11px 14px 14px; flex:1; }
+    .section-label { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:5px; color:#888; }
+
+    /* CARDS */
+    .card { border-radius:12px; padding:12px 13px; box-sizing:border-box; height:100%; display:flex; flex-direction:column; }
+    .card-dark { background:#16161a; }
+    .card-blue { background:#0f2440; border:1.5px solid rgba(96,180,255,0.35); }
+    .card-blue2 { background:#0d1e2e; border:1.5px solid rgba(96,180,255,0.20); }
+    .card-orange { border:1px solid rgba(255,170,85,0.30); background:#16161a; }
+    .card-bluel { border:1px solid rgba(96,180,255,0.30); background:#16161a; }
+
+    /* CHILD CARD */
+    .child-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .child-name { display:flex; align-items:center; gap:5px; }
+    .child-name span:last-child { font-size:15px; font-weight:700; }
+    .ends-badge { font-size:10px; padding:2px 7px; border-radius:20px; }
+    .starts-badge { display:flex; align-items:center; gap:10px; margin-bottom:9px; border-radius:9px; padding:8px 12px; }
+    .starts-label { font-size:8px; letter-spacing:0.12em; margin-bottom:2px; }
+    .starts-time { font-size:24px; font-weight:800; line-height:1; }
+    .lessons-count-label { font-size:8px; color:#aaa; letter-spacing:0.08em; margin-bottom:2px; text-align:right; }
+    .lessons-count { font-size:15px; font-weight:600; color:#fff; text-align:right; }
+    .lesson-row { display:flex; align-items:center; gap:7px; padding:5px 8px; border-radius:6px; border:1px solid transparent; }
+    .lesson-row.current { border:1px solid; }
+    .lesson-row.past { opacity:0.38; }
+    .lesson-time { font-size:14px; font-weight:600; color:#fff; min-width:46px; flex-shrink:0; }
+    .lesson-subj { font-size:14px; color:#fff; }
+    .now-badge { margin-left:auto; font-size:8px; padding:1px 5px; border-radius:7px; }
+    .no-school { color:#888; font-size:13px; font-style:italic; padding:5px 0; }
+
+    /* EXAM CARD */
+    .exam-header { display:flex; align-items:center; gap:5px; margin-bottom:9px; }
+    .exam-title { font-size:15px; font-weight:700; }
+    .exam-tag { margin-left:auto; font-size:9px; color:#888; letter-spacing:0.08em; }
+    .exam-row { display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:9px; background:rgba(255,255,255,0.04); margin-bottom:7px; border:1px solid; }
+    .exam-count { display:flex; flex-direction:column; align-items:center; flex-shrink:0; width:52px; }
+    .exam-date-lbl { font-size:12px; font-weight:700; line-height:1; }
+    .exam-days-num { font-size:20px; font-weight:800; line-height:1; margin-top:3px; }
+    .exam-days-lbl { font-size:9px; line-height:1; margin-top:2px; white-space:nowrap; }
+    .exam-divider { width:1px; align-self:stretch; flex-shrink:0; }
+    .exam-subject { font-size:13px; font-weight:600; color:#fff; line-height:1.3; }
+    .exam-detail { font-size:11px; color:#999; margin-top:2px; line-height:1.3; }
+
+    /* CALENDAR */
+    .cal-row { display:flex; align-items:flex-start; gap:7px; margin-bottom:9px; }
+    .cal-dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-top:5px; flex-shrink:0; }
+    .cal-time { font-size:13px; color:#aaa; background:rgba(255,255,255,0.08); padding:1px 5px; border-radius:4px; margin-right:5px; }
+    .cal-title { font-size:15px; font-weight:500; color:#fff; }
+    .cal-person { font-size:12px; margin-left:5px; padding:1px 6px; border-radius:8px; }
+    .cal-loc { font-size:11px; color:#666; margin-top:1px; }
+    .cal-empty { color:#777; font-size:13px; font-style:italic; }
+
+    /* WEATHER */
+    .wx-top { display:flex; align-items:center; gap:10px; }
+    .wx-icon { font-size:36px; line-height:1; flex-shrink:0; }
+    .wx-label { font-size:10px; font-weight:700; letter-spacing:0.1em; }
+    .wx-date { font-size:10px; color:#445566; }
+    .wx-condition { font-size:12px; color:#c0d8e8; margin-top:2px; }
+    .wx-temp { display:flex; align-items:baseline; gap:5px; border-top:1px solid rgba(255,255,255,0.07); padding-top:8px; margin-top:8px; }
+    .wx-high { font-size:32px; font-weight:800; color:#fff; line-height:1; }
+    .wx-sep { font-size:16px; color:#5a80a0; }
+    .wx-low { font-size:20px; font-weight:600; color:#5a80a0; }
+    .wx-unit { font-size:10px; color:#445566; margin-left:2px; }
+    .wx-pills { display:flex; gap:7px; margin-top:8px; }
+    .wx-pill { flex:1; border-radius:8px; padding:7px 9px; display:flex; align-items:center; gap:6px; }
+    .wx-pill-icon { font-size:14px; flex-shrink:0; }
+    .wx-pill-val { font-size:15px; font-weight:700; line-height:1; }
+    .wx-pill-unit { font-size:9px; font-weight:400; }
+    .wx-pill-lbl { font-size:8px; color:#4a6a80; letter-spacing:0.1em; margin-top:1px; }
+    .wx-wind-pill { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); }
+    .loading { color:#555; font-size:13px; text-align:center; padding:20px; }
+
+    /* FOOTER */
+    .footer { padding:6px 14px; border-top:1px solid rgba(255,255,255,0.05); font-size:9px; color:#333; }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-  <script type="text/babel">
-    const { useState, useEffect } = React;
+<div class="app">
+  <div class="topbar">
+    <div>
+      <div class="title">Family Dashboard</div>
+      <div class="subtitle">✓ Perhekalenteri · Helsinki</div>
+    </div>
+    <div>
+      <div class="clock-time" id="clock-time">00:00<span class="clock-sec" id="clock-sec">00</span></div>
+      <div class="clock-date" id="clock-date"></div>
+    </div>
+  </div>
 
+  <div class="week" id="week-strip"></div>
 
-const C = { bg:"#0a0a0d", card:"#16161a" };
+  <div class="grid" id="main-grid"></div>
 
+  <div class="footer">Sofia: Mon/Wed/Thu 08:30 · Tue 09:15 · Fri 10:15 · Helen: Mon/Wed/Thu 08:15 · Tue/Fri 09:15</div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
 const SOFIA_SCHEDULE = {
-  1:[{time:"08:30–09:15",subject:"Matematiikka"},{time:"09:15–10:00",subject:"Suomenkieli"},{time:"10:15–11:00",subject:"Englanti"},{time:"11:10–11:55",subject:"Ympäristöoppi"},{time:"12:30–13:15",subject:"Liikunta"},{time:"13:20–14:05",subject:"Liikunta"}],
-  2:[{time:"09:15–10:00",subject:"Englanti"},{time:"10:15–11:00",subject:"Matematiikka"},{time:"11:10–11:55",subject:"Historia"},{time:"12:30–13:15",subject:"Suomenkieli"},{time:"13:20–14:05",subject:"Käsityö"},{time:"14:15–15:00",subject:"Käsityö"}],
-  3:[{time:"08:30–09:15",subject:"Uskonto"},{time:"09:15–10:00",subject:"Historia"},{time:"10:15–11:00",subject:"Matematiikka"},{time:"11:10–11:55",subject:"Ympäristöoppi"},{time:"12:30–13:15",subject:"Espanja"},{time:"13:20–14:05",subject:"Valinainen"}],
-  4:[{time:"08:30–09:15",subject:"Ruotsi"},{time:"09:15–10:00",subject:"Kuvataide"},{time:"10:15–11:00",subject:"Kuvataide"},{time:"11:10–11:55",subject:"Musiikki"},{time:"12:30–13:15",subject:"Valinainen"},{time:"13:20–14:05",subject:"Valinainen"}],
-  5:[{time:"10:15–11:00",subject:"Suomenkieli"},{time:"11:10–11:55",subject:"Suomenkieli"},{time:"12:30–13:15",subject:"Ruotsi"}],
+  1:[{time:"08:30-09:15",subject:"Matematiikka"},{time:"09:15-10:00",subject:"Suomenkieli"},{time:"10:15-11:00",subject:"Englanti"},{time:"11:10-11:55",subject:"Ympäristöoppi"},{time:"12:30-13:15",subject:"Liikunta"},{time:"13:20-14:05",subject:"Liikunta"}],
+  2:[{time:"09:15-10:00",subject:"Englanti"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Historia"},{time:"12:30-13:15",subject:"Suomenkieli"},{time:"13:20-14:05",subject:"Käsityö"},{time:"14:15-15:00",subject:"Käsityö"}],
+  3:[{time:"08:30-09:15",subject:"Uskonto"},{time:"09:15-10:00",subject:"Historia"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Ympäristöoppi"},{time:"12:30-13:15",subject:"Espanja"},{time:"13:20-14:05",subject:"Valinainen"}],
+  4:[{time:"08:30-09:15",subject:"Ruotsi"},{time:"09:15-10:00",subject:"Kuvataide"},{time:"10:15-11:00",subject:"Kuvataide"},{time:"11:10-11:55",subject:"Musiikki"},{time:"12:30-13:15",subject:"Valinainen"},{time:"13:20-14:05",subject:"Valinainen"}],
+  5:[{time:"10:15-11:00",subject:"Suomenkieli"},{time:"11:10-11:55",subject:"Suomenkieli"},{time:"12:30-13:15",subject:"Ruotsi"}],
 };
-
 const HELEN_SCHEDULE = {
-  1:[{time:"08:15–10:00",subject:"vEAA2 (OjaKa)"},{time:"10:15–11:00",subject:"SUK (RäiJu)"},{time:"12:00–12:45",subject:"MA (RäiJu)"},{time:"13:00–13:45",subject:"YM (RäiJu)"},{time:"13:45–14:30",subject:"MU (RäiJu)"}],
-  2:[{time:"09:15–10:00",subject:"MA (RäiJu)"},{time:"10:15–11:00",subject:"SUK (RäiJu)"},{time:"12:00–12:45",subject:"ENA1 (LehKi)"},{time:"13:00–13:45",subject:"ENA1 (LehKi)"},{time:"13:45–14:30",subject:"SUK (RäiJu)"}],
-  3:[{time:"08:15–09:00",subject:"UEEV (Ryy)"},{time:"09:15–10:00",subject:"UEEV (Nau)"},{time:"10:15–11:00",subject:"KU (JohAn)"},{time:"11:15–12:00",subject:"SUK (RäiJu)"},{time:"12:00–12:45",subject:"MA (RäiJu)"},{time:"13:00–13:45",subject:"MA (RäiJu)"},{time:"13:45–14:30",subject:"LI (RäiJu)"}],
-  4:[{time:"08:15–09:00",subject:"KU (JohAn)"},{time:"09:15–10:00",subject:"YH (JohAn)"},{time:"10:15–11:00",subject:"KS (SilEe)"},{time:"12:00–12:45",subject:"KS (SilEe)"}],
-  5:[{time:"09:15–10:00",subject:"YM (RäiJu)"},{time:"10:15–11:00",subject:"YM (RäiJu)"},{time:"13:00–13:45",subject:"LI (RäiJu)"},{time:"13:45–14:30",subject:"SUK (RäiJu)"}],
+  1:[{time:"08:15-10:00",subject:"vEAA2 (OjaKa)"},{time:"10:15-11:00",subject:"SUK (RäiJu)"},{time:"12:00-12:45",subject:"MA (RäiJu)"},{time:"13:00-13:45",subject:"YM (RäiJu)"},{time:"13:45-14:30",subject:"MU (RäiJu)"}],
+  2:[{time:"09:15-10:00",subject:"MA (RäiJu)"},{time:"10:15-11:00",subject:"SUK (RäiJu)"},{time:"12:00-12:45",subject:"ENA1 (LehKi)"},{time:"13:00-13:45",subject:"ENA1 (LehKi)"},{time:"13:45-14:30",subject:"SUK (RäiJu)"}],
+  3:[{time:"08:15-09:00",subject:"UEEV (Ryy)"},{time:"09:15-10:00",subject:"UEEV (Nau)"},{time:"10:15-11:00",subject:"KU (JohAn)"},{time:"11:15-12:00",subject:"SUK (RäiJu)"},{time:"12:00-12:45",subject:"MA (RäiJu)"},{time:"13:00-13:45",subject:"MA (RäiJu)"},{time:"13:45-14:30",subject:"LI (RäiJu)"}],
+  4:[{time:"08:15-09:00",subject:"KU (JohAn)"},{time:"09:15-10:00",subject:"YH (JohAn)"},{time:"10:15-11:00",subject:"KS (SilEe)"},{time:"12:00-12:45",subject:"KS (SilEe)"}],
+  5:[{time:"09:15-10:00",subject:"YM (RäiJu)"},{time:"10:15-11:00",subject:"YM (RäiJu)"},{time:"13:00-13:45",subject:"LI (RäiJu)"},{time:"13:45-14:30",subject:"SUK (RäiJu)"}],
 };
-
 const HELEN_EXAMS = [
-  {date:"2026-04-22",subject:"UEEV – Uusi testamentti",detail:"Kirjasta s. 28–..."},
-  {date:"2026-05-19",subject:"ENA1 – Englanti",detail:"Kappaleet 9 & 10, sanastot"},
+  {date:"2026-04-22",subject:"UEEV - Uusi testamentti",detail:"Kirjasta s. 28-..."},
+  {date:"2026-05-19",subject:"ENA1 - Englanti",detail:"Kappaleet 9 & 10, sanastot"},
 ];
 const SOFIA_EXAMS = [
-  {date:"2026-04-22",subject:"YM – Ympäristöoppi",detail:"Kpl 25–31"},
-  {date:"2026-04-22",subject:"UEEV – Elämänkatsomus",detail:"Muistiinpanot, käsitteet"},
-  {date:"2026-04-23",subject:"MU – Musiikki",detail:"Taidemusiikki: keskiaika–klassismi"},
-  {date:"2026-04-29",subject:"vEAA2 – A2-kieli",detail:"Kpl 6, s. 104–..."},
-  {date:"2026-04-30",subject:"RUB1 – Ruotsi",detail:"Kpl 5 & 6, teksti- ja työkirja"},
-  {date:"2026-05-04",subject:"ENA1 – Englanti",detail:"Ch. 13 Granny meets Old Bessie"},
-  {date:"2026-05-06",subject:"SUK – Suomenkieli",detail:"S. 164–169"},
-  {date:"2026-05-12",subject:"HI – Historia",detail:"S. 182–202"},
+  {date:"2026-04-22",subject:"YM - Ympäristöoppi",detail:"Kpl 25-31"},
+  {date:"2026-04-22",subject:"UEEV - Elämänkatsomus",detail:"Muistiinpanot, käsitteet"},
+  {date:"2026-04-23",subject:"MU - Musiikki",detail:"Taidemusiikki: keskiaika-klassismi"},
+  {date:"2026-04-29",subject:"vEAA2 - A2-kieli",detail:"Kpl 6, s. 104-..."},
+  {date:"2026-04-30",subject:"RUB1 - Ruotsi",detail:"Kpl 5 & 6, teksti- ja työkirja"},
+  {date:"2026-05-04",subject:"ENA1 - Englanti",detail:"Ch. 13 Granny meets Old Bessie"},
+  {date:"2026-05-06",subject:"SUK - Suomenkieli",detail:"S. 164-169"},
+  {date:"2026-05-12",subject:"HI - Historia",detail:"S. 182-202"},
 ];
-
-// ── HELPERS ───────────────────────────────────────────────────────────
-function pad(n) { return String(n).padStart(2,"0"); }
-function getDow(off=0) { const d=new Date(); d.setDate(d.getDate()+off); return d.getDay(); }
-function getDateStr(off=0) { const d=new Date(); d.setDate(d.getDate()+off); return d.toISOString().slice(0,10); }
-function getDayName(off=0) { const n=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; const d=new Date(); d.setDate(d.getDate()+off); return n[d.getDay()]; }
-function getNextSchoolOff() { for(let i=1;i<=7;i++){const d=getDow(i);if(d>=1&&d<=5)return i;} return 1; }
-function toMins(t) { const[h,m]=t.split(":").map(Number); return h*60+m; }
-function getStart(l) { return l && l.length > 0 ? l[0].time.split("–")[0] : null; }
-function getEnd(l) { return l && l.length > 0 ? l[l.length-1].time.split("–")[1] : null; }
-function daysUntil(ds) { const t=new Date(); t.setHours(0,0,0,0); return Math.round((new Date(ds)-t)/86400000); }
-function fmtDate(ds) { const d=new Date(ds); return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."; }
-
-// ── CALENDAR HOOK ─────────────────────────────────────────────────────
-// Calendar events — read directly from Perhekalenteri (updated 21 Apr 2026)
-// Ask Claude to refresh this data when events change
 const CALENDAR_DATA = [
   {date:"2026-04-21",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
   {date:"2026-04-21",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
@@ -81,7 +169,7 @@ const CALENDAR_DATA = [
   {date:"2026-04-23",time:"17:00",title:"Eninvest iltameno",person:"Erkki",location:null},
   {date:"2026-04-23",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
   {date:"2026-04-25",time:null,title:"Kalastusreissu",person:"Erkki",location:"Italia"},
-  {date:"2026-04-25",time:"07:30",title:"Flight Helsinki–Verona",person:"Erkki",location:null},
+  {date:"2026-04-25",time:"07:30",title:"Flight Helsinki-Verona",person:"Erkki",location:null},
   {date:"2026-04-26",time:"13:00",title:"BK46-Dicken Vit",person:"Sofia",location:"Karis Sports Facilities"},
   {date:"2026-04-27",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
   {date:"2026-04-27",time:"18:30",title:"Tennis",person:"Helen",location:null},
@@ -89,8 +177,8 @@ const CALENDAR_DATA = [
   {date:"2026-04-28",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
   {date:"2026-04-28",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-04-28",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-04-29",time:null,title:"Helenin syntymäpäivä 🎂",person:"Helen",location:null},
-  {date:"2026-04-29",time:"10:00",title:"Flight Verona–Helsinki",person:"Erkki",location:null},
+  {date:"2026-04-29",time:null,title:"Helenin syntymäpäivä",person:"Helen",location:null},
+  {date:"2026-04-29",time:"10:00",title:"Flight Verona-Helsinki",person:"Erkki",location:null},
   {date:"2026-04-29",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-04-30",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
   {date:"2026-04-30",time:"17:00",title:"Wappujuhlat Nuppu & Nuutti",person:null,location:null},
@@ -112,7 +200,7 @@ const CALENDAR_DATA = [
   {date:"2026-05-13",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-14",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
   {date:"2026-05-14",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-15",time:null,title:"Sofian nimipäivä 🎂",person:"Sofia",location:null},
+  {date:"2026-05-15",time:null,title:"Sofian nimipäivä",person:"Sofia",location:null},
   {date:"2026-05-16",time:null,title:"Siuntio Cup",person:"Sofia",location:null},
   {date:"2026-05-18",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
   {date:"2026-05-18",time:"18:30",title:"Tennis",person:"Helen",location:null},
@@ -135,311 +223,303 @@ const CALENDAR_DATA = [
   {date:"2026-05-30",time:"15:00",title:"Ronja yo-juhlat",person:null,location:null},
 ];
 
-function useCalendar() {
-  return CALENDAR_DATA;
-}
-
-// ── WEATHER HOOK ──────────────────────────────────────────────────────
-const WMO = {0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Foggy",48:"Foggy",51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",71:"Light snow",73:"Snow",75:"Heavy snow",80:"Rain showers",81:"Rain showers",82:"Heavy showers",95:"Thunderstorm"};
-const WICO = {0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌧️",61:"🌦️",63:"🌧️",65:"🌧️",71:"🌨️",73:"❄️",75:"❄️",80:"🌧️",81:"🌧️",82:"⛈️",95:"⛈️"};
+// ── HELPERS ───────────────────────────────────────────────────────────
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DAYNAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const WDAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const PCOLORS = {Helen:"#60b4ff", Sofia:"#ffaa55", Erkki:"#5dd68a"};
 
-function useWeather() {
-  const [w, setW] = useState(null);
-  useEffect(() => {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=60.17&longitude=24.94&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_probability_max&wind_speed_unit=ms&timezone=Europe%2FHelsinki&forecast_days=2")
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        setW(d.daily.time.map(function(t, i) {
-          const dt = new Date(t);
-          const code = d.daily.weathercode[i];
-          return {
-            label: i===0 ? "TODAY" : "TOMORROW",
-            date: WDAYS[dt.getDay()]+" "+dt.getDate()+"."+(dt.getMonth()+1),
-            icon: WICO[code] || "⛅",
-            condition: WMO[code] || "Mixed",
-            high: Math.round(d.daily.temperature_2m_max[i]),
-            low:  Math.round(d.daily.temperature_2m_min[i]),
-            wind: Math.round(d.daily.windspeed_10m_max[i]),
-            rain: d.daily.precipitation_probability_max[i] || 0,
-          };
-        }));
-      })
-      .catch(function(_e) {
-        setW([
-          {label:"TODAY",   date:"—",icon:"⛅",condition:"Unavailable",high:"—",low:"—",wind:"—",rain:0},
-          {label:"TOMORROW",date:"—",icon:"⛅",condition:"Unavailable",high:"—",low:"—",wind:"—",rain:0},
-        ]);
-      });
-  }, []);
-  return w;
+function pad(n){ return String(n).padStart(2,"0"); }
+function getDateStr(off){
+  off = off || 0;
+  const d = new Date(); d.setDate(d.getDate()+off);
+  return d.toISOString().slice(0,10);
 }
+function getDow(off){ off=off||0; const d=new Date(); d.setDate(d.getDate()+off); return d.getDay(); }
+function getDayName(off){ off=off||0; const d=new Date(); d.setDate(d.getDate()+off); return DAYNAMES[d.getDay()]; }
+function getNextSchoolOff(){
+  for(let i=1;i<=7;i++){ const d=getDow(i); if(d>=1&&d<=5) return i; }
+  return 1;
+}
+function toMins(t){ const p=t.split(":"); return parseInt(p[0])*60+parseInt(p[1]); }
+function daysUntil(ds){ const t=new Date(); t.setHours(0,0,0,0); return Math.round((new Date(ds)-t)/86400000); }
+function fmtDate(ds){ const d=new Date(ds); return pad(d.getDate())+"."+pad(d.getMonth()+1)+"."; }
+function el(tag,cls,html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html) e.innerHTML=html; return e; }
 
 // ── CLOCK ─────────────────────────────────────────────────────────────
-function Clock() {
-  const [now, setNow] = useState(new Date());
-  useEffect(() => { const t=setInterval(() => setNow(new Date()),1000); return () => clearInterval(t); }, []);
-  const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const dayNames=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  return (
-    <div style={{textAlign:"right"}}>
-      <div style={{fontSize:"clamp(26px,6.5vw,44px)",fontWeight:800,lineHeight:1,letterSpacing:"-2px",color:"#ffffff"}}>
-        {pad(now.getHours())}:{pad(now.getMinutes())}
-        <span style={{fontSize:"clamp(12px,3vw,16px)",color:"#555555",marginLeft:2}}>{pad(now.getSeconds())}</span>
-      </div>
-      <div style={{fontSize:11,color:"#777777",marginTop:3}}>{dayNames[now.getDay()]}, {now.getDate()} {months[now.getMonth()]}</div>
-    </div>
-  );
+function updateClock(){
+  const now = new Date();
+  document.getElementById("clock-time").innerHTML =
+    pad(now.getHours())+":"+pad(now.getMinutes())+"<span class='clock-sec'>"+pad(now.getSeconds())+"</span>";
+  document.getElementById("clock-date").textContent =
+    DAYNAMES[now.getDay()]+", "+now.getDate()+" "+MONTHS[now.getMonth()];
 }
+setInterval(updateClock, 1000);
+updateClock();
 
-// ── CHILD CARD ────────────────────────────────────────────────────────
-function ChildCard({ name, color, emoji, lessons, isToday }) {
-  const [now, setNow] = useState(new Date());
-  useEffect(() => {
-    if (!isToday) return;
-    const t = setInterval(() => setNow(new Date()), 30000);
-    return () => clearInterval(t);
-  }, [isToday]);
-  const noSchool = !lessons || lessons.length === 0;
-  const nowMins = now.getHours()*60 + now.getMinutes();
-  const isCur = (l) => { if(!isToday) return false; const[s,e]=l.time.split("–"); return nowMins>=toMins(s)&&nowMins<=toMins(e); };
-  const isPast = (l) => { if(!isToday) return false; return nowMins > toMins(l.time.split("–")[1]); };
-  return (
-    <div style={{backgroundColor:C.card,border:"1.5px solid "+color+"66",borderRadius:12,padding:"12px 13px",boxSizing:"border-box",height:"100%",display:"flex",flexDirection:"column"}}>
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-        <div style={{display:"flex",alignItems:"center",gap:5}}>
-          <span style={{fontSize:14}}>{emoji}</span>
-          <span style={{fontSize:15,fontWeight:700,color:color}}>{name}</span>
-        </div>
-        {!noSchool && <span style={{fontSize:10,color:color,backgroundColor:color+"22",padding:"2px 7px",borderRadius:20}}>ends {getEnd(lessons)}</span>}
-      </div>
-      {noSchool ? (
-        <div style={{color:"#888888",fontSize:13,fontStyle:"italic",padding:"5px 0"}}>No school 🎉</div>
-      ) : (
-        <div style={{display:"flex",flexDirection:"column",gap:0,flex:1}}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:9,backgroundColor:color+"22",border:"1.5px solid "+color+"77",borderRadius:9,padding:"8px 12px"}}>
-            <div>
-              <div style={{fontSize:8,color:color,letterSpacing:"0.12em",marginBottom:2}}>SCHOOL STARTS</div>
-              <div style={{fontSize:24,fontWeight:800,color:color,lineHeight:1}}>{getStart(lessons)}</div>
-            </div>
-            <div style={{marginLeft:"auto",textAlign:"right"}}>
-              <div style={{fontSize:8,color:"#aaaaaa",letterSpacing:"0.08em",marginBottom:2}}>LESSONS</div>
-              <div style={{fontSize:15,fontWeight:600,color:"#ffffff"}}>{lessons.length}</div>
-            </div>
-          </div>
-          <div style={{display:"flex",flexDirection:"column",gap:2,flex:1}}>
-            {lessons.map((l, i) => {
-              const cur = isCur(l);
-              const past = isPast(l);
-              return (
-                <div key={i} style={{display:"flex",alignItems:"center",gap:7,padding:"5px 8px",borderRadius:6,backgroundColor:cur ? color+"22" : "transparent",border:cur ? "1px solid "+color+"55" : "1px solid transparent",opacity:past ? 0.38 : 1}}>
-                  <span style={{fontSize:14,fontWeight:600,color:"#ffffff",minWidth:46,flexShrink:0}}>{l.time.split("–")[0]}</span>
-                  <span style={{fontSize:14,color:"#ffffff"}}>{l.subject}</span>
-                  {cur && <span style={{marginLeft:"auto",fontSize:8,color:color,backgroundColor:color+"33",padding:"1px 5px",borderRadius:7}}>NOW</span>}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── EXAM CARD ─────────────────────────────────────────────────────────
-function ExamCard({ exams, color, name, emoji }) {
-  const today = getDateStr(0);
-  const upcoming = exams.filter((e) => e.date >= today).sort((a,b) => a.date < b.date ? -1 : 1);
-  return (
-    <div style={{backgroundColor:C.card,border:"1.5px solid "+color+"44",borderRadius:12,padding:"12px 13px",boxSizing:"border-box",height:"100%",display:"flex",flexDirection:"column"}}>
-      <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:9}}>
-        <span style={{fontSize:14}}>{emoji}</span>
-        <span style={{fontSize:15,fontWeight:700,color:color}}>{name}</span>
-        <span style={{marginLeft:"auto",fontSize:9,color:"#888888",letterSpacing:"0.08em"}}>EXAMS</span>
-      </div>
-      {upcoming.length === 0 ? (
-        <div style={{color:"#888888",fontSize:13,fontStyle:"italic"}}>No upcoming exams 🎉</div>
-      ) : (
-        <div style={{display:"flex",flexDirection:"column",gap:7,flex:1}}>
-          {upcoming.map((e, i) => {
-            const days = daysUntil(e.date);
-            const uc = days<=2 ? "#ff6b6b" : days<=7 ? "#ffd166" : color;
-            return (
-              <div key={i} style={{display:"flex",alignItems:"center",gap:9,padding:"6px 9px",borderRadius:9,backgroundColor:"rgba(255,255,255,0.04)",border:"1px solid "+uc+"33"}}>
-                <div style={{display:"flex",flexDirection:"column",alignItems:"center",flexShrink:0,width:52}}>
-                  <div style={{fontSize:12,fontWeight:700,color:uc,lineHeight:1}}>{fmtDate(e.date)}</div>
-                  <div style={{fontSize:20,fontWeight:800,color:uc,lineHeight:1,marginTop:3}}>{days}</div>
-                  <div style={{fontSize:9,color:uc,lineHeight:1,marginTop:2,whiteSpace:"nowrap"}}>{days===1 ? "day left" : "days left"}</div>
-                </div>
-                <div style={{width:1,alignSelf:"stretch",backgroundColor:uc+"33",flexShrink:0}} />
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontSize:13,fontWeight:600,color:"#ffffff",lineHeight:1.3}}>{e.subject}</div>
-                  <div style={{fontSize:11,color:"#999999",marginTop:2,lineHeight:1.3}}>{e.detail}</div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── EVENT LIST ────────────────────────────────────────────────────────
-const PCOLORS = { Helen:"#60b4ff", Sofia:"#ffaa55", Erkki:"#5dd68a" };
-function EventList({ events }) {
-  if (!events || events.length === 0) return <div style={{color:"#777777",fontSize:13,fontStyle:"italic"}}>Nothing scheduled</div>;
-  return (
-    <div style={{display:"flex",flexDirection:"column",gap:9}}>
-      {events.map((ev, i) => {
-        const c = PCOLORS[ev.person] || "#9B8EF7";
-        return (
-          <div key={i} style={{display:"flex",alignItems:"flex-start",gap:7}}>
-            <span style={{width:7,height:7,borderRadius:"50%",backgroundColor:c,display:"inline-block",marginTop:5,flexShrink:0}} />
-            <div>
-              {ev.time && <span style={{fontSize:13,color:"#aaaaaa",backgroundColor:"rgba(255,255,255,0.08)",padding:"1px 5px",borderRadius:4,marginRight:5}}>{ev.time}</span>}
-              <span style={{fontSize:15,fontWeight:500,color:"#ffffff"}}>{ev.title}</span>
-              {ev.person && <span style={{fontSize:12,marginLeft:5,color:c,backgroundColor:c+"22",padding:"1px 6px",borderRadius:8}}>{ev.person}</span>}
-              {ev.location && <div style={{fontSize:11,color:"#666666",marginTop:1}}>📍 {ev.location}</div>}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-// ── WEATHER CARD ──────────────────────────────────────────────────────
-function WeatherCard({ d, isToday }) {
-  const rh=d.rain>=60, rm=d.rain>=25;
-  const rc = rh ? "#60b4ff" : rm ? "#a78bfa" : "#667777";
-  return (
-    <div style={{backgroundColor:isToday?"#0f2440":"#0d1e2e",border:"1.5px solid "+(isToday?"rgba(96,180,255,0.35)":"rgba(96,180,255,0.20)"),borderRadius:12,padding:"13px 14px",boxSizing:"border-box",height:"100%",display:"flex",flexDirection:"column",gap:9,overflow:"hidden"}}>
-      <div style={{display:"flex",alignItems:"center",gap:10}}>
-        <div style={{fontSize:36,lineHeight:1,flexShrink:0}}>{d.icon}</div>
-        <div>
-          <div style={{display:"flex",alignItems:"baseline",gap:5,marginBottom:2}}>
-            <span style={{fontSize:10,fontWeight:700,letterSpacing:"0.1em",color:isToday?"#60b4ff":"#7ab8d8"}}>{d.label}</span>
-            <span style={{fontSize:10,color:"#445566"}}>{d.date}</span>
-          </div>
-          <div style={{fontSize:12,color:"#c0d8e8"}}>{d.condition}</div>
-        </div>
-      </div>
-      <div style={{display:"flex",alignItems:"baseline",gap:5,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:8}}>
-        <span style={{fontSize:32,fontWeight:800,color:"#ffffff",lineHeight:1}}>{d.high}°</span>
-        <span style={{fontSize:16,color:"#5a80a0"}}>/</span>
-        <span style={{fontSize:20,fontWeight:600,color:"#5a80a0"}}>{d.low}°</span>
-        <span style={{fontSize:10,color:"#445566",marginLeft:2}}>C</span>
-      </div>
-      <div style={{display:"flex",gap:7}}>
-        <div style={{flex:1,backgroundColor:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:8,padding:"7px 9px",display:"flex",alignItems:"center",gap:6}}>
-          <span style={{fontSize:14}}>💨</span>
-          <div>
-            <div style={{fontSize:15,fontWeight:700,color:"#d8eef8",lineHeight:1}}>{d.wind} <span style={{fontSize:9,fontWeight:400,color:"#6a90a8"}}>m/s</span></div>
-            <div style={{fontSize:8,color:"#4a6a80",letterSpacing:"0.1em",marginTop:1}}>WIND</div>
-          </div>
-        </div>
-        <div style={{flex:1,backgroundColor:rh?"rgba(96,180,255,0.12)":rm?"rgba(167,139,250,0.10)":"rgba(255,255,255,0.04)",border:"1px solid "+rc+"44",borderRadius:8,padding:"7px 9px",display:"flex",alignItems:"center",gap:6}}>
-          <span style={{fontSize:14}}>🌧</span>
-          <div>
-            <div style={{fontSize:15,fontWeight:700,color:rh?"#93c5fd":rm?"#c4b5fd":"#778899",lineHeight:1}}>{d.rain}<span style={{fontSize:9,fontWeight:400,color:rc}}>%</span></div>
-            <div style={{fontSize:8,color:"#4a6a80",letterSpacing:"0.1em",marginTop:1}}>RAIN</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── LOADING CARD ──────────────────────────────────────────────────────
-function LoadingCard() {
-  return <div style={{backgroundColor:C.card,borderRadius:12,padding:"20px",color:"#555555",fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",height:"100%",boxSizing:"border-box"}}>Loading…</div>;
-}
-
-// ── APP ───────────────────────────────────────────────────────────────
-export default function App() {
-  const todayDow = getDow(0);
-  const isWeekend = todayDow===0 || todayDow===6;
-  const tmrOff = getNextSchoolOff();
-  const tmrDow = getDow(tmrOff);
-  const tmrLabel = tmrOff===1 ? "Tomorrow" : getDayName(tmrOff);
-  const weather = useWeather();
-  const calAll = useCalendar();
-  const todayStr = getDateStr(0);
-  const tmrStr = getDateStr(tmrOff);
-  const todayEvts = calAll.filter(function(e) { return e.date===todayStr; });
-  const tmrEvts = calAll.filter(function(e) { return e.date===tmrStr; });
-
+// ── WEEK STRIP ────────────────────────────────────────────────────────
+function buildWeekStrip(){
+  const strip = document.getElementById("week-strip");
   const base = new Date();
-  const strip = Array.from({length:7}, (_, i) => {
+  const labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  for(let i=0;i<7;i++){
     const d = new Date(base);
     d.setDate(base.getDate() - ((base.getDay()+6)%7) + i);
-    return { label:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i], date:d.getDate(), isToday:d.toDateString()===base.toDateString(), isWknd:i>=5 };
+    const isToday = d.toDateString()===base.toDateString();
+    const isWknd = i>=5;
+    const div = el("div", "week-day "+(isToday?"today":isWknd?"wknd":"normal"));
+    div.innerHTML = "<div class='week-label'>"+labels[i]+"</div><div class='week-date'>"+d.getDate()+"</div>";
+    strip.appendChild(div);
+  }
+}
+buildWeekStrip();
+
+// ── BUILD CHILD CARD ──────────────────────────────────────────────────
+function buildChildCard(name, color, emoji, lessons, isToday){
+  const now = new Date();
+  const nowMins = now.getHours()*60+now.getMinutes();
+  const noSchool = !lessons || lessons.length===0;
+
+  const card = el("div","card card-dark");
+  card.style.border = "1.5px solid "+color+"66";
+
+  // Header
+  const hdr = el("div","child-header");
+  const nameDiv = el("div","child-name");
+  nameDiv.innerHTML = "<span style='font-size:14px'>"+emoji+"</span><span style='color:"+color+"'>"+name+"</span>";
+  hdr.appendChild(nameDiv);
+  if(!noSchool){
+    const endTime = lessons[lessons.length-1].time.split("-")[1];
+    const badge = el("span","ends-badge");
+    badge.style.color=color; badge.style.background=color+"22";
+    badge.textContent="ends "+endTime;
+    hdr.appendChild(badge);
+  }
+  card.appendChild(hdr);
+
+  if(noSchool){
+    card.appendChild(el("div","no-school","No school 🎉"));
+    return card;
+  }
+
+  const startTime = lessons[0].time.split("-")[0];
+
+  // Starts badge
+  const sb = el("div","starts-badge");
+  sb.style.background=color+"22"; sb.style.border="1.5px solid "+color+"77";
+  sb.innerHTML="<div><div class='starts-label' style='color:"+color+"'>SCHOOL STARTS</div>"+
+    "<div class='starts-time' style='color:"+color+"'>"+startTime+"</div></div>"+
+    "<div style='margin-left:auto;text-align:right'><div class='lessons-count-label'>LESSONS</div>"+
+    "<div class='lessons-count'>"+lessons.length+"</div></div>";
+  card.appendChild(sb);
+
+  // Lessons
+  const lessonsDiv = el("div");
+  lessonsDiv.style.display="flex"; lessonsDiv.style.flexDirection="column"; lessonsDiv.style.gap="2px"; lessonsDiv.style.flex="1";
+  lessons.forEach(function(l){
+    const parts = l.time.split("-");
+    const s=toMins(parts[0]), e=toMins(parts[1]);
+    const cur = isToday && nowMins>=s && nowMins<=e;
+    const past = isToday && nowMins>e;
+    const row = el("div","lesson-row"+(cur?" current":"")+(past?" past":""));
+    if(cur){ row.style.background=color+"22"; row.style.borderColor=color+"55"; }
+    row.innerHTML="<span class='lesson-time'>"+(parts[0])+"</span><span class='lesson-subj'>"+l.subject+"</span>";
+    if(cur){
+      const nb=el("span","now-badge");
+      nb.style.color=color; nb.style.background=color+"33"; nb.textContent="NOW";
+      row.appendChild(nb);
+    }
+    lessonsDiv.appendChild(row);
   });
-
-  const LBL = {fontSize:9,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:5,color:"#888888"};
-  const calBox = (t) => ({backgroundColor:C.card, border:t?"1px solid rgba(255,170,85,0.30)":"1px solid rgba(96,180,255,0.30)", borderRadius:12, padding:"12px 13px", boxSizing:"border-box", height:"100%"});
-
-  return (
-    <div style={{minHeight:"100vh",backgroundColor:C.bg,fontFamily:"system-ui,-apple-system,sans-serif",display:"flex",flexDirection:"column"}}>
-
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"13px 14px 11px",borderBottom:"1px solid rgba(255,255,255,0.07)"}}>
-        <div>
-          <div style={{fontSize:"clamp(15px,4vw,20px)",fontWeight:800,letterSpacing:"-0.5px",background:"linear-gradient(90deg,#ffffff 30%,#60b4ff 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Family Dashboard</div>
-          <div style={{fontSize:10,color:"#5dd68a",marginTop:2}}>✓ Perhekalenteri · Helsinki</div>
-        </div>
-        <Clock />
-      </div>
-
-      <div style={{display:"flex",gap:3,padding:"9px 14px",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
-        {strip.map((d, i) => (
-          <div key={i} style={{flex:1,textAlign:"center",padding:"6px 2px",borderRadius:8,backgroundColor:d.isToday?"#1a73e8":d.isWknd?"rgba(255,255,255,0.02)":"rgba(255,255,255,0.05)",border:d.isToday?"1px solid rgba(96,180,255,0.5)":"1px solid transparent"}}>
-            <div style={{fontSize:8,letterSpacing:"0.06em",marginBottom:2,color:d.isToday?"#ffffff":d.isWknd?"#444444":"#888888"}}>{d.label}</div>
-            <div style={{fontSize:13,fontWeight:700,color:d.isToday?"#ffffff":d.isWknd?"#444444":"#888888"}}>{d.date}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9,padding:"11px 14px 14px",flex:1}}>
-
-        <div style={{...LBL,color:"#d4831a"}}>🎒 Today — <span style={{color:"#ffaa55"}}>{isWeekend ? "Weekend" : getDayName(0)}</span></div>
-        <div style={{...LBL,color:"#3a9ee0"}}>🎒 {tmrLabel} — <span style={{color:"#60b4ff"}}>{getDayName(tmrOff)}</span></div>
-
-        <ChildCard name="Sofia" color="#ffaa55" emoji="✏️" lessons={isWeekend?[]:SOFIA_SCHEDULE[todayDow]} isToday={true} />
-        <ChildCard name="Sofia" color="#ffaa55" emoji="✏️" lessons={SOFIA_SCHEDULE[tmrDow]||[]} isToday={false} />
-
-        <ChildCard name="Helen" color="#60b4ff" emoji="📚" lessons={isWeekend?[]:HELEN_SCHEDULE[todayDow]} isToday={true} />
-        <ChildCard name="Helen" color="#60b4ff" emoji="📚" lessons={HELEN_SCHEDULE[tmrDow]||[]} isToday={false} />
-
-        <div style={{...LBL,color:"#c060c0",marginTop:3}}>📝 Upcoming exams</div>
-        <div style={{...LBL,color:"#c060c0",marginTop:3}}>📝 Upcoming exams</div>
-
-        <ExamCard name="Sofia" emoji="✏️" color="#ffaa55" exams={SOFIA_EXAMS} />
-        <ExamCard name="Helen" emoji="📚" color="#60b4ff" exams={HELEN_EXAMS} />
-
-        <div style={{...LBL,color:"#d4831a",marginTop:3}}>📅 Calendar — Today</div>
-        <div style={{...LBL,color:"#3a9ee0",marginTop:3}}>📅 Calendar — {tmrLabel}</div>
-
-        <div style={calBox(true)}><EventList events={todayEvts} /></div>
-        <div style={calBox(false)}><EventList events={tmrEvts} /></div>
-
-        <div style={{...LBL,color:"#5a8ab0",marginTop:3}}>🌤 Weather — Today</div>
-        <div style={{...LBL,color:"#5a8ab0",marginTop:3}}>🌤 Weather — Tomorrow</div>
-
-        <div>{weather ? <WeatherCard d={weather[0]} isToday={true} /> : <LoadingCard />}</div>
-        <div>{weather ? <WeatherCard d={weather[1]} isToday={false} /> : <LoadingCard />}</div>
-
-      </div>
-
-      <div style={{padding:"6px 14px",borderTop:"1px solid rgba(255,255,255,0.05)",fontSize:9,color:"#333333"}}>
-        Sofia: Mon/Wed/Thu 08:30 · Tue 09:15 · Fri 10:15 · Helen: Mon/Wed/Thu 08:15 · Tue/Fri 09:15
-      </div>
-    </div>
-  );
+  card.appendChild(lessonsDiv);
+  return card;
 }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement(App));
-  </script>
+// ── BUILD EXAM CARD ───────────────────────────────────────────────────
+function buildExamCard(name, color, emoji, exams){
+  const today = getDateStr(0);
+  const upcoming = exams.filter(function(e){ return e.date>=today; })
+    .sort(function(a,b){ return a.date<b.date?-1:1; });
+
+  const card = el("div","card card-dark");
+  card.style.border="1.5px solid "+color+"44";
+
+  const hdr = el("div","exam-header");
+  hdr.innerHTML="<span style='font-size:14px'>"+emoji+"</span>"+
+    "<span class='exam-title' style='color:"+color+"'>"+name+"</span>"+
+    "<span class='exam-tag'>EXAMS</span>";
+  card.appendChild(hdr);
+
+  if(upcoming.length===0){
+    card.appendChild(el("div","",`<span style="color:#888;font-size:13px;font-style:italic">No upcoming exams 🎉</span>`));
+    return card;
+  }
+
+  upcoming.forEach(function(e){
+    const days=daysUntil(e.date);
+    const uc=days<=2?"#ff6b6b":days<=7?"#ffd166":color;
+    const row=el("div","exam-row");
+    row.style.borderColor=uc+"33";
+    row.innerHTML="<div class='exam-count'>"+
+      "<div class='exam-date-lbl' style='color:"+uc+"'>"+fmtDate(e.date)+"</div>"+
+      "<div class='exam-days-num' style='color:"+uc+"'>"+days+"</div>"+
+      "<div class='exam-days-lbl' style='color:"+uc+"'>"+(days===1?"day left":"days left")+"</div></div>"+
+      "<div class='exam-divider' style='background:"+uc+"33'></div>"+
+      "<div style='flex:1;min-width:0'>"+
+      "<div class='exam-subject'>"+e.subject+"</div>"+
+      "<div class='exam-detail'>"+e.detail+"</div></div>";
+    card.appendChild(row);
+  });
+  return card;
+}
+
+// ── BUILD CALENDAR CARD ───────────────────────────────────────────────
+function buildCalCard(events, isToday){
+  const card=el("div","card "+(isToday?"card-orange":"card-bluel"));
+  if(!events||events.length===0){
+    card.appendChild(el("div","cal-empty","Nothing scheduled"));
+    return card;
+  }
+  events.forEach(function(ev){
+    const c=PCOLORS[ev.person]||"#9B8EF7";
+    const row=el("div","cal-row");
+    const dot=el("span","cal-dot"); dot.style.background=c; row.appendChild(dot);
+    const content=el("div");
+    let html="";
+    if(ev.time) html+="<span class='cal-time'>"+ev.time+"</span>";
+    html+="<span class='cal-title'>"+ev.title+"</span>";
+    if(ev.person) html+="<span class='cal-person' style='color:"+c+";background:"+c+"22'>"+ev.person+"</span>";
+    if(ev.location) html+="<div class='cal-loc'>📍 "+ev.location+"</div>";
+    content.innerHTML=html;
+    row.appendChild(content);
+    card.appendChild(row);
+  });
+  return card;
+}
+
+// ── BUILD WEATHER CARD ────────────────────────────────────────────────
+function buildWeatherCard(d, isToday){
+  const rh=d.rain>=60, rm=d.rain>=25;
+  const rc=rh?"#60b4ff":rm?"#a78bfa":"#667777";
+  const card=el("div","card "+(isToday?"card-blue":"card-blue2"));
+
+  let rainStyle=rh?"background:rgba(96,180,255,0.12);border:1px solid "+rc+"44":
+    rm?"background:rgba(167,139,250,0.10);border:1px solid "+rc+"44":
+    "background:rgba(255,255,255,0.04);border:1px solid "+rc+"44";
+  let rainColor=rh?"#93c5fd":rm?"#c4b5fd":"#778899";
+
+  card.innerHTML=
+    "<div class='wx-top'>"+
+    "<div class='wx-icon'>"+d.icon+"</div>"+
+    "<div><div style='display:flex;align-items:baseline;gap:5px;margin-bottom:2px'>"+
+    "<span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span>"+
+    "<span class='wx-date'>"+d.date+"</span></div>"+
+    "<div class='wx-condition'>"+d.condition+"</div></div></div>"+
+    "<div class='wx-temp'>"+
+    "<span class='wx-high'>"+d.high+"°</span>"+
+    "<span class='wx-sep'>/</span>"+
+    "<span class='wx-low'>"+d.low+"°</span>"+
+    "<span class='wx-unit'>C</span></div>"+
+    "<div class='wx-pills'>"+
+    "<div class='wx-pill wx-wind-pill'>"+
+    "<span class='wx-pill-icon'>💨</span>"+
+    "<div><div class='wx-pill-val' style='color:#d8eef8'>"+d.wind+" <span class='wx-pill-unit' style='color:#6a90a8'>m/s</span></div>"+
+    "<div class='wx-pill-lbl'>WIND</div></div></div>"+
+    "<div class='wx-pill' style='"+rainStyle+"'>"+
+    "<span class='wx-pill-icon'>🌧</span>"+
+    "<div><div class='wx-pill-val' style='color:"+rainColor+"'>"+d.rain+"<span class='wx-pill-unit' style='color:"+rc+"'>%</span></div>"+
+    "<div class='wx-pill-lbl'>RAIN</div></div></div></div>";
+  return card;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function render(){
+  const grid = document.getElementById("main-grid");
+  grid.innerHTML="";
+
+  const todayDow=getDow(0);
+  const isWeekend=todayDow===0||todayDow===6;
+  const tmrOff=getNextSchoolOff();
+  const tmrDow=getDow(tmrOff);
+  const tmrLabel=tmrOff===1?"Tomorrow":getDayName(tmrOff);
+  const todayStr=getDateStr(0);
+  const tmrStr=getDateStr(tmrOff);
+  const todayEvts=CALENDAR_DATA.filter(function(e){return e.date===todayStr;});
+  const tmrEvts=CALENDAR_DATA.filter(function(e){return e.date===tmrStr;});
+
+  function lbl(text,color){ const d=el("div","section-label"); d.style.color=color||"#888"; d.innerHTML=text; return d; }
+
+  // Row 1 - headers
+  grid.appendChild(lbl("🎒 Today &mdash; <span style='color:#ffaa55'>"+(isWeekend?"Weekend":getDayName(0))+"</span>","#d4831a"));
+  grid.appendChild(lbl("🎒 "+tmrLabel+" &mdash; <span style='color:#60b4ff'>"+getDayName(tmrOff)+"</span>","#3a9ee0"));
+
+  // Row 2 - Sofia schedule
+  grid.appendChild(buildChildCard("Sofia","#ffaa55","✏️",isWeekend?[]:SOFIA_SCHEDULE[todayDow],true));
+  grid.appendChild(buildChildCard("Sofia","#ffaa55","✏️",SOFIA_SCHEDULE[tmrDow]||[],false));
+
+  // Row 3 - Helen schedule
+  grid.appendChild(buildChildCard("Helen","#60b4ff","📚",isWeekend?[]:HELEN_SCHEDULE[todayDow],true));
+  grid.appendChild(buildChildCard("Helen","#60b4ff","📚",HELEN_SCHEDULE[tmrDow]||[],false));
+
+  // Row 4 - Exam headers
+  const eh1=lbl("📝 Upcoming exams","#c060c0"); eh1.style.marginTop="3px"; grid.appendChild(eh1);
+  const eh2=lbl("📝 Upcoming exams","#c060c0"); eh2.style.marginTop="3px"; grid.appendChild(eh2);
+
+  // Row 5 - Exams
+  grid.appendChild(buildExamCard("Sofia","#ffaa55","✏️",SOFIA_EXAMS));
+  grid.appendChild(buildExamCard("Helen","#60b4ff","📚",HELEN_EXAMS));
+
+  // Row 6 - Calendar headers
+  const ch1=lbl("📅 Calendar &mdash; Today","#d4831a"); ch1.style.marginTop="3px"; grid.appendChild(ch1);
+  const ch2=lbl("📅 Calendar &mdash; "+tmrLabel,"#3a9ee0"); ch2.style.marginTop="3px"; grid.appendChild(ch2);
+
+  // Row 7 - Calendar
+  grid.appendChild(buildCalCard(todayEvts,true));
+  grid.appendChild(buildCalCard(tmrEvts,false));
+
+  // Row 8 - Weather headers
+  const wh1=lbl("🌤 Weather &mdash; Today","#5a8ab0"); wh1.style.marginTop="3px"; grid.appendChild(wh1);
+  const wh2=lbl("🌤 Weather &mdash; Tomorrow","#5a8ab0"); wh2.style.marginTop="3px"; grid.appendChild(wh2);
+
+  // Row 9 - Weather (fetch live)
+  const wp1=el("div","card"); wp1.innerHTML="<div class='loading'>Loading weather...</div>";
+  const wp2=el("div","card"); wp2.innerHTML="<div class='loading'>Loading weather...</div>";
+  grid.appendChild(wp1); grid.appendChild(wp2);
+
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=60.17&longitude=24.94&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_probability_max&wind_speed_unit=ms&timezone=Europe%2FHelsinki&forecast_days=2")
+    .then(function(r){return r.json();})
+    .then(function(d){
+      const WMO={0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Foggy",48:"Foggy",51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",71:"Light snow",73:"Snow",75:"Heavy snow",80:"Rain showers",81:"Rain showers",82:"Heavy showers",95:"Thunderstorm"};
+      const WICO={0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌧️",61:"🌦️",63:"🌧️",65:"🌧️",71:"🌨️",73:"❄️",75:"❄️",80:"🌧️",81:"🌧️",82:"⛈️",95:"⛈️"};
+      [0,1].forEach(function(i){
+        const dt=new Date(d.daily.time[i]);
+        const code=d.daily.weathercode[i];
+        const wx={
+          label:i===0?"TODAY":"TOMORROW",
+          date:WDAYS[dt.getDay()]+" "+dt.getDate()+"."+(dt.getMonth()+1),
+          icon:WICO[code]||"⛅",
+          condition:WMO[code]||"Mixed",
+          high:Math.round(d.daily.temperature_2m_max[i]),
+          low:Math.round(d.daily.temperature_2m_min[i]),
+          wind:Math.round(d.daily.windspeed_10m_max[i]),
+          rain:d.daily.precipitation_probability_max[i]||0,
+        };
+        const card=buildWeatherCard(wx,i===0);
+        if(i===0) wp1.parentNode.replaceChild(card,wp1);
+        else wp2.parentNode.replaceChild(card,wp2);
+      });
+    })
+    .catch(function(){
+      wp1.innerHTML="<div class='loading'>Weather unavailable</div>";
+      wp2.innerHTML="<div class='loading'>Weather unavailable</div>";
+    });
+}
+
+render();
+// Re-render at midnight to flip today/tomorrow
+const now=new Date();
+const msToMidnight=(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1)-now);
+setTimeout(function(){render();setInterval(render,86400000);},msToMidnight);
+</script>
 </body>
 </html>
