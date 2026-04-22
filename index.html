@@ -10,11 +10,15 @@
   <title>Family Dashboard</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    body { background:#0a0a0d; color:#ffffff; font-family:system-ui,-apple-system,sans-serif; min-height:100vh; }
-    .app { display:flex; flex-direction:column; min-height:100vh; }
+    html, body { height:100%; }
+    body { background:#0a0a0d; color:#ffffff; font-family:system-ui,-apple-system,sans-serif; min-height:100vh; display:flex; justify-content:center; }
+    .app { width:100%; max-width:430px; display:flex; flex-direction:column; min-height:100vh; }
+
+    /* INNER — single horizontal padding for all content */
+    .inner { padding-left:12px; padding-right:12px; }
 
     /* TOP BAR */
-    .topbar { display:flex; justify-content:space-between; align-items:center; padding:13px 14px 11px; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding-top:13px; padding-bottom:11px; border-bottom:1px solid rgba(255,255,255,0.07); }
     .title { font-size:clamp(15px,4vw,20px); font-weight:800; letter-spacing:-0.5px; background:linear-gradient(90deg,#fff 30%,#60b4ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
     .subtitle { font-size:10px; color:#5dd68a; margin-top:2px; }
     .clock-time { font-size:clamp(26px,6.5vw,44px); font-weight:800; letter-spacing:-2px; color:#fff; text-align:right; line-height:1; }
@@ -22,7 +26,7 @@
     .clock-date { font-size:11px; color:#777; margin-top:3px; text-align:right; }
 
     /* WEEK STRIP */
-    .week { display:flex; gap:3px; padding:9px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .week { display:flex; gap:3px; padding-top:9px; padding-bottom:9px; border-bottom:1px solid rgba(255,255,255,0.06); }
     .week-day { flex:1; text-align:center; padding:6px 2px; border-radius:8px; border:1px solid transparent; }
     .week-day.today { background:linear-gradient(135deg,#2a5298,#1a73e8); border-color:rgba(96,180,255,0.5); }
     .week-day.wknd { background:rgba(255,255,255,0.02); }
@@ -34,7 +38,7 @@
     .week-day.normal .week-label, .week-day.normal .week-date { color:#888; }
 
     /* GRID */
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:11px 14px 14px; flex:1; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; padding-top:11px; padding-bottom:14px; flex:1; }
     .section-label { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:5px; color:#888; }
 
     /* CARDS */
@@ -106,11 +110,34 @@
     .loading { color:#555; font-size:13px; text-align:center; padding:20px; }
 
     /* FOOTER */
-    .footer { padding:6px 14px; border-top:1px solid rgba(255,255,255,0.05); font-size:9px; color:#333; }
+    .footer { padding-top:6px; padding-bottom:6px; border-top:1px solid rgba(255,255,255,0.05); font-size:9px; color:#333; }
+
+    /* COUNTDOWN HIGHLIGHTS */
+    #countdown-section { display:grid; grid-template-columns:1fr 1fr; gap:9px; padding-bottom:14px; }
+    .cd-card { border-radius:14px; padding:16px 14px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; overflow:hidden; }
+    .cd-school { background:linear-gradient(135deg,#1a4a1a,#0d2b0d); border:1.5px solid #4caf5066; }
+    .cd-greece { background:linear-gradient(135deg,#1a2a4a,#0d1830); border:1.5px solid #60b4ff66; }
+    .cd-emoji { font-size:36px; line-height:1; margin-bottom:8px; }
+    .cd-days { font-size:52px; font-weight:800; line-height:1; letter-spacing:-2px; }
+    .cd-school .cd-days { color:#69d46c; }
+    .cd-greece .cd-days { color:#60b4ff; }
+    .cd-days-label { font-size:10px; letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; margin-bottom:10px; }
+    .cd-school .cd-days-label { color:#4caf5099; }
+    .cd-greece .cd-days-label { color:#60b4ff99; }
+    .cd-title { font-size:13px; font-weight:700; line-height:1.3; }
+    .cd-school .cd-title { color:#a5d6a7; }
+    .cd-greece .cd-title { color:#90caf9; }
+    .cd-date { font-size:10px; margin-top:4px; }
+    .cd-school .cd-date { color:#2e7d3266; color:#4caf5066; }
+    .cd-greece .cd-date { color:#60b4ff55; }
+    .cd-glow-school { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#4caf5015,transparent 70%); top:-20px; right:-20px; }
+    .cd-glow-greece { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#60b4ff15,transparent 70%); top:-20px; left:-20px; }
+    .cd-section-label { grid-column:1/-1; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin-bottom:-4px; padding-top:3px; }
   </style>
 </head>
 <body>
 <div class="app">
+  <div class="inner">
   <div class="topbar">
     <div>
       <div class="title">Family Dashboard</div>
@@ -126,7 +153,9 @@
 
   <div class="grid" id="main-grid"></div>
 
+  <div id="countdown-section"></div>
   <div class="footer">Sofia: Mon/Wed/Thu 08:30 · Tue 09:15 · Fri 10:15 · Helen: Mon/Wed/Thu 08:15 · Tue/Fri 09:15</div>
+  </div><!-- /inner -->
 </div>
 
 <script>
@@ -486,7 +515,9 @@ function render(){
   const wp2=el("div","card"); wp2.innerHTML="<div class='loading'>Loading weather...</div>";
   grid.appendChild(wp1); grid.appendChild(wp2);
 
-  fetch("https://api.open-meteo.com/v1/forecast?latitude=60.17&longitude=24.94&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_probability_max&wind_speed_unit=ms&timezone=Europe%2FHelsinki&forecast_days=2")
+  const weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude=60.17&longitude=24.94&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_probability_max&wind_speed_unit=ms&timezone=Europe%2FHelsinki&forecast_days=2";
+  const timeout = new Promise(function(_,reject){ setTimeout(function(){ reject(new Error("timeout")); }, 8000); });
+  Promise.race([fetch(weatherUrl), timeout])
     .then(function(r){return r.json();})
     .then(function(d){
       const WMO={0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Foggy",48:"Foggy",51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",71:"Light snow",73:"Snow",75:"Heavy snow",80:"Rain showers",81:"Rain showers",82:"Heavy showers",95:"Thunderstorm"};
@@ -510,16 +541,59 @@ function render(){
       });
     })
     .catch(function(){
-      wp1.innerHTML="<div class='loading'>Weather unavailable</div>";
-      wp2.innerHTML="<div class='loading'>Weather unavailable</div>";
+      wp1.innerHTML="<div class='loading'>Weather unavailable<br><span style='font-size:10px;color:#444'>Tap to reload</span></div>";
+      wp1.style.cursor="pointer";
+      wp1.onclick=function(){location.reload();};
+      wp2.innerHTML="<div class='loading'>&nbsp;</div>";
     });
 }
 
+
+// ── BUILD COUNTDOWN CARDS ─────────────────────────────────────────────
+function buildCountdowns(){
+  const section = document.getElementById("countdown-section");
+  section.innerHTML = "";
+
+  function daysTo(dateStr){
+    const t = new Date(); t.setHours(0,0,0,0);
+    return Math.max(0, Math.round((new Date(dateStr) - t) / 86400000));
+  }
+
+  const lbl = el("div","cd-section-label","✨ Highlights");
+  section.appendChild(lbl);
+
+  // School's out
+  const d1 = daysTo("2026-05-30");
+  const c1 = el("div","cd-card cd-school");
+  c1.innerHTML =
+    "<div class='cd-glow-school'></div>" +
+    "<div class='cd-emoji'>🏖️</div>" +
+    "<div class='cd-days'>" + d1 + "</div>" +
+    "<div class='cd-days-label'>" + (d1===1?"day":"days") + " to go</div>" +
+    "<div class='cd-title'>Schools Out<br>for Summer! 🎉</div>" +
+    "<div class='cd-date'>30 May 2026</div>";
+  section.appendChild(c1);
+
+  // Greece
+  const d2 = daysTo("2026-06-29");
+  const c2 = el("div","cd-card cd-greece");
+  c2.innerHTML =
+    "<div class='cd-glow-greece'></div>" +
+    "<div class='cd-emoji'>✈️🇬🇷</div>" +
+    "<div class='cd-days'>" + d2 + "</div>" +
+    "<div class='cd-days-label'>" + (d2===1?"day":"days") + " to go</div>" +
+    "<div class='cd-title'>Greece<br>Here We Come! 🌊</div>" +
+    "<div class='cd-date'>29 June 2026</div>";
+  section.appendChild(c2);
+}
+
+buildCountdowns();
 render();
 // Re-render at midnight to flip today/tomorrow
 const now=new Date();
 const msToMidnight=(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1)-now);
-setTimeout(function(){render();setInterval(render,86400000);},msToMidnight);
+setTimeout(function(){
+setInterval(render,86400000);},msToMidnight);
 </script>
 </body>
 </html>
