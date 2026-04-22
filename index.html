@@ -24,7 +24,7 @@
 
     /* WEEK STRIP */
     .week { display:flex; gap:2px; padding:6px 2px; border-bottom:1px solid rgba(255,255,255,0.06); }
-    .week-day { flex:1; text-align:center; padding:5px 2px border-radius:8px; border:1px solid transparent; }
+    .week-day { flex:1; text-align:center; padding:5px 2px; border-radius:8px; border:1px solid transparent; }
     .week-day.today { background:linear-gradient(135deg,#2a5298,#1a73e8); border-color:rgba(96,180,255,0.5); }
     .week-day.wknd { background:rgba(255,255,255,0.02); }
     .week-day.normal { background:rgba(255,255,255,0.05); }
@@ -111,7 +111,7 @@
 
     /* COUNTDOWN HIGHLIGHTS */
     #countdown-section { display:grid; grid-template-columns:1fr 1fr; gap:2px; padding:0 2px 9px; }
-    .cd-card { border-radius:14px; padding:13px 11px box-sizing:border-box; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; overflow:hidden; }
+    .cd-card { border-radius:14px; padding:13px 11px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; overflow:hidden; }
     .cd-school { background:linear-gradient(135deg,#1a4a1a,#0d2b0d); border:1.5px solid #4caf5066; }
     .cd-greece { background:linear-gradient(135deg,#1a2a4a,#0d1830); border:1.5px solid #60b4ff66; }
     .cd-emoji { font-size:36px; line-height:1; margin-bottom:8px; }
@@ -129,7 +129,7 @@
     .cd-greece .cd-date { color:#60b4ff55; }
     .cd-glow-school { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#4caf5015,transparent 70%); top:-20px; right:-20px; }
     .cd-glow-greece { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#60b4ff15,transparent 70%); top:-20px; left:-20px; }
-    .cd-section-label { grid-column:1/-1; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin-bottom:-4px; padding-top:3px; }
+    .cd-section-label { grid-column:1/-1; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin-top:16px; margin-bottom:8px; }
   </style>
 </head>
 <body>
@@ -322,7 +322,7 @@ function buildChildCard(name,color,emoji,lessons,isToday){
 
   var hdr=el("div","child-header");
   var nameDiv=el("div","child-name");
-  nameDiv.innerHTML="<span style='font-size:14px'>"+emoji+"</span><span style='color:"+color+"'>"+name+"</span>";
+  nameDiv.innerHTML="<span style='color:"+color+"'>"+name+"</span>";
   hdr.appendChild(nameDiv);
   if(!noSchool){
     var endTime=lessons[lessons.length-1].time.split("-")[1];
