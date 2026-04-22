@@ -15,31 +15,31 @@
     .app { width:100%; display:flex; flex-direction:column; min-height:100vh; }
 
     /* TOP BAR */
-    .topbar { display:flex; justify-content:space-between; align-items:center; padding:13px 12px 11px; border-bottom:1px solid rgba(255,255,255,0.07); }
-    .title { font-size:clamp(15px,4vw,20px); font-weight:800; letter-spacing:-0.5px; background:linear-gradient(90deg,#fff 30%,#60b4ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:8px 2px 7px border-bottom:1px solid rgba(255,255,255,0.07); }
+    .title { font-size:clamp(17px,4.4vw,22px); font-weight:800; letter-spacing:-0.5px; background:linear-gradient(90deg,#fff 30%,#60b4ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
     .subtitle { font-size:10px; color:#5dd68a; margin-top:2px; }
-    .clock-time { font-size:clamp(26px,6.5vw,44px); font-weight:800; letter-spacing:-2px; color:#fff; text-align:right; line-height:1; }
-    .clock-sec { font-size:clamp(12px,3vw,16px); color:#555; margin-left:2px; }
+    .clock-time { font-size:clamp(29px,7.2vw,49px); font-weight:800; letter-spacing:-2px; color:#fff; text-align:right; line-height:1; }
+    .clock-sec { font-size:clamp(14px,3.3vw,18px); color:#555; margin-left:2px; }
     .clock-date { font-size:11px; color:#777; margin-top:3px; text-align:right; }
 
     /* WEEK STRIP */
-    .week { display:flex; gap:3px; padding:9px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
-    .week-day { flex:1; text-align:center; padding:6px 2px; border-radius:8px; border:1px solid transparent; }
+    .week { display:flex; gap:2px; padding:6px 2px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .week-day { flex:1; text-align:center; padding:5px 2px border-radius:8px; border:1px solid transparent; }
     .week-day.today { background:linear-gradient(135deg,#2a5298,#1a73e8); border-color:rgba(96,180,255,0.5); }
     .week-day.wknd { background:rgba(255,255,255,0.02); }
     .week-day.normal { background:rgba(255,255,255,0.05); }
     .week-label { font-size:8px; letter-spacing:0.06em; margin-bottom:2px; }
-    .week-date { font-size:13px; font-weight:700; }
+    .week-date { font-size:14px; font-weight:700; }
     .week-day.today .week-label, .week-day.today .week-date { color:#fff; }
     .week-day.wknd .week-label, .week-day.wknd .week-date { color:#444; }
     .week-day.normal .week-label, .week-day.normal .week-date { color:#888; }
 
     /* GRID */
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:11px 12px 14px; flex:1; }
-    .section-label { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:5px; color:#888; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; padding:7px 2px 9px; flex:1; }
+    .section-label { font-size:8px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:5px; color:#888; }
 
     /* CARDS */
-    .card { border-radius:12px; padding:12px 13px; box-sizing:border-box; height:100%; display:flex; flex-direction:column; }
+    .card { border-radius:10px; padding:5px 3px; box-sizing:border-box; height:100%; display:flex; flex-direction:column; }
     .card-dark { background:#16161a; }
     .card-blue { background:#0f2440; border:1.5px solid rgba(96,180,255,0.35); }
     .card-blue2 { background:#0d1e2e; border:1.5px solid rgba(96,180,255,0.20); }
@@ -48,80 +48,80 @@
 
     /* CHILD CARD */
     .child-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
-    .child-name { display:flex; align-items:center; gap:5px; }
-    .child-name span:last-child { font-size:15px; font-weight:700; }
-    .ends-badge { font-size:10px; padding:2px 7px; border-radius:20px; }
-    .starts-badge { display:flex; align-items:center; gap:10px; margin-bottom:9px; border-radius:9px; padding:8px 12px; }
-    .starts-label { font-size:8px; letter-spacing:0.12em; margin-bottom:2px; }
-    .starts-time { font-size:24px; font-weight:800; line-height:1; }
+    .child-name { display:flex; align-items:center; gap:4px; }
+    .child-name span:last-child { font-size:14px; font-weight:700; }
+    .ends-badge { font-size:8px; padding:2px 5px border-radius:20px; }
+    .starts-badge { display:flex; align-items:center; gap:5px; margin-bottom:8px; border-radius:8px; padding:3px 5px }
+    .starts-label { font-size:7px; letter-spacing:0.08em; margin-bottom:1px; }
+    .starts-time { font-size:19px; font-weight:800; line-height:1; }
     .lessons-count-label { font-size:8px; color:#aaa; letter-spacing:0.08em; margin-bottom:2px; text-align:right; }
-    .lessons-count { font-size:15px; font-weight:600; color:#fff; text-align:right; }
-    .lesson-row { display:flex; align-items:center; gap:7px; padding:5px 8px; border-radius:6px; border:1px solid transparent; }
+    .lessons-count { font-size:14px; font-weight:600; color:#fff; text-align:right; }
+    .lesson-row { display:flex; align-items:center; gap:4px; padding:2px 2px border-radius:5px; border:1px solid transparent; }
     .lesson-row.current { border:1px solid; }
     .lesson-row.past { opacity:0.38; }
     .lesson-time { font-size:14px; font-weight:600; color:#fff; min-width:46px; flex-shrink:0; }
     .lesson-subj { font-size:14px; color:#fff; }
-    .now-badge { margin-left:auto; font-size:8px; padding:1px 5px; border-radius:7px; }
-    .no-school { color:#888; font-size:13px; font-style:italic; padding:5px 0; }
+    .now-badge { margin-left:auto; font-size:8px; padding:1px 4px border-radius:7px; }
+    .no-school { color:#888; font-size:14px; font-style:italic; padding:4px 1px }
 
     /* EXAM CARD */
-    .exam-header { display:flex; align-items:center; gap:5px; margin-bottom:9px; }
+    .exam-header { display:flex; align-items:center; gap:4px; margin-bottom:9px; }
     .exam-title { font-size:15px; font-weight:700; }
-    .exam-tag { margin-left:auto; font-size:9px; color:#888; letter-spacing:0.08em; }
-    .exam-row { display:flex; align-items:center; gap:9px; padding:6px 9px; border-radius:9px; background:rgba(255,255,255,0.04); margin-bottom:7px; border:1px solid; }
+    .exam-tag { margin-left:auto; font-size:8px; color:#888; letter-spacing:0.08em; }
+    .exam-row { display:flex; align-items:center; gap:7px; padding:3px 5px border-radius:9px; background:rgba(255,255,255,0.04); margin-bottom:7px; border:1px solid; }
     .exam-count { display:flex; flex-direction:column; align-items:center; flex-shrink:0; width:52px; }
     .exam-date-lbl { font-size:12px; font-weight:700; line-height:1; }
-    .exam-days-num { font-size:20px; font-weight:800; line-height:1; margin-top:3px; }
-    .exam-days-lbl { font-size:9px; line-height:1; margin-top:2px; white-space:nowrap; }
+    .exam-days-num { font-size:19px; font-weight:800; line-height:1; margin-top:3px; }
+    .exam-days-lbl { font-size:8px; line-height:1; margin-top:2px; white-space:nowrap; }
     .exam-divider { width:1px; align-self:stretch; flex-shrink:0; }
-    .exam-subject { font-size:13px; font-weight:600; color:#fff; line-height:1.3; }
+    .exam-subject { font-size:14px; font-weight:600; color:#fff; line-height:1.3; }
     .exam-detail { font-size:11px; color:#999; margin-top:2px; line-height:1.3; }
 
     /* CALENDAR */
-    .cal-row { display:flex; align-items:flex-start; gap:7px; margin-bottom:9px; }
+    .cal-row { display:flex; align-items:flex-start; gap:6px; margin-bottom:9px; }
     .cal-dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-top:5px; flex-shrink:0; }
-    .cal-time { font-size:13px; color:#aaa; background:rgba(255,255,255,0.08); padding:1px 5px; border-radius:4px; margin-right:5px; }
+    .cal-time { font-size:14px; color:#aaa; background:rgba(255,255,255,0.08); padding:1px 4px border-radius:4px; margin-right:5px; }
     .cal-title { font-size:15px; font-weight:500; color:#fff; }
-    .cal-person { font-size:12px; margin-left:5px; padding:1px 6px; border-radius:8px; }
+    .cal-person { font-size:12px; margin-left:5px; padding:1px 5px border-radius:8px; }
     .cal-loc { font-size:11px; color:#666; margin-top:1px; }
-    .cal-empty { color:#777; font-size:13px; font-style:italic; }
+    .cal-empty { color:#777; font-size:14px; font-style:italic; }
 
     /* WEATHER */
-    .wx-top { display:flex; align-items:center; gap:10px; }
+    .wx-top { display:flex; align-items:center; gap:8px; }
     .wx-icon { font-size:36px; line-height:1; flex-shrink:0; }
     .wx-label { font-size:10px; font-weight:700; letter-spacing:0.1em; }
     .wx-date { font-size:10px; color:#445566; }
     .wx-condition { font-size:12px; color:#c0d8e8; margin-top:2px; }
-    .wx-temp { display:flex; align-items:baseline; gap:5px; border-top:1px solid rgba(255,255,255,0.07); padding-top:8px; margin-top:8px; }
+    .wx-temp { display:flex; align-items:baseline; gap:4px; border-top:1px solid rgba(255,255,255,0.07); padding-top:8px; margin-top:8px; }
     .wx-high { font-size:32px; font-weight:800; color:#fff; line-height:1; }
-    .wx-sep { font-size:16px; color:#5a80a0; }
-    .wx-low { font-size:20px; font-weight:600; color:#5a80a0; }
+    .wx-sep { font-size:15px; color:#5a80a0; }
+    .wx-low { font-size:19px; font-weight:600; color:#5a80a0; }
     .wx-unit { font-size:10px; color:#445566; margin-left:2px; }
-    .wx-pills { display:flex; gap:7px; margin-top:8px; }
-    .wx-pill { flex:1; border-radius:8px; padding:7px 9px; display:flex; align-items:center; gap:6px; }
+    .wx-pills { display:flex; gap:6px; margin-top:8px; }
+    .wx-pill { flex:1; border-radius:8px; padding:6px 7px display:flex; align-items:center; gap:5px; }
     .wx-pill-icon { font-size:14px; flex-shrink:0; }
     .wx-pill-val { font-size:15px; font-weight:700; line-height:1; }
-    .wx-pill-unit { font-size:9px; font-weight:400; }
+    .wx-pill-unit { font-size:8px; font-weight:400; }
     .wx-pill-lbl { font-size:8px; color:#4a6a80; letter-spacing:0.1em; margin-top:1px; }
     .wx-wind-pill { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); }
-    .loading { color:#555; font-size:13px; text-align:center; padding:20px; }
+    .loading { color:#555; font-size:14px; text-align:center; padding:16px }
 
     /* FOOTER */
-    .footer { padding:6px 12px; border-top:1px solid rgba(255,255,255,0.05); font-size:9px; color:#333; }
+    .footer { padding:4px 2px border-top:1px solid rgba(255,255,255,0.05); font-size:8px; color:#333; }
 
     /* COUNTDOWN HIGHLIGHTS */
-    #countdown-section { display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:0 12px 14px; }
-    .cd-card { border-radius:14px; padding:16px 14px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; overflow:hidden; }
+    #countdown-section { display:grid; grid-template-columns:1fr 1fr; gap:2px; padding:0 2px 9px; }
+    .cd-card { border-radius:14px; padding:13px 11px box-sizing:border-box; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; overflow:hidden; }
     .cd-school { background:linear-gradient(135deg,#1a4a1a,#0d2b0d); border:1.5px solid #4caf5066; }
     .cd-greece { background:linear-gradient(135deg,#1a2a4a,#0d1830); border:1.5px solid #60b4ff66; }
     .cd-emoji { font-size:36px; line-height:1; margin-bottom:8px; }
-    .cd-days { font-size:52px; font-weight:800; line-height:1; letter-spacing:-2px; }
+    .cd-days { font-size:53px; font-weight:800; line-height:1; letter-spacing:-2px; }
     .cd-school .cd-days { color:#69d46c; }
     .cd-greece .cd-days { color:#60b4ff; }
     .cd-days-label { font-size:10px; letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; margin-bottom:10px; }
     .cd-school .cd-days-label { color:#4caf5099; }
     .cd-greece .cd-days-label { color:#60b4ff99; }
-    .cd-title { font-size:13px; font-weight:700; line-height:1.3; }
+    .cd-title { font-size:14px; font-weight:700; line-height:1.3; }
     .cd-school .cd-title { color:#a5d6a7; }
     .cd-greece .cd-title { color:#90caf9; }
     .cd-date { font-size:10px; margin-top:4px; }
@@ -129,7 +129,7 @@
     .cd-greece .cd-date { color:#60b4ff55; }
     .cd-glow-school { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#4caf5015,transparent 70%); top:-20px; right:-20px; }
     .cd-glow-greece { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#60b4ff15,transparent 70%); top:-20px; left:-20px; }
-    .cd-section-label { grid-column:1/-1; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin-bottom:-4px; padding-top:3px; }
+    .cd-section-label { grid-column:1/-1; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin-bottom:-4px; padding-top:3px; }
   </style>
 </head>
 <body>
@@ -375,7 +375,7 @@ function buildExamCard(name, color, emoji, exams){
   card.appendChild(hdr);
 
   if(upcoming.length===0){
-    card.appendChild(el("div","",`<span style="color:#888;font-size:13px;font-style:italic">No upcoming exams 🎉</span>`));
+    card.appendChild(el("div","",`<span style="color:#888;font-size:14px;font-style:italic">No upcoming exams 🎉</span>`));
     return card;
   }
 
@@ -435,7 +435,7 @@ function buildWeatherCard(d, isToday){
   card.innerHTML=
     "<div class='wx-top'>"+
     "<div class='wx-icon'>"+d.icon+"</div>"+
-    "<div><div style='display:flex;align-items:baseline;gap:5px;margin-bottom:2px'>"+
+    "<div><div style='display:flex;align-items:baseline;gap:4px;margin-bottom:2px'>"+
     "<span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span>"+
     "<span class='wx-date'>"+d.date+"</span></div>"+
     "<div class='wx-condition'>"+d.condition+"</div></div></div>"+
