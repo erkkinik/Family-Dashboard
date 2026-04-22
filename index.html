@@ -133,6 +133,17 @@
   </style>
 </head>
 <body>
+<div id="wx-icons" style="display:none">
+  <span>&#x2600;&#xFE0F;</span>
+  <span>&#x1F324;&#xFE0F;</span>
+  <span>&#x26C5;</span>
+  <span>&#x2601;&#xFE0F;</span>
+  <span>&#x1F32B;&#xFE0F;</span>
+  <span>&#x1F326;&#xFE0F;</span>
+  <span>&#x1F327;&#xFE0F;</span>
+  <span>&#x2744;&#xFE0F;</span>
+  <span>&#x26C8;&#xFE0F;</span>
+</div>
 <div class="app">
   <div class="topbar">
     <div>
@@ -407,7 +418,7 @@ function buildWeatherCard(d,isToday){
   var card=el("div","card "+(isToday?"card-blue":"card-blue2"));
   var rainStyle=rh?"background:rgba(96,180,255,0.12);border:1px solid "+rc+"44":rm?"background:rgba(167,139,250,0.10);border:1px solid "+rc+"44":"background:rgba(255,255,255,0.04);border:1px solid "+rc+"44";
   var rainColor=rh?"#93c5fd":rm?"#c4b5fd":"#778899";
-  card.innerHTML="<div class='wx-top'><div class='wx-icon'>"+d.icon+"</div><div><div style='display:flex;align-items:baseline;gap:5px;margin-bottom:2px'><span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span><span class='wx-date'>"+d.date+"</span></div><div class='wx-condition'>"+d.condition+"</div></div></div><div class='wx-temp'><span class='wx-high'>"+d.high+"</span><span class='wx-sep'>/</span><span class='wx-low'>"+d.low+"</span><span class='wx-unit'>C</span></div><div class='wx-pills'><div class='wx-pill wx-wind-pill'><span class='wx-pill-icon'>W</span><div><div class='wx-pill-val' style='color:#d8eef8'>"+d.wind+" <span class='wx-pill-unit' style='color:#6a90a8'>m/s</span></div><div class='wx-pill-lbl'>WIND</div></div></div><div class='wx-pill' style='"+rainStyle+"'><span class='wx-pill-icon'>R</span><div><div class='wx-pill-val' style='color:"+rainColor+"'>"+d.rain+"<span class='wx-pill-unit' style='color:"+rc+"'>%</span></div><div class='wx-pill-lbl'>RAIN</div></div></div></div>";
+  card.innerHTML="<div class='wx-top'><div class='wx-icon'>"+(wxicons[WICO[code]]?wxicons[WICO[code]].innerHTML:"?")+"</div><div><div style='display:flex;align-items:baseline;gap:5px;margin-bottom:2px'><span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span><span class='wx-date'>"+d.date+"</span></div><div class='wx-condition'>"+d.condition+"</div></div></div><div class='wx-temp'><span class='wx-high'>"+d.high+"</span><span class='wx-sep'>/</span><span class='wx-low'>"+d.low+"</span><span class='wx-unit'>C</span></div><div class='wx-pills'><div class='wx-pill wx-wind-pill'><span class='wx-pill-icon'>W</span><div><div class='wx-pill-val' style='color:#d8eef8'>"+d.wind+" <span class='wx-pill-unit' style='color:#6a90a8'>m/s</span></div><div class='wx-pill-lbl'>WIND</div></div></div><div class='wx-pill' style='"+rainStyle+"'><span class='wx-pill-icon'>R</span><div><div class='wx-pill-val' style='color:"+rainColor+"'>"+d.rain+"<span class='wx-pill-unit' style='color:"+rc+"'>%</span></div><div class='wx-pill-lbl'>RAIN</div></div></div></div>";
   return card;
 }
 
