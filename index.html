@@ -2,7 +2,7 @@
 <html lang="fi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Family">
@@ -10,9 +10,9 @@
   <title>Family Dashboard</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    html, body { height:100%; }
-    body { background:#0a0a0d; color:#ffffff; font-family:system-ui,-apple-system,sans-serif; min-height:100vh; display:flex; justify-content:center; }
-    .app { width:100%; max-width:430px; display:flex; flex-direction:column; min-height:100vh; }
+    html, body { height:100%; overflow-x:hidden; }
+    body { background:#0a0a0d; color:#ffffff; font-family:system-ui,-apple-system,sans-serif; min-height:100vh; }
+    .app { width:100vw; max-width:430px; margin-left:auto; margin-right:auto; display:flex; flex-direction:column; min-height:100vh; overflow:hidden; }
 
     /* INNER — single horizontal padding for all content */
     .inner { padding-left:12px; padding-right:12px; }
