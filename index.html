@@ -41,8 +41,8 @@
     /* CARDS */
     .card { border-radius:10px; padding:5px 3px; box-sizing:border-box; height:100%; display:flex; flex-direction:column; }
     .card-dark { background:#16161a; }
-    .card-blue { background:#0f2440; border:1.5px solid rgba(96,180,255,0.35); }
-    .card-blue2 { background:#0d1e2e; border:1.5px solid rgba(96,180,255,0.20); }
+    .card-blue { background:#0f2440; border:1.5px solid rgba(96,180,255,0.35); align-items:center; }
+    .card-blue2 { background:#0d1e2e; border:1.5px solid rgba(96,180,255,0.20); align-items:center; }
     .card-orange { border:1px solid rgba(255,170,85,0.30); background:#16161a; }
     .card-bluel { border:1px solid rgba(96,180,255,0.30); background:#16161a; }
 
@@ -486,24 +486,24 @@ function render(){
   grid.appendChild(buildChildCard("Helen","#60b4ff","📚",HELEN_SCHEDULE[tmrDow]||[],false));
 
   // Row 4 - Exam headers
-  const eh1=lbl("📝 Upcoming exams","#c060c0"); eh1.style.marginTop="3px"; grid.appendChild(eh1);
-  const eh2=lbl("📝 Upcoming exams","#c060c0"); eh2.style.marginTop="3px"; grid.appendChild(eh2);
+  const eh1=lbl("📝 Upcoming exams","#c060c0"); eh1.style.marginTop="16px"; grid.appendChild(eh1);
+  const eh2=lbl("📝 Upcoming exams","#c060c0"); eh2.style.marginTop="16px"; grid.appendChild(eh2);
 
   // Row 5 - Exams
   grid.appendChild(buildExamCard("Sofia","#ffaa55","✏️",SOFIA_EXAMS));
   grid.appendChild(buildExamCard("Helen","#60b4ff","📚",HELEN_EXAMS));
 
   // Row 6 - Calendar headers
-  const ch1=lbl("📅 Calendar &mdash; Today","#d4831a"); ch1.style.marginTop="3px"; grid.appendChild(ch1);
-  const ch2=lbl("📅 Calendar &mdash; "+tmrLabel,"#3a9ee0"); ch2.style.marginTop="3px"; grid.appendChild(ch2);
+  const ch1=lbl("📅 Calendar &mdash; Today","#d4831a"); ch1.style.marginTop="16px"; grid.appendChild(ch1);
+  const ch2=lbl("📅 Calendar &mdash; "+tmrLabel,"#3a9ee0"); ch2.style.marginTop="16px"; grid.appendChild(ch2);
 
   // Row 7 - Calendar
   grid.appendChild(buildCalCard(todayEvts,true));
   grid.appendChild(buildCalCard(tmrEvts,false));
 
   // Row 8 - Weather headers
-  const wh1=lbl("🌤 Weather &mdash; Today","#5a8ab0"); wh1.style.marginTop="3px"; grid.appendChild(wh1);
-  const wh2=lbl("🌤 Weather &mdash; Tomorrow","#5a8ab0"); wh2.style.marginTop="3px"; grid.appendChild(wh2);
+  const wh1=lbl("🌤 Weather &mdash; Today","#5a8ab0"); wh1.style.marginTop="16px"; grid.appendChild(wh1);
+  const wh2=lbl("🌤 Weather &mdash; Tomorrow","#5a8ab0"); wh2.style.marginTop="16px"; grid.appendChild(wh2);
 
   // Row 9 - Weather (fetch live)
   const wp1=el("div","card"); wp1.innerHTML="<div class='loading'>Loading weather...</div>";
@@ -554,7 +554,7 @@ function buildCountdowns(){
     return Math.max(0, Math.round((new Date(dateStr) - t) / 86400000));
   }
 
-  const lbl = el("div","cd-section-label","✨ Highlights");
+  const lbl = el("div","cd-section-label","✨ Highlights"); lbl.style.marginTop="16px"; lbl.style.marginBottom="8px";
   section.appendChild(lbl);
 
   // School's out
