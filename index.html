@@ -152,268 +152,247 @@
   <div id="countdown-section"></div>
   <div class="footer">Sofia: Mon/Wed/Thu 08:30 · Tue 09:15 · Fri 10:15 · Helen: Mon/Wed/Thu 08:15 · Tue/Fri 09:15</div>
 </div>
-
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────
+//  DATA 
 const SOFIA_SCHEDULE = {
-  1:[{time:"08:30-09:15",subject:"Matematiikka"},{time:"09:15-10:00",subject:"Suomenkieli"},{time:"10:15-11:00",subject:"Englanti"},{time:"11:10-11:55",subject:"Ympäristöoppi"},{time:"12:30-13:15",subject:"Liikunta"},{time:"13:20-14:05",subject:"Liikunta"}],
-  2:[{time:"09:15-10:00",subject:"Englanti"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Historia"},{time:"12:30-13:15",subject:"Suomenkieli"},{time:"13:20-14:05",subject:"Käsityö"},{time:"14:15-15:00",subject:"Käsityö"}],
-  3:[{time:"08:30-09:15",subject:"Uskonto"},{time:"09:15-10:00",subject:"Historia"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Ympäristöoppi"},{time:"12:30-13:15",subject:"Espanja"},{time:"13:20-14:05",subject:"Valinainen"}],
+  1:[{time:"08:30-09:15",subject:"Matematiikka"},{time:"09:15-10:00",subject:"Suomenkieli"},{time:"10:15-11:00",subject:"Englanti"},{time:"11:10-11:55",subject:"Ymparistoppi"},{time:"12:30-13:15",subject:"Liikunta"},{time:"13:20-14:05",subject:"Liikunta"}],
+  2:[{time:"09:15-10:00",subject:"Englanti"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Historia"},{time:"12:30-13:15",subject:"Suomenkieli"},{time:"13:20-14:05",subject:"Kasityo"},{time:"14:15-15:00",subject:"Kasityo"}],
+  3:[{time:"08:30-09:15",subject:"Uskonto"},{time:"09:15-10:00",subject:"Historia"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Ymparistoppi"},{time:"12:30-13:15",subject:"Espanja"},{time:"13:20-14:05",subject:"Valinainen"}],
   4:[{time:"08:30-09:15",subject:"Ruotsi"},{time:"09:15-10:00",subject:"Kuvataide"},{time:"10:15-11:00",subject:"Kuvataide"},{time:"11:10-11:55",subject:"Musiikki"},{time:"12:30-13:15",subject:"Valinainen"},{time:"13:20-14:05",subject:"Valinainen"}],
   5:[{time:"10:15-11:00",subject:"Suomenkieli"},{time:"11:10-11:55",subject:"Suomenkieli"},{time:"12:30-13:15",subject:"Ruotsi"}],
 };
 const HELEN_SCHEDULE = {
-  1:[{time:"08:15-10:00",subject:"vEAA2 (OjaKa)"},{time:"10:15-11:00",subject:"SUK (RäiJu)"},{time:"12:00-12:45",subject:"MA (RäiJu)"},{time:"13:00-13:45",subject:"YM (RäiJu)"},{time:"13:45-14:30",subject:"MU (RäiJu)"}],
-  2:[{time:"09:15-10:00",subject:"MA (RäiJu)"},{time:"10:15-11:00",subject:"SUK (RäiJu)"},{time:"12:00-12:45",subject:"ENA1 (LehKi)"},{time:"13:00-13:45",subject:"ENA1 (LehKi)"},{time:"13:45-14:30",subject:"SUK (RäiJu)"}],
-  3:[{time:"08:15-09:00",subject:"UEEV (Ryy)"},{time:"09:15-10:00",subject:"UEEV (Nau)"},{time:"10:15-11:00",subject:"KU (JohAn)"},{time:"11:15-12:00",subject:"SUK (RäiJu)"},{time:"12:00-12:45",subject:"MA (RäiJu)"},{time:"13:00-13:45",subject:"MA (RäiJu)"},{time:"13:45-14:30",subject:"LI (RäiJu)"}],
+  1:[{time:"08:15-10:00",subject:"vEAA2 (OjaKa)"},{time:"10:15-11:00",subject:"SUK (RaiJu)"},{time:"12:00-12:45",subject:"MA (RaiJu)"},{time:"13:00-13:45",subject:"YM (RaiJu)"},{time:"13:45-14:30",subject:"MU (RaiJu)"}],
+  2:[{time:"09:15-10:00",subject:"MA (RaiJu)"},{time:"10:15-11:00",subject:"SUK (RaiJu)"},{time:"12:00-12:45",subject:"ENA1 (LehKi)"},{time:"13:00-13:45",subject:"ENA1 (LehKi)"},{time:"13:45-14:30",subject:"SUK (RaiJu)"}],
+  3:[{time:"08:15-09:00",subject:"UEEV (Ryy)"},{time:"09:15-10:00",subject:"UEEV (Nau)"},{time:"10:15-11:00",subject:"KU (JohAn)"},{time:"11:15-12:00",subject:"SUK (RaiJu)"},{time:"12:00-12:45",subject:"MA (RaiJu)"},{time:"13:00-13:45",subject:"MA (RaiJu)"},{time:"13:45-14:30",subject:"LI (RaiJu)"}],
   4:[{time:"08:15-09:00",subject:"KU (JohAn)"},{time:"09:15-10:00",subject:"YH (JohAn)"},{time:"10:15-11:00",subject:"KS (SilEe)"},{time:"12:00-12:45",subject:"KS (SilEe)"}],
-  5:[{time:"09:15-10:00",subject:"YM (RäiJu)"},{time:"10:15-11:00",subject:"YM (RäiJu)"},{time:"13:00-13:45",subject:"LI (RäiJu)"},{time:"13:45-14:30",subject:"SUK (RäiJu)"}],
+  5:[{time:"09:15-10:00",subject:"YM (RaiJu)"},{time:"10:15-11:00",subject:"YM (RaiJu)"},{time:"13:00-13:45",subject:"LI (RaiJu)"},{time:"13:45-14:30",subject:"SUK (RaiJu)"}],
 };
 const HELEN_EXAMS = [
   {date:"2026-04-22",subject:"UEEV - Uusi testamentti",detail:"Kirjasta s. 28-..."},
   {date:"2026-05-19",subject:"ENA1 - Englanti",detail:"Kappaleet 9 & 10, sanastot"},
 ];
 const SOFIA_EXAMS = [
-  {date:"2026-04-22",subject:"YM - Ympäristöoppi",detail:"Kpl 25-31"},
-  {date:"2026-04-22",subject:"UEEV - Elämänkatsomus",detail:"Muistiinpanot, käsitteet"},
+  {date:"2026-04-22",subject:"YM - Ymparistoppi",detail:"Kpl 25-31"},
+  {date:"2026-04-22",subject:"UEEV - Elamankatsomus",detail:"Muistiinpanot, kasitteet"},
   {date:"2026-04-23",subject:"MU - Musiikki",detail:"Taidemusiikki: keskiaika-klassismi"},
   {date:"2026-04-29",subject:"vEAA2 - A2-kieli",detail:"Kpl 6, s. 104-..."},
-  {date:"2026-04-30",subject:"RUB1 - Ruotsi",detail:"Kpl 5 & 6, teksti- ja työkirja"},
+  {date:"2026-04-30",subject:"RUB1 - Ruotsi",detail:"Kpl 5 & 6, teksti- ja tyokirja"},
   {date:"2026-05-04",subject:"ENA1 - Englanti",detail:"Ch. 13 Granny meets Old Bessie"},
   {date:"2026-05-06",subject:"SUK - Suomenkieli",detail:"S. 164-169"},
   {date:"2026-05-12",subject:"HI - Historia",detail:"S. 182-202"},
 ];
 const CALENDAR_DATA = [
-  {date:"2026-04-21",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-04-21",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
-  {date:"2026-04-21",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-04-22",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-04-22",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-04-23",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-04-23",time:"14:20",title:"Ihosairaala käynti",person:"Sofia",location:null},
+  {date:"2026-04-23",time:"14:20",title:"Ihosairaala kaynti",person:"Sofia",location:null},
   {date:"2026-04-23",time:"17:00",title:"Eninvest iltameno",person:"Erkki",location:null},
-  {date:"2026-04-23",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-04-23",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
   {date:"2026-04-25",time:null,title:"Kalastusreissu",person:"Erkki",location:"Italia"},
   {date:"2026-04-25",time:"07:30",title:"Flight Helsinki-Verona",person:"Erkki",location:null},
   {date:"2026-04-26",time:"13:00",title:"BK46-Dicken Vit",person:"Sofia",location:"Karis Sports Facilities"},
-  {date:"2026-04-27",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-04-27",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
   {date:"2026-04-27",time:"18:30",title:"Tennis",person:"Helen",location:null},
   {date:"2026-04-27",time:"19:00",title:"Sirkusjumppa",person:"Helen",location:null},
+  {date:"2026-04-28",time:"15:00",title:"Hotel Leon d'Oro",person:"Erkki",location:"Verona"},
   {date:"2026-04-28",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-04-28",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-04-28",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-04-28",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-04-29",time:null,title:"Helenin syntymäpäivä",person:"Helen",location:null},
+  {date:"2026-04-29",time:null,title:"Helenin synttarit",person:"Helen",location:null},
+  {date:"2026-04-29",time:"09:00",title:"Vappukemut koulussa",person:"Helen",location:null},
   {date:"2026-04-29",time:"10:00",title:"Flight Verona-Helsinki",person:"Erkki",location:null},
-  {date:"2026-04-29",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-04-29",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-04-30",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
   {date:"2026-04-30",time:"17:00",title:"Wappujuhlat Nuppu & Nuutti",person:null,location:null},
-  {date:"2026-05-04",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-04",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
   {date:"2026-05-04",time:"18:30",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-05-04",time:"19:00",title:"Sirkusjumppa + lopputayts",person:"Helen",location:null},
+  {date:"2026-05-05",time:"10:00",title:"Volvo huolto / Bilia Olari",person:null,location:null},
   {date:"2026-05-05",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-05",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-05",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-05",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-06",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-06",time:"18:00",title:"LK 12 Yhtiokoous",person:null,location:"Botta Events"},
+  {date:"2026-05-06",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-07",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
   {date:"2026-05-07",time:"15:30",title:"Iltatilaisuus KPMH 100v",person:"Erkki",location:"Finlandiatalo"},
-  {date:"2026-05-07",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-08",time:null,title:"Lauri Markkanen turnaus / Jyväskylä",person:"Helen",location:null},
-  {date:"2026-05-11",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-07",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
+  {date:"2026-05-08",time:null,title:"Lauri Markkanen turnaus / Jyvaskyla",person:"Helen",location:null},
+  {date:"2026-05-11",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
   {date:"2026-05-11",time:"18:30",title:"Tennis",person:"Helen",location:null},
   {date:"2026-05-12",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-12",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-12",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-12",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-13",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-13",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-14",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-14",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-15",time:null,title:"Sofian nimipäivä",person:"Sofia",location:null},
+  {date:"2026-05-14",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
+  {date:"2026-05-15",time:null,title:"Sofian nimipaiva",person:"Sofia",location:null},
   {date:"2026-05-16",time:null,title:"Siuntio Cup",person:"Sofia",location:null},
-  {date:"2026-05-18",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-18",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
   {date:"2026-05-18",time:"18:30",title:"Tennis",person:"Helen",location:null},
   {date:"2026-05-19",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-19",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-19",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-19",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-20",time:"17:30",title:"ToPo kauden päättäjäiset",person:"Helen",location:null},
-  {date:"2026-05-20",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-20",time:"17:30",title:"ToPo kauden paattajaiset",person:"Helen",location:null},
+  {date:"2026-05-20",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-21",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-21",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-24",time:"10:00",title:"ToPo päättäjäiset / Usvalla",person:null,location:null},
-  {date:"2026-05-25",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-21",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
+  {date:"2026-05-23",time:"11:30",title:"UJ",person:"Erkki",location:null},
+  {date:"2026-05-24",time:"10:00",title:"ToPo paattajaiset / Usvalla",person:null,location:null},
+  {date:"2026-05-25",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
   {date:"2026-05-25",time:"18:30",title:"Tennis",person:"Helen",location:null},
   {date:"2026-05-26",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-26",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-26",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-26",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-27",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-27",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-28",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-28",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-28",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
   {date:"2026-05-30",time:"15:00",title:"Ronja yo-juhlat",person:null,location:null},
+  {date:"2026-06-02",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-06-03",time:"15:00",title:"Ruotsin risteily Silja Symphony",person:"Sofia",location:"Olympia Terminal"},
+  {date:"2026-06-04",time:"07:00",title:"Oulussa",person:"Helen",location:null},
+  {date:"2026-06-09",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-06-12",time:"13:30",title:"HLP Kesajuhlat",person:"Erkki",location:null},
+  {date:"2026-06-14",time:"11:30",title:"Julian konfirmaatio",person:null,location:"Turku"},
+  {date:"2026-06-16",time:"10:00",title:"Rex Hallituksen kokous",person:"Erkki",location:"Hartola"},
+  {date:"2026-06-16",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-06-23",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-06-25",time:"07:00",title:"Oulussa",person:"Helen",location:null},
+  {date:"2026-06-26",time:"12:00",title:"Kalastusreissu",person:"Erkki",location:"Laskoski, Mikkeli"},
+  {date:"2026-06-29",time:null,title:"Thessaloniki - matka alkaa!",person:null,location:null},
+  {date:"2026-06-30",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-07-07",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-07-14",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-07-21",time:null,title:"Hanko ravut",person:null,location:null},
+  {date:"2026-07-21",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-07-28",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-07-31",time:null,title:"Helenin nimipaiva",person:"Helen",location:null},
 ];
 
-// ── HELPERS ───────────────────────────────────────────────────────────
-const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const DAYNAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const WDAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-const PCOLORS = {Helen:"#60b4ff", Sofia:"#ffaa55", Erkki:"#5dd68a"};
+function useCalendar(){ return CALENDAR_DATA; }
 
-function pad(n){ return String(n).padStart(2,"0"); }
-function getDateStr(off){
-  off = off || 0;
-  const d = new Date(); d.setDate(d.getDate()+off);
-  return d.toISOString().slice(0,10);
-}
-function getDow(off){ off=off||0; const d=new Date(); d.setDate(d.getDate()+off); return d.getDay(); }
-function getDayName(off){ off=off||0; const d=new Date(); d.setDate(d.getDate()+off); return DAYNAMES[d.getDay()]; }
-function getNextSchoolOff(){
-  for(let i=1;i<=7;i++){ const d=getDow(i); if(d>=1&&d<=5) return i; }
-  return 1;
-}
-function toMins(t){ const p=t.split(":"); return parseInt(p[0])*60+parseInt(p[1]); }
-function daysUntil(ds){ const t=new Date(); t.setHours(0,0,0,0); return Math.round((new Date(ds)-t)/86400000); }
-function fmtDate(ds){ const d=new Date(ds); return pad(d.getDate())+"."+pad(d.getMonth()+1)+"."; }
-function el(tag,cls,html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html) e.innerHTML=html; return e; }
+//  HELPERS 
+const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DAYNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const WDAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const PCOLORS={Helen:"#60b4ff",Sofia:"#ffaa55",Erkki:"#5dd68a"};
 
-// ── CLOCK ─────────────────────────────────────────────────────────────
+function pad(n){return String(n).padStart(2,"0");}
+function getDateStr(off){off=off||0;const d=new Date();d.setDate(d.getDate()+off);return d.toISOString().slice(0,10);}
+function getDow(off){off=off||0;const d=new Date();d.setDate(d.getDate()+off);return d.getDay();}
+function getDayName(off){off=off||0;const d=new Date();d.setDate(d.getDate()+off);return DAYNAMES[d.getDay()];}
+function getNextSchoolOff(){for(var i=1;i<=7;i++){var d=getDow(i);if(d>=1&&d<=5)return i;}return 1;}
+function toMins(t){var p=t.split(":");return parseInt(p[0])*60+parseInt(p[1]);}
+function daysUntil(ds){var t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(ds)-t)/86400000);}
+function fmtDate(ds){var d=new Date(ds);return pad(d.getDate())+"."+pad(d.getMonth()+1)+".";}
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e;}
+
+//  CLOCK 
 function updateClock(){
-  const now = new Date();
-  document.getElementById("clock-time").innerHTML =
-    pad(now.getHours())+":"+pad(now.getMinutes())+"<span class='clock-sec'>"+pad(now.getSeconds())+"</span>";
-  document.getElementById("clock-date").textContent =
-    DAYNAMES[now.getDay()]+", "+now.getDate()+" "+MONTHS[now.getMonth()];
+  var now=new Date();
+  document.getElementById("clock-time").innerHTML=pad(now.getHours())+":"+pad(now.getMinutes())+"<span class='clock-sec'>"+pad(now.getSeconds())+"</span>";
+  document.getElementById("clock-date").textContent=DAYNAMES[now.getDay()]+", "+now.getDate()+" "+MONTHS[now.getMonth()];
 }
-setInterval(updateClock, 1000);
+setInterval(updateClock,1000);
 updateClock();
 
-// ── WEEK STRIP ────────────────────────────────────────────────────────
+//  WEEK STRIP 
 function buildWeekStrip(){
-  const strip = document.getElementById("week-strip");
-  const base = new Date();
-  const labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  for(let i=0;i<7;i++){
-    const d = new Date(base);
-    d.setDate(base.getDate() - ((base.getDay()+6)%7) + i);
-    const isToday = d.toDateString()===base.toDateString();
-    const isWknd = i>=5;
-    const div = el("div", "week-day "+(isToday?"today":isWknd?"wknd":"normal"));
-    div.innerHTML = "<div class='week-label'>"+labels[i]+"</div><div class='week-date'>"+d.getDate()+"</div>";
+  var strip=document.getElementById("week-strip");
+  var base=new Date();
+  var labels=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  for(var i=0;i<7;i++){
+    var d=new Date(base);
+    d.setDate(base.getDate()-((base.getDay()+6)%7)+i);
+    var isToday=d.toDateString()===base.toDateString();
+    var isWknd=i>=5;
+    var div=el("div","week-day "+(isToday?"today":isWknd?"wknd":"normal"));
+    div.innerHTML="<div class='week-label'>"+labels[i]+"</div><div class='week-date'>"+d.getDate()+"</div>";
     strip.appendChild(div);
   }
 }
 buildWeekStrip();
 
-// ── BUILD CHILD CARD ──────────────────────────────────────────────────
-function buildChildCard(name, color, emoji, lessons, isToday){
-  const now = new Date();
-  const nowMins = now.getHours()*60+now.getMinutes();
-  const noSchool = !lessons || lessons.length===0;
+//  CHILD CARD 
+function buildChildCard(name,color,emoji,lessons,isToday){
+  var now=new Date();
+  var nowMins=now.getHours()*60+now.getMinutes();
+  var noSchool=!lessons||lessons.length===0;
+  var card=el("div","card card-dark");
+  card.style.border="1.5px solid "+color+"66";
 
-  const card = el("div","card card-dark");
-  card.style.border = "1.5px solid "+color+"66";
-
-  // Header
-  const hdr = el("div","child-header");
-  const nameDiv = el("div","child-name");
-  nameDiv.innerHTML = "<span style='font-size:14px'>"+emoji+"</span><span style='color:"+color+"'>"+name+"</span>";
+  var hdr=el("div","child-header");
+  var nameDiv=el("div","child-name");
+  nameDiv.innerHTML="<span style='font-size:14px'>"+emoji+"</span><span style='color:"+color+"'>"+name+"</span>";
   hdr.appendChild(nameDiv);
   if(!noSchool){
-    const endTime = lessons[lessons.length-1].time.split("-")[1];
-    const badge = el("span","ends-badge");
-    badge.style.color=color; badge.style.background=color+"22";
+    var endTime=lessons[lessons.length-1].time.split("-")[1];
+    var badge=el("span","ends-badge");
+    badge.style.color=color;badge.style.background=color+"22";
     badge.textContent="ends "+endTime;
     hdr.appendChild(badge);
   }
   card.appendChild(hdr);
 
-  if(noSchool){
-    card.appendChild(el("div","no-school","No school 🎉"));
-    return card;
-  }
+  if(noSchool){card.appendChild(el("div","no-school","No school"));return card;}
 
-  const startTime = lessons[0].time.split("-")[0];
-
-  // Starts badge
-  const sb = el("div","starts-badge");
-  sb.style.background=color+"22"; sb.style.border="1.5px solid "+color+"77";
-  sb.innerHTML="<div><div class='starts-label' style='color:"+color+"'>SCHOOL STARTS</div>"+
-    "<div class='starts-time' style='color:"+color+"'>"+startTime+"</div></div>"+
-    "<div style='margin-left:auto;text-align:right'><div class='lessons-count-label'>LESSONS</div>"+
-    "<div class='lessons-count'>"+lessons.length+"</div></div>";
+  var startTime=lessons[0].time.split("-")[0];
+  var sb=el("div","starts-badge");
+  sb.style.background=color+"22";sb.style.border="1.5px solid "+color+"77";
+  sb.innerHTML="<div><div class='starts-label' style='color:"+color+"'>SCHOOL STARTS</div><div class='starts-time' style='color:"+color+"'>"+startTime+"</div></div><div style='margin-left:auto;text-align:right'><div class='lessons-count-label'>LESSONS</div><div class='lessons-count'>"+lessons.length+"</div></div>";
   card.appendChild(sb);
 
-  // Lessons
-  const lessonsDiv = el("div");
-  lessonsDiv.style.display="flex"; lessonsDiv.style.flexDirection="column"; lessonsDiv.style.gap="2px"; lessonsDiv.style.flex="1";
+  var lessonsDiv=el("div");
+  lessonsDiv.style.display="flex";lessonsDiv.style.flexDirection="column";lessonsDiv.style.gap="2px";lessonsDiv.style.flex="1";
   lessons.forEach(function(l){
-    const parts = l.time.split("-");
-    const s=toMins(parts[0]), e=toMins(parts[1]);
-    const cur = isToday && nowMins>=s && nowMins<=e;
-    const past = isToday && nowMins>e;
-    const row = el("div","lesson-row"+(cur?" current":"")+(past?" past":""));
-    if(cur){ row.style.background=color+"22"; row.style.borderColor=color+"55"; }
-    row.innerHTML="<span class='lesson-time'>"+(parts[0])+"</span><span class='lesson-subj'>"+l.subject+"</span>";
-    if(cur){
-      const nb=el("span","now-badge");
-      nb.style.color=color; nb.style.background=color+"33"; nb.textContent="NOW";
-      row.appendChild(nb);
-    }
+    var parts=l.time.split("-");
+    var s=toMins(parts[0]),e=toMins(parts[1]);
+    var cur=isToday&&nowMins>=s&&nowMins<=e;
+    var past=isToday&&nowMins>e;
+    var row=el("div","lesson-row"+(cur?" current":"")+(past?" past":""));
+    if(cur){row.style.background=color+"22";row.style.borderColor=color+"55";}
+    row.innerHTML="<span class='lesson-time'>"+parts[0]+"</span><span class='lesson-subj'>"+l.subject+"</span>";
+    if(cur){var nb=el("span","now-badge");nb.style.color=color;nb.style.background=color+"33";nb.textContent="NOW";row.appendChild(nb);}
     lessonsDiv.appendChild(row);
   });
   card.appendChild(lessonsDiv);
   return card;
 }
 
-// ── BUILD EXAM CARD ───────────────────────────────────────────────────
-function buildExamCard(name, color, emoji, exams){
-  const today = getDateStr(0);
-  const upcoming = exams.filter(function(e){ return e.date>=today; })
-    .sort(function(a,b){ return a.date<b.date?-1:1; });
-
-  const card = el("div","card card-dark");
+//  EXAM CARD 
+function buildExamCard(name,color,emoji,exams){
+  var today=getDateStr(0);
+  var upcoming=exams.filter(function(e){return e.date>=today;}).sort(function(a,b){return a.date<b.date?-1:1;});
+  var card=el("div","card card-dark");
   card.style.border="1.5px solid "+color+"44";
-
-  const hdr = el("div","exam-header");
-  hdr.innerHTML="<span style='font-size:14px'>"+emoji+"</span>"+
-    "<span class='exam-title' style='color:"+color+"'>"+name+"</span>"+
-    "<span class='exam-tag'>EXAMS</span>";
+  var hdr=el("div","exam-header");
+  hdr.innerHTML="<span style='font-size:14px'>"+emoji+"</span><span class='exam-title' style='color:"+color+"'>"+name+"</span><span class='exam-tag'>EXAMS</span>";
   card.appendChild(hdr);
-
-  if(upcoming.length===0){
-    card.appendChild(el("div","",`<span style="color:#888;font-size:14px;font-style:italic">No upcoming exams 🎉</span>`));
-    return card;
-  }
-
+  if(upcoming.length===0){card.innerHTML+="<div style='color:#888;font-size:13px;font-style:italic'>No upcoming exams</div>";return card;}
   upcoming.forEach(function(e){
-    const days=daysUntil(e.date);
-    const uc=days<=2?"#ff6b6b":days<=7?"#ffd166":color;
-    const row=el("div","exam-row");
+    var days=daysUntil(e.date);
+    var uc=days<=2?"#ff6b6b":days<=7?"#ffd166":color;
+    var row=el("div","exam-row");
     row.style.borderColor=uc+"33";
-    row.innerHTML="<div class='exam-count'>"+
-      "<div class='exam-date-lbl' style='color:"+uc+"'>"+fmtDate(e.date)+"</div>"+
-      "<div class='exam-days-num' style='color:"+uc+"'>"+days+"</div>"+
-      "<div class='exam-days-lbl' style='color:"+uc+"'>"+(days===1?"day left":"days left")+"</div></div>"+
-      "<div class='exam-divider' style='background:"+uc+"33'></div>"+
-      "<div style='flex:1;min-width:0'>"+
-      "<div class='exam-subject'>"+e.subject+"</div>"+
-      "<div class='exam-detail'>"+e.detail+"</div></div>";
+    row.innerHTML="<div class='exam-count'><div class='exam-date-lbl' style='color:"+uc+"'>"+fmtDate(e.date)+"</div><div class='exam-days-num' style='color:"+uc+"'>"+days+"</div><div class='exam-days-lbl' style='color:"+uc+"'>"+(days===1?"day left":"days left")+"</div></div><div class='exam-divider' style='background:"+uc+"33'></div><div style='flex:1;min-width:0'><div class='exam-subject'>"+e.subject+"</div><div class='exam-detail'>"+e.detail+"</div></div>";
     card.appendChild(row);
   });
   return card;
 }
 
-// ── BUILD CALENDAR CARD ───────────────────────────────────────────────
-function buildCalCard(events, isToday){
-  const card=el("div","card "+(isToday?"card-orange":"card-bluel"));
-  if(!events||events.length===0){
-    card.appendChild(el("div","cal-empty","Nothing scheduled"));
-    return card;
-  }
+//  CALENDAR CARD 
+function buildCalCard(events,isToday){
+  var card=el("div","card "+(isToday?"card-orange":"card-bluel"));
+  if(!events||events.length===0){card.appendChild(el("div","cal-empty","Nothing scheduled"));return card;}
   events.forEach(function(ev){
-    const c=PCOLORS[ev.person]||"#9B8EF7";
-    const row=el("div","cal-row");
-    const dot=el("span","cal-dot"); dot.style.background=c; row.appendChild(dot);
-    const content=el("div");
-    let html="";
-    if(ev.time) html+="<span class='cal-time'>"+ev.time+"</span>";
+    var c=PCOLORS[ev.person]||"#9B8EF7";
+    var row=el("div","cal-row");
+    var dot=el("span","cal-dot");dot.style.background=c;row.appendChild(dot);
+    var content=el("div");
+    var html="";
+    if(ev.time)html+="<span class='cal-time'>"+ev.time+"</span>";
     html+="<span class='cal-title'>"+ev.title+"</span>";
-    if(ev.person) html+="<span class='cal-person' style='color:"+c+";background:"+c+"22'>"+ev.person+"</span>";
-    if(ev.location) html+="<div class='cal-loc'>📍 "+ev.location+"</div>";
+    if(ev.person)html+="<span class='cal-person' style='color:"+c+";background:"+c+"22'>"+ev.person+"</span>";
+    if(ev.location)html+="<div class='cal-loc'>"+ev.location+"</div>";
     content.innerHTML=html;
     row.appendChild(content);
     card.appendChild(row);
@@ -421,174 +400,103 @@ function buildCalCard(events, isToday){
   return card;
 }
 
-// ── BUILD WEATHER CARD ────────────────────────────────────────────────
-function buildWeatherCard(d, isToday){
-  const rh=d.rain>=60, rm=d.rain>=25;
-  const rc=rh?"#60b4ff":rm?"#a78bfa":"#667777";
-  const card=el("div","card "+(isToday?"card-blue":"card-blue2"));
-
-  let rainStyle=rh?"background:rgba(96,180,255,0.12);border:1px solid "+rc+"44":
-    rm?"background:rgba(167,139,250,0.10);border:1px solid "+rc+"44":
-    "background:rgba(255,255,255,0.04);border:1px solid "+rc+"44";
-  let rainColor=rh?"#93c5fd":rm?"#c4b5fd":"#778899";
-
-  card.innerHTML=
-    "<div class='wx-top'>"+
-    "<div class='wx-icon'>"+d.icon+"</div>"+
-    "<div><div style='display:flex;align-items:baseline;gap:4px;margin-bottom:2px'>"+
-    "<span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span>"+
-    "<span class='wx-date'>"+d.date+"</span></div>"+
-    "<div class='wx-condition'>"+d.condition+"</div></div></div>"+
-    "<div class='wx-temp'>"+
-    "<span class='wx-high'>"+d.high+"°</span>"+
-    "<span class='wx-sep'>/</span>"+
-    "<span class='wx-low'>"+d.low+"°</span>"+
-    "<span class='wx-unit'>C</span></div>"+
-    "<div class='wx-pills'>"+
-    "<div class='wx-pill wx-wind-pill'>"+
-    "<span class='wx-pill-icon'>💨</span>"+
-    "<div><div class='wx-pill-val' style='color:#d8eef8'>"+d.wind+" <span class='wx-pill-unit' style='color:#6a90a8'>m/s</span></div>"+
-    "<div class='wx-pill-lbl'>WIND</div></div></div>"+
-    "<div class='wx-pill' style='"+rainStyle+"'>"+
-    "<span class='wx-pill-icon'>🌧</span>"+
-    "<div><div class='wx-pill-val' style='color:"+rainColor+"'>"+d.rain+"<span class='wx-pill-unit' style='color:"+rc+"'>%</span></div>"+
-    "<div class='wx-pill-lbl'>RAIN</div></div></div></div>";
+//  WEATHER CARD 
+function buildWeatherCard(d,isToday){
+  var rh=d.rain>=60,rm=d.rain>=25;
+  var rc=rh?"#60b4ff":rm?"#a78bfa":"#667777";
+  var card=el("div","card "+(isToday?"card-blue":"card-blue2"));
+  var rainStyle=rh?"background:rgba(96,180,255,0.12);border:1px solid "+rc+"44":rm?"background:rgba(167,139,250,0.10);border:1px solid "+rc+"44":"background:rgba(255,255,255,0.04);border:1px solid "+rc+"44";
+  var rainColor=rh?"#93c5fd":rm?"#c4b5fd":"#778899";
+  card.innerHTML="<div class='wx-top'><div class='wx-icon'>"+d.icon+"</div><div><div style='display:flex;align-items:baseline;gap:5px;margin-bottom:2px'><span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span><span class='wx-date'>"+d.date+"</span></div><div class='wx-condition'>"+d.condition+"</div></div></div><div class='wx-temp'><span class='wx-high'>"+d.high+"</span><span class='wx-sep'>/</span><span class='wx-low'>"+d.low+"</span><span class='wx-unit'>C</span></div><div class='wx-pills'><div class='wx-pill wx-wind-pill'><span class='wx-pill-icon'>W</span><div><div class='wx-pill-val' style='color:#d8eef8'>"+d.wind+" <span class='wx-pill-unit' style='color:#6a90a8'>m/s</span></div><div class='wx-pill-lbl'>WIND</div></div></div><div class='wx-pill' style='"+rainStyle+"'><span class='wx-pill-icon'>R</span><div><div class='wx-pill-val' style='color:"+rainColor+"'>"+d.rain+"<span class='wx-pill-unit' style='color:"+rc+"'>%</span></div><div class='wx-pill-lbl'>RAIN</div></div></div></div>";
   return card;
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────
+//  COUNTDOWN 
+function buildCountdowns(){
+  var section=document.getElementById("countdown-section");
+  section.innerHTML="";
+  function daysTo(ds){var t=new Date();t.setHours(0,0,0,0);return Math.max(0,Math.round((new Date(ds)-t)/86400000));}
+  var lbl=el("div","cd-section-label","Highlights");
+  section.appendChild(lbl);
+  var d1=daysTo("2026-05-30");
+  var c1=el("div","cd-card cd-school");
+  c1.innerHTML="<div class='cd-glow-school'></div><div class='cd-emoji'>&#127958;</div><div class='cd-days'>"+d1+"</div><div class='cd-days-label'>"+(d1===1?"day":"days")+" to go</div><div class='cd-title'>Schools Out for Summer!</div><div class='cd-date'>30 May 2026</div>";
+  section.appendChild(c1);
+  var d2=daysTo("2026-06-29");
+  var c2=el("div","cd-card cd-greece");
+  c2.innerHTML="<div class='cd-glow-greece'></div><div class='cd-emoji'>&#9992;</div><div class='cd-days'>"+d2+"</div><div class='cd-days-label'>"+(d2===1?"day":"days")+" to go</div><div class='cd-title'>Thessaloniki Here We Come!</div><div class='cd-date'>29 June 2026</div>";
+  section.appendChild(c2);
+}
+
+//  RENDER 
 function render(){
-  const grid = document.getElementById("main-grid");
+  var grid=document.getElementById("main-grid");
   grid.innerHTML="";
+  var todayDow=getDow(0);
+  var isWeekend=todayDow===0||todayDow===6;
+  var tmrOff=getNextSchoolOff();
+  var tmrDow=getDow(tmrOff);
+  var tmrLabel=tmrOff===1?"Tomorrow":getDayName(tmrOff);
+  var todayStr=getDateStr(0);
+  var tmrStr=getDateStr(tmrOff);
+  var calAll=useCalendar();
+  var todayEvts=calAll.filter(function(e){return e.date===todayStr;});
+  var tmrEvts=calAll.filter(function(e){return e.date===tmrStr;});
 
-  const todayDow=getDow(0);
-  const isWeekend=todayDow===0||todayDow===6;
-  const tmrOff=getNextSchoolOff();
-  const tmrDow=getDow(tmrOff);
-  const tmrLabel=tmrOff===1?"Tomorrow":getDayName(tmrOff);
-  const todayStr=getDateStr(0);
-  const tmrStr=getDateStr(tmrOff);
-  const todayEvts=CALENDAR_DATA.filter(function(e){return e.date===todayStr;});
-  const tmrEvts=CALENDAR_DATA.filter(function(e){return e.date===tmrStr;});
+  function lbl(text,color){var d=el("div","section-label");d.style.color=color||"#888";d.innerHTML=text;return d;}
 
-  function lbl(text,color){ const d=el("div","section-label"); d.style.color=color||"#888"; d.innerHTML=text; return d; }
+  grid.appendChild(lbl("School today  <span style='color:#ffaa55'>"+(isWeekend?"Weekend":getDayName(0))+"</span>","#d4831a"));
+  grid.appendChild(lbl("School "+tmrLabel+"  <span style='color:#60b4ff'>"+getDayName(tmrOff)+"</span>","#3a9ee0"));
+  grid.appendChild(buildChildCard("Sofia","#ffaa55","S",isWeekend?[]:SOFIA_SCHEDULE[todayDow],true));
+  grid.appendChild(buildChildCard("Sofia","#ffaa55","S",SOFIA_SCHEDULE[tmrDow]||[],false));
+  grid.appendChild(buildChildCard("Helen","#60b4ff","H",isWeekend?[]:HELEN_SCHEDULE[todayDow],true));
+  grid.appendChild(buildChildCard("Helen","#60b4ff","H",HELEN_SCHEDULE[tmrDow]||[],false));
 
-  // Row 1 - headers
-  grid.appendChild(lbl("🎒 Today &mdash; <span style='color:#ffaa55'>"+(isWeekend?"Weekend":getDayName(0))+"</span>","#d4831a"));
-  grid.appendChild(lbl("🎒 "+tmrLabel+" &mdash; <span style='color:#60b4ff'>"+getDayName(tmrOff)+"</span>","#3a9ee0"));
+  var eh1=lbl("Upcoming exams","#c060c0");eh1.style.marginTop="16px";grid.appendChild(eh1);
+  var eh2=lbl("Upcoming exams","#c060c0");eh2.style.marginTop="16px";grid.appendChild(eh2);
+  grid.appendChild(buildExamCard("Sofia","#ffaa55","S",SOFIA_EXAMS));
+  grid.appendChild(buildExamCard("Helen","#60b4ff","H",HELEN_EXAMS));
 
-  // Row 2 - Sofia schedule
-  grid.appendChild(buildChildCard("Sofia","#ffaa55","✏️",isWeekend?[]:SOFIA_SCHEDULE[todayDow],true));
-  grid.appendChild(buildChildCard("Sofia","#ffaa55","✏️",SOFIA_SCHEDULE[tmrDow]||[],false));
-
-  // Row 3 - Helen schedule
-  grid.appendChild(buildChildCard("Helen","#60b4ff","📚",isWeekend?[]:HELEN_SCHEDULE[todayDow],true));
-  grid.appendChild(buildChildCard("Helen","#60b4ff","📚",HELEN_SCHEDULE[tmrDow]||[],false));
-
-  // Row 4 - Exam headers
-  const eh1=lbl("📝 Upcoming exams","#c060c0"); eh1.style.marginTop="16px"; grid.appendChild(eh1);
-  const eh2=lbl("📝 Upcoming exams","#c060c0"); eh2.style.marginTop="16px"; grid.appendChild(eh2);
-
-  // Row 5 - Exams
-  grid.appendChild(buildExamCard("Sofia","#ffaa55","✏️",SOFIA_EXAMS));
-  grid.appendChild(buildExamCard("Helen","#60b4ff","📚",HELEN_EXAMS));
-
-  // Row 6 - Calendar headers
-  const ch1=lbl("📅 Calendar &mdash; Today","#d4831a"); ch1.style.marginTop="16px"; grid.appendChild(ch1);
-  const ch2=lbl("📅 Calendar &mdash; "+tmrLabel,"#3a9ee0"); ch2.style.marginTop="16px"; grid.appendChild(ch2);
-
-  // Row 7 - Calendar
+  var ch1=lbl("Calendar Today","#d4831a");ch1.style.marginTop="16px";grid.appendChild(ch1);
+  var ch2=lbl("Calendar "+tmrLabel,"#3a9ee0");ch2.style.marginTop="16px";grid.appendChild(ch2);
   grid.appendChild(buildCalCard(todayEvts,true));
   grid.appendChild(buildCalCard(tmrEvts,false));
 
-  // Row 8 - Weather headers
-  const wh1=lbl("🌤 Weather &mdash; Today","#5a8ab0"); wh1.style.marginTop="16px"; grid.appendChild(wh1);
-  const wh2=lbl("🌤 Weather &mdash; Tomorrow","#5a8ab0"); wh2.style.marginTop="16px"; grid.appendChild(wh2);
+  var wh1=lbl("Weather Today","#5a8ab0");wh1.style.marginTop="16px";grid.appendChild(wh1);
+  var wh2=lbl("Weather Tomorrow","#5a8ab0");wh2.style.marginTop="16px";grid.appendChild(wh2);
 
-  // Row 9 - Weather (fetch live)
-  const wp1=el("div","card"); wp1.innerHTML="<div class='loading'>Loading weather...</div>";
-  const wp2=el("div","card"); wp2.innerHTML="<div class='loading'>Loading weather...</div>";
-  grid.appendChild(wp1); grid.appendChild(wp2);
+  var wp1=el("div","card");wp1.innerHTML="<div class='loading'>Loading...</div>";
+  var wp2=el("div","card");wp2.innerHTML="<div class='loading'>Loading...</div>";
+  grid.appendChild(wp1);grid.appendChild(wp2);
 
-  const weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude=60.17&longitude=24.94&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_probability_max&wind_speed_unit=ms&timezone=Europe%2FHelsinki&forecast_days=2";
-  const timeout = new Promise(function(_,reject){ setTimeout(function(){ reject(new Error("timeout")); }, 8000); });
-  Promise.race([fetch(weatherUrl), timeout])
+  var timeout=new Promise(function(_,rej){setTimeout(function(){rej(new Error("timeout"));},8000);});
+  Promise.race([fetch("https://api.open-meteo.com/v1/forecast?latitude=60.17&longitude=24.94&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_probability_max&wind_speed_unit=ms&timezone=Europe%2FHelsinki&forecast_days=2"),timeout])
     .then(function(r){return r.json();})
     .then(function(d){
-      const WMO={0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Foggy",48:"Foggy",51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",71:"Light snow",73:"Snow",75:"Heavy snow",80:"Rain showers",81:"Rain showers",82:"Heavy showers",95:"Thunderstorm"};
-      const WICO={0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌧️",61:"🌦️",63:"🌧️",65:"🌧️",71:"🌨️",73:"❄️",75:"❄️",80:"🌧️",81:"🌧️",82:"⛈️",95:"⛈️"};
+      var WMO={0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Foggy",48:"Foggy",51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",71:"Light snow",73:"Snow",75:"Heavy snow",80:"Rain showers",81:"Showers",82:"Heavy showers",95:"Thunderstorm"};
+      var WICO={0:"sunny",1:"sunny",2:"cloudy",3:"cloudy",45:"foggy",48:"foggy",51:"drizzle",53:"drizzle",55:"rain",61:"drizzle",63:"rain",65:"rain",71:"snow",73:"snow",75:"snow",80:"rain",81:"rain",82:"storm",95:"storm"};
+      var icons={"sunny":"","cloudy":"","foggy":"=","drizzle":"~","rain":"~","snow":"*","storm":"!"};
       [0,1].forEach(function(i){
-        const dt=new Date(d.daily.time[i]);
-        const code=d.daily.weathercode[i];
-        const wx={
-          label:i===0?"TODAY":"TOMORROW",
-          date:WDAYS[dt.getDay()]+" "+dt.getDate()+"."+(dt.getMonth()+1),
-          icon:WICO[code]||"⛅",
-          condition:WMO[code]||"Mixed",
-          high:Math.round(d.daily.temperature_2m_max[i]),
-          low:Math.round(d.daily.temperature_2m_min[i]),
-          wind:Math.round(d.daily.windspeed_10m_max[i]),
-          rain:d.daily.precipitation_probability_max[i]||0,
-        };
-        const card=buildWeatherCard(wx,i===0);
-        if(i===0) wp1.parentNode.replaceChild(card,wp1);
-        else wp2.parentNode.replaceChild(card,wp2);
+        var dt=new Date(d.daily.time[i]);
+        var code=d.daily.weathercode[i];
+        var wx={label:i===0?"TODAY":"TOMORROW",date:WDAYS[dt.getDay()]+" "+dt.getDate()+"."+(dt.getMonth()+1),icon:icons[WICO[code]]||"?",condition:WMO[code]||"Mixed",high:Math.round(d.daily.temperature_2m_max[i]),low:Math.round(d.daily.temperature_2m_min[i]),wind:Math.round(d.daily.windspeed_10m_max[i]),rain:d.daily.precipitation_probability_max[i]||0};
+        var nc=buildWeatherCard(wx,i===0);
+        if(i===0)wp1.parentNode.replaceChild(nc,wp1);
+        else wp2.parentNode.replaceChild(nc,wp2);
       });
     })
     .catch(function(){
-      wp1.innerHTML="<div class='loading'>Weather unavailable<br><span style='font-size:10px;color:#444'>Tap to reload</span></div>";
-      wp1.style.cursor="pointer";
-      wp1.onclick=function(){location.reload();};
+      wp1.innerHTML="<div class='loading'>Weather unavailable</div>";
       wp2.innerHTML="<div class='loading'>&nbsp;</div>";
     });
 }
 
-
-// ── BUILD COUNTDOWN CARDS ─────────────────────────────────────────────
-function buildCountdowns(){
-  const section = document.getElementById("countdown-section");
-  section.innerHTML = "";
-
-  function daysTo(dateStr){
-    const t = new Date(); t.setHours(0,0,0,0);
-    return Math.max(0, Math.round((new Date(dateStr) - t) / 86400000));
-  }
-
-  const lbl = el("div","cd-section-label","✨ Highlights"); lbl.style.marginTop="16px"; lbl.style.marginBottom="8px";
-  section.appendChild(lbl);
-
-  // School's out
-  const d1 = daysTo("2026-05-30");
-  const c1 = el("div","cd-card cd-school");
-  c1.innerHTML =
-    "<div class='cd-glow-school'></div>" +
-    "<div class='cd-emoji'>🏖️</div>" +
-    "<div class='cd-days'>" + d1 + "</div>" +
-    "<div class='cd-days-label'>" + (d1===1?"day":"days") + " to go</div>" +
-    "<div class='cd-title'>Schools Out<br>for Summer! 🎉</div>" +
-    "<div class='cd-date'>30 May 2026</div>";
-  section.appendChild(c1);
-
-  // Greece
-  const d2 = daysTo("2026-06-29");
-  const c2 = el("div","cd-card cd-greece");
-  c2.innerHTML =
-    "<div class='cd-glow-greece'></div>" +
-    "<div class='cd-emoji'>✈️🇬🇷</div>" +
-    "<div class='cd-days'>" + d2 + "</div>" +
-    "<div class='cd-days-label'>" + (d2===1?"day":"days") + " to go</div>" +
-    "<div class='cd-title'>Greece<br>Here We Come! 🌊</div>" +
-    "<div class='cd-date'>29 June 2026</div>";
-  section.appendChild(c2);
-}
-
 buildCountdowns();
 render();
-// Re-render at midnight to flip today/tomorrow
-const now=new Date();
-const msToMidnight=(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1)-now);
-setTimeout(function(){
-setInterval(render,86400000);},msToMidnight);
+var now=new Date();
+var msToMidnight=(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1)-now);
+setTimeout(function(){render();buildCountdowns();setInterval(function(){render();buildCountdowns();},86400000);},msToMidnight);
+
 </script>
 </body>
 </html>
