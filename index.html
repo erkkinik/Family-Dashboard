@@ -144,6 +144,12 @@
   <span>&#x2744;&#xFE0F;</span>
   <span>&#x26C8;&#xFE0F;</span>
 </div>
+<div id="wx-pill-icons" style="display:none">
+  <span id="wx-wind-icon">&#x1F4A8;</span>
+  <span id="wx-rain-icon">&#x1F327;&#xFE0F;</span>
+  <span id="emoji-pencil">&#x270F;&#xFE0F;</span>
+  <span id="emoji-book">&#x1F4DA;</span>
+</div>
 <div class="app">
   <div class="topbar">
     <div>
@@ -194,81 +200,81 @@ const SOFIA_EXAMS = [
   {date:"2026-05-12",subject:"HI - Historia",detail:"S. 182-202"},
 ];
 const CALENDAR_DATA = [
-  {date:"2026-04-22",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-04-22",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-04-23",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-04-23",time:"14:20",title:"Ihosairaala kaynti",person:"Sofia",location:null},
+  {date:"2026-04-23",time:"14:20",title:"Ihosairaala käynti",person:"Sofia",location:null},
   {date:"2026-04-23",time:"17:00",title:"Eninvest iltameno",person:"Erkki",location:null},
-  {date:"2026-04-23",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
+  {date:"2026-04-23",time:"18:00",title:"Koristreenit",person:"Hanna",location:"Munksnäs Högstadieskola"},
   {date:"2026-04-25",time:null,title:"Kalastusreissu",person:"Erkki",location:"Italia"},
   {date:"2026-04-25",time:"07:30",title:"Flight Helsinki-Verona",person:"Erkki",location:null},
   {date:"2026-04-26",time:"13:00",title:"BK46-Dicken Vit",person:"Sofia",location:"Karis Sports Facilities"},
-  {date:"2026-04-27",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
-  {date:"2026-04-27",time:"18:30",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-04-27",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-04-27",time:"18:30",title:"Tennis",person:"Hanna",location:null},
   {date:"2026-04-27",time:"19:00",title:"Sirkusjumppa",person:"Helen",location:null},
   {date:"2026-04-28",time:"15:00",title:"Hotel Leon d'Oro",person:"Erkki",location:"Verona"},
-  {date:"2026-04-28",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-04-28",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-04-28",time:"16:30",title:"Koristreeni",person:"Hanna",location:"Pirkkolahalli"},
+  {date:"2026-04-28",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-04-28",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-04-29",time:null,title:"Helenin synttarit",person:"Helen",location:null},
+  {date:"2026-04-29",time:null,title:"Helenin syntymäpäivä 🎂",person:"Helen",location:null},
   {date:"2026-04-29",time:"09:00",title:"Vappukemut koulussa",person:"Helen",location:null},
   {date:"2026-04-29",time:"10:00",title:"Flight Verona-Helsinki",person:"Erkki",location:null},
-  {date:"2026-04-29",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-04-29",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-04-30",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
   {date:"2026-04-30",time:"17:00",title:"Wappujuhlat Nuppu & Nuutti",person:null,location:null},
-  {date:"2026-05-04",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
-  {date:"2026-05-04",time:"18:30",title:"Tennis",person:"Helen",location:null},
-  {date:"2026-05-04",time:"19:00",title:"Sirkusjumppa + lopputayts",person:"Helen",location:null},
+  {date:"2026-05-04",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-04",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-05-04",time:"19:00",title:"Sirkuskoulun loppunäytös",person:"Helen",location:null},
   {date:"2026-05-05",time:"10:00",title:"Volvo huolto / Bilia Olari",person:null,location:null},
-  {date:"2026-05-05",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-05",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-05",time:"16:30",title:"Koristreeni",person:"Hanna",location:"Pirkkolahalli"},
+  {date:"2026-05-05",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-05",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-06",time:"18:00",title:"LK 12 Yhtiokoous",person:null,location:"Botta Events"},
-  {date:"2026-05-06",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-06",time:"18:00",title:"LK 12 Yhtiökokous",person:null,location:"Botta Events"},
+  {date:"2026-05-06",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-07",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
   {date:"2026-05-07",time:"15:30",title:"Iltatilaisuus KPMH 100v",person:"Erkki",location:"Finlandiatalo"},
-  {date:"2026-05-07",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
-  {date:"2026-05-08",time:null,title:"Lauri Markkanen turnaus / Jyvaskyla",person:"Helen",location:null},
-  {date:"2026-05-11",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
-  {date:"2026-05-11",time:"18:30",title:"Tennis",person:"Helen",location:null},
-  {date:"2026-05-12",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-12",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-07",time:"18:00",title:"Koristreenit",person:"Hanna",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-08",time:null,title:"Lauri Markkanen turnaus / Jyväskylä",person:"Helen",location:null},
+  {date:"2026-05-11",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-11",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-05-12",time:"16:30",title:"Koristreeni",person:"Hanna",location:"Pirkkolahalli"},
+  {date:"2026-05-12",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-12",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-13",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-13",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-14",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-14",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
-  {date:"2026-05-15",time:null,title:"Sofian nimipaiva",person:"Sofia",location:null},
+  {date:"2026-05-14",time:"18:00",title:"Koristreenit",person:"Hanna",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-15",time:null,title:"Sofian nimipäivä",person:"Sofia",location:null},
   {date:"2026-05-16",time:null,title:"Siuntio Cup",person:"Sofia",location:null},
-  {date:"2026-05-18",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
-  {date:"2026-05-18",time:"18:30",title:"Tennis",person:"Helen",location:null},
-  {date:"2026-05-19",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-19",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-18",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-18",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-05-19",time:"16:30",title:"Koristreeni",person:"Hanna",location:"Pirkkolahalli"},
+  {date:"2026-05-19",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-19",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-20",time:"17:30",title:"ToPo kauden paattajaiset",person:"Helen",location:null},
-  {date:"2026-05-20",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-20",time:"17:30",title:"ToPo kauden päättäjäiset",person:"Hanna",location:null},
+  {date:"2026-05-20",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-21",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-21",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
+  {date:"2026-05-21",time:"18:00",title:"Koristreenit",person:"Hanna",location:"Munksnäs Högstadieskola"},
   {date:"2026-05-23",time:"11:30",title:"UJ",person:"Erkki",location:null},
-  {date:"2026-05-24",time:"10:00",title:"ToPo paattajaiset / Usvalla",person:null,location:null},
-  {date:"2026-05-25",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munknas Hogstadieskola"},
-  {date:"2026-05-25",time:"18:30",title:"Tennis",person:"Helen",location:null},
-  {date:"2026-05-26",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-26",time:"17:30",title:"Kasistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
+  {date:"2026-05-24",time:"10:00",title:"ToPo päättäjäiset / Usvalla",person:null,location:null},
+  {date:"2026-05-25",time:"17:30",title:"Koristreeni / haku 18:30",person:"Helen",location:"Munksnäs Högstadieskola"},
+  {date:"2026-05-25",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-05-26",time:"16:30",title:"Koristreeni",person:"Hanna",location:"Pirkkolahalli"},
+  {date:"2026-05-26",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
   {date:"2026-05-26",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-27",time:"18:30",title:"Kasistreeni",person:"Sofia",location:"Pirkkolahalli"},
+  {date:"2026-05-27",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
   {date:"2026-05-28",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-28",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munknas Hogstadieskola"},
+  {date:"2026-05-28",time:"18:00",title:"Koristreenit",person:"Hanna",location:"Munksnäs Högstadieskola"},
   {date:"2026-05-30",time:"15:00",title:"Ronja yo-juhlat",person:null,location:null},
   {date:"2026-06-02",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
   {date:"2026-06-03",time:"15:00",title:"Ruotsin risteily Silja Symphony",person:"Sofia",location:"Olympia Terminal"},
-  {date:"2026-06-04",time:"07:00",title:"Oulussa",person:"Helen",location:null},
+  {date:"2026-06-04",time:"07:00",title:"Oulussa",person:"Hanna",location:null},
   {date:"2026-06-09",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-06-12",time:"13:30",title:"HLP Kesajuhlat",person:"Erkki",location:null},
+  {date:"2026-06-12",time:"13:30",title:"HLP Kesäjuhlat",person:"Erkki",location:null},
   {date:"2026-06-14",time:"11:30",title:"Julian konfirmaatio",person:null,location:"Turku"},
   {date:"2026-06-16",time:"10:00",title:"Rex Hallituksen kokous",person:"Erkki",location:"Hartola"},
   {date:"2026-06-16",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
   {date:"2026-06-23",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-06-25",time:"07:00",title:"Oulussa",person:"Helen",location:null},
-  {date:"2026-06-26",time:"12:00",title:"Kalastusreissu",person:"Erkki",location:"Laskoski, Mikkeli"},
+  {date:"2026-06-25",time:"07:00",title:"Oulussa",person:"Hanna",location:null},
+  {date:"2026-06-26",time:"12:00",title:"Kalastusreissu",person:"Erkki",location:"Läsäkoski, Mikkeli"},
   {date:"2026-06-29",time:null,title:"Thessaloniki - matka alkaa!",person:null,location:null},
   {date:"2026-06-30",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
   {date:"2026-07-07",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
@@ -276,7 +282,7 @@ const CALENDAR_DATA = [
   {date:"2026-07-21",time:null,title:"Hanko ravut",person:null,location:null},
   {date:"2026-07-21",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
   {date:"2026-07-28",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-07-31",time:null,title:"Helenin nimipaiva",person:"Helen",location:null},
+  {date:"2026-07-31",time:null,title:"Helenin nimipäivä",person:"Helen",location:null},
 ];
 
 function useCalendar(){ return CALENDAR_DATA; }
@@ -285,7 +291,7 @@ function useCalendar(){ return CALENDAR_DATA; }
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const DAYNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const WDAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-const PCOLORS={Helen:"#60b4ff",Sofia:"#ffaa55",Erkki:"#5dd68a"};
+const PCOLORS={Helen:"#60b4ff",Sofia:"#ffaa55",Erkki:"#5dd68a",Hanna:"#E07DC2"};
 
 function pad(n){return String(n).padStart(2,"0");}
 function getDateStr(off){off=off||0;const d=new Date();d.setDate(d.getDate()+off);return d.toISOString().slice(0,10);}
@@ -418,7 +424,9 @@ function buildWeatherCard(d,isToday){
   var card=el("div","card "+(isToday?"card-blue":"card-blue2"));
   var rainStyle=rh?"background:rgba(96,180,255,0.12);border:1px solid "+rc+"44":rm?"background:rgba(167,139,250,0.10);border:1px solid "+rc+"44":"background:rgba(255,255,255,0.04);border:1px solid "+rc+"44";
   var rainColor=rh?"#93c5fd":rm?"#c4b5fd":"#778899";
-  card.innerHTML="<div class='wx-top'><div class='wx-icon'>"+d.icon+"</div><div><div style='display:flex;align-items:baseline;gap:5px;margin-bottom:2px'><span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span><span class='wx-date'>"+d.date+"</span></div><div class='wx-condition'>"+d.condition+"</div></div></div><div class='wx-temp'><span class='wx-high'>"+d.high+"</span><span class='wx-sep'>/</span><span class='wx-low'>"+d.low+"</span><span class='wx-unit'>C</span></div><div class='wx-pills'><div class='wx-pill wx-wind-pill'><span class='wx-pill-icon'>W</span><div><div class='wx-pill-val' style='color:#d8eef8'>"+d.wind+" <span class='wx-pill-unit' style='color:#6a90a8'>m/s</span></div><div class='wx-pill-lbl'>WIND</div></div></div><div class='wx-pill' style='"+rainStyle+"'><span class='wx-pill-icon'>R</span><div><div class='wx-pill-val' style='color:"+rainColor+"'>"+d.rain+"<span class='wx-pill-unit' style='color:"+rc+"'>%</span></div><div class='wx-pill-lbl'>RAIN</div></div></div></div>";
+  var windIcon=document.getElementById("wx-wind-icon")?document.getElementById("wx-wind-icon").innerHTML:"💨";
+  var rainIcon=document.getElementById("wx-rain-icon")?document.getElementById("wx-rain-icon").innerHTML:"🌧️";
+  card.innerHTML="<div class='wx-top'><div class='wx-icon'>"+d.icon+"</div><div><div style='display:flex;align-items:baseline;gap:5px;margin-bottom:2px'><span class='wx-label' style='color:"+(isToday?"#60b4ff":"#7ab8d8")+"'>"+d.label+"</span><span class='wx-date'>"+d.date+"</span></div><div class='wx-condition'>"+d.condition+"</div></div></div><div class='wx-temp'><span class='wx-high'>"+d.high+"</span><span class='wx-sep'>/</span><span class='wx-low'>"+d.low+"</span><span class='wx-unit'>C</span></div><div class='wx-pills'><div class='wx-pill wx-wind-pill'><span class='wx-pill-icon'>"+windIcon+"</span><div><div class='wx-pill-val' style='color:#d8eef8'>"+d.wind+" <span class='wx-pill-unit' style='color:#6a90a8'>m/s</span></div><div class='wx-pill-lbl'>WIND</div></div></div><div class='wx-pill' style='"+rainStyle+"'><span class='wx-pill-icon'>"+rainIcon+"</span><div><div class='wx-pill-val' style='color:"+rainColor+"'>"+d.rain+"<span class='wx-pill-unit' style='color:"+rc+"'>%</span></div><div class='wx-pill-lbl'>RAIN</div></div></div></div>";
   return card;
 }
 
@@ -465,8 +473,10 @@ function render(){
 
   var eh1=lbl("Upcoming exams","#c060c0");eh1.style.marginTop="16px";grid.appendChild(eh1);
   var eh2=lbl("Upcoming exams","#c060c0");eh2.style.marginTop="16px";grid.appendChild(eh2);
-  grid.appendChild(buildExamCard("Sofia","#ffaa55","S",SOFIA_EXAMS));
-  grid.appendChild(buildExamCard("Helen","#60b4ff","H",HELEN_EXAMS));
+  var sofiaEmoji=document.getElementById("emoji-pencil")?document.getElementById("emoji-pencil").innerHTML:"✏️";
+  var helenEmoji=document.getElementById("emoji-book")?document.getElementById("emoji-book").innerHTML:"📚";
+  grid.appendChild(buildExamCard("Sofia","#ffaa55",sofiaEmoji,SOFIA_EXAMS));
+  grid.appendChild(buildExamCard("Helen","#60b4ff",helenEmoji,HELEN_EXAMS));
 
   var ch1=lbl("Calendar Today","#d4831a");ch1.style.marginTop="16px";grid.appendChild(ch1);
   var ch2=lbl("Calendar "+tmrLabel,"#3a9ee0");ch2.style.marginTop="16px";grid.appendChild(ch2);
