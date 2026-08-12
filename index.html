@@ -488,7 +488,7 @@ function render(){
 function buildElectricity(){
   var section=document.getElementById("electricity-section");
   section.innerHTML="<div class='elec-label'>Electricity price today</div><div class='elec-card' id='elec-card'><div style='color:#6a90a8;font-size:10px;padding:10px 0;text-align:center'>Loading...</div></div>";
-  var url="https://api.spot-hinta.fi/TodayAndDayForward";
+  var url="https://api.spot-hinta.fi/Today";
   Promise.race([
     fetch(url),
     new Promise(function(_,r){setTimeout(function(){r(new Error("timeout"));},8000);})
@@ -496,21 +496,21 @@ function buildElectricity(){
   .then(function(r){return r.json();})
   .then(function(data){
     if(!data||!data.length){throw new Error("no data");}
-    // Filter to today's hours in Finnish time
     var now=new Date();
-    var todayStr=now.toLocaleDateString("fi-FI",{timeZone:"Europe/Helsinki",year:"numeric",month:"2-digit",day:"2-digit"});
-    var tp=todayStr.split(".");
-    var todayISO=tp[2]+"-"+tp[1]+"-"+tp[0];
     var nowH=parseInt(now.toLocaleString("fi-FI",{timeZone:"Europe/Helsinki",hour:"2-digit",hour12:false}));
-    var hours=data.filter(function(r){
-      // DateTime field e.g. "2026-08-12T00:00:00"
-      return r.DateTime&&r.DateTime.startsWith(todayISO);
-    }).map(function(r){
+    // Deduplicate: one entry per hour (0-23)
+    var hourMap={};
+    data.forEach(function(r){
+      if(!r.DateTime)return;
       var h=parseInt(r.DateTime.split("T")[1].split(":")[0]);
-      // PriceWithTax is in EUR/kWh, convert to c/kWh
-      var price=(r.PriceWithTax||r.Price||0)*100;
-      return {h:h,price:price};
-    }).sort(function(a,b){return a.h-b.h;});
+      if(h>=0&&h<24&&!hourMap.hasOwnProperty(h)){
+        hourMap[h]=(r.PriceWithTax||r.Price||0)*100;
+      }
+    });
+    var hours=[];
+    for(var h=0;h<24;h++){
+      if(hourMap.hasOwnProperty(h))hours.push({h:h,price:hourMap[h]});
+    }
     if(!hours.length){throw new Error("no today data");}
     var prices=hours.map(function(x){return x.price;});
     var maxP=Math.max.apply(null,prices);
