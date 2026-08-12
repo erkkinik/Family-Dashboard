@@ -136,10 +136,11 @@
     .elec-meta { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
     .elec-title { font-size:11px; font-weight:600; color:#d8eef8; }
     .elec-avg { font-size:10px; color:#6a90a8; }
-    .elec-chart { display:flex; align-items:flex-end; gap:2px; height:60px; }
-    .elec-bar-wrap { display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end; }
-    .elec-bar { width:100%; border-radius:2px 2px 0 0; min-height:2px; transition:height 0.3s; }
-    .elec-hour { font-size:6px; color:#445566; margin-top:2px; }
+    .elec-chart { display:flex; align-items:flex-end; gap:2px; }
+    .elec-bar-wrap { display:flex; flex-direction:column; align-items:center; flex:1; justify-content:flex-end; }
+    .elec-bars-area { display:flex; align-items:flex-end; width:100%; height:52px; border-bottom:1px solid rgba(255,255,255,0.25); }
+    .elec-bar { width:100%; border-radius:2px 2px 0 0; min-height:2px; }
+    .elec-hour { font-size:6px; color:#445566; margin-top:2px; text-align:center; }
     .elec-now-line { position:relative; }
   </style>
 </head>
@@ -487,67 +488,57 @@ function render(){
 function buildElectricity(){
   var section=document.getElementById("electricity-section");
   section.innerHTML="<div class='elec-label'>Electricity price today</div><div class='elec-card' id='elec-card'><div style='color:#6a90a8;font-size:10px;padding:10px 0;text-align:center'>Loading...</div></div>";
-  var url="https://public-data.volton.energy/v1/day-ahead-spot-fi/latest.json";
+  var url="https://api.spot-hinta.fi/TodayAndDayForward";
   Promise.race([
     fetch(url),
     new Promise(function(_,r){setTimeout(function(){r(new Error("timeout"));},8000);})
   ])
   .then(function(r){return r.json();})
   .then(function(data){
-    var rows=data.rows||[];
-    if(!rows.length){throw new Error("no data");}
-    // Get today's date string in Helsinki time
+    if(!data||!data.length){throw new Error("no data");}
+    // Filter to today's hours in Finnish time
     var now=new Date();
-    var helsStr=now.toLocaleDateString("fi-FI",{timeZone:"Europe/Helsinki",year:"numeric",month:"2-digit",day:"2-digit"});
-    var parts=helsStr.split(".");
-    var todayStr=parts[2]+"-"+parts[1]+"-"+parts[0]; // YYYY-MM-DD
-    var nowHelsHour=parseInt(now.toLocaleString("fi-FI",{timeZone:"Europe/Helsinki",hour:"2-digit",hour12:false}));
-    // Group 15-min intervals into hours for today
-    var hourMap={};
-    rows.forEach(function(r){
-      var utcStr=r.mtu_start; // "2026-08-12T14:00:00Z"
-      var utcDate=new Date(utcStr);
-      var localDateStr=utcDate.toLocaleDateString("fi-FI",{timeZone:"Europe/Helsinki",year:"numeric",month:"2-digit",day:"2-digit"});
-      var lp=localDateStr.split(".");
-      var localDay=lp[2]+"-"+lp[1]+"-"+lp[0];
-      if(localDay!==todayStr)return;
-      var h=parseInt(utcDate.toLocaleString("fi-FI",{timeZone:"Europe/Helsinki",hour:"2-digit",hour12:false}));
-      if(!hourMap[h])hourMap[h]={sum:0,count:0};
-      hourMap[h].sum+=r.price_eur_mwh;
-      hourMap[h].count++;
-    });
-    var hours=[];
-    for(var h=0;h<24;h++){
-      if(hourMap[h]){
-        hours.push({h:h,price:hourMap[h].sum/hourMap[h].count/10}); // EUR/MWh → c/kWh
-      }
-    }
+    var todayStr=now.toLocaleDateString("fi-FI",{timeZone:"Europe/Helsinki",year:"numeric",month:"2-digit",day:"2-digit"});
+    var tp=todayStr.split(".");
+    var todayISO=tp[2]+"-"+tp[1]+"-"+tp[0];
+    var nowH=parseInt(now.toLocaleString("fi-FI",{timeZone:"Europe/Helsinki",hour:"2-digit",hour12:false}));
+    var hours=data.filter(function(r){
+      // DateTime field e.g. "2026-08-12T00:00:00"
+      return r.DateTime&&r.DateTime.startsWith(todayISO);
+    }).map(function(r){
+      var h=parseInt(r.DateTime.split("T")[1].split(":")[0]);
+      // PriceWithTax is in EUR/kWh, convert to c/kWh
+      var price=(r.PriceWithTax||r.Price||0)*100;
+      return {h:h,price:price};
+    }).sort(function(a,b){return a.h-b.h;});
     if(!hours.length){throw new Error("no today data");}
     var prices=hours.map(function(x){return x.price;});
     var maxP=Math.max.apply(null,prices);
     var minP=Math.min.apply(null,prices);
     var avgP=(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(2);
-    var nowEntry=hours.filter(function(x){return x.h===nowHelsHour;})[0];
+    var nowEntry=hours.filter(function(x){return x.h===nowH;})[0];
     var nowPrice=nowEntry?nowEntry.price:null;
     var card=document.getElementById("elec-card");
     var nowStr=nowPrice!==null?" &nbsp;·&nbsp; Now: <span style='color:#60b4ff;font-weight:700'>"+nowPrice.toFixed(2)+"c</span>":"";
-    var html="<div class='elec-meta'><span class='elec-title'>Finland · c/kWh</span><span class='elec-avg'>avg "+avgP+"c"+nowStr+"</span></div>";
-    html+="<div class='elec-chart'>";
+    var html="<div class='elec-meta'><span class='elec-title'>Finland · c/kWh (sis. ALV)</span><span class='elec-avg'>avg "+avgP+"c"+nowStr+"</span></div>";
+    // Build two rows: bars area (with baseline border-bottom) then hours
+    var barsHtml="<div class='elec-bars-area' style='display:flex;align-items:flex-end;width:100%;height:52px;border-bottom:1px solid rgba(255,255,255,0.25);gap:2px;'>";
+    var hoursHtml="<div style='display:flex;gap:2px;width:100%;margin-top:2px;'>";
     hours.forEach(function(x){
       var range=maxP-minP;
       var pct=range>0?(x.price-minP)/range:0.5;
-      var barH=Math.max(3,Math.round(pct*52));
-      var isCurrent=x.h===nowHelsHour;
+      var barH=Math.max(3,Math.round(pct*48));
+      var isCurrent=x.h===nowH;
       var isHigh=x.price>parseFloat(avgP)*1.3;
       var isLow=x.price<parseFloat(avgP)*0.7;
-      var color=isCurrent?"#60b4ff":isHigh?"#f87171":isLow?"#4ade80":"#2a6a9a";
+      var color=isCurrent?"#facc15":isHigh?"#f87171":isLow?"#4ade80":"#2a6a9a";
       var showHour=(x.h%4===0);
-      html+="<div class='elec-bar-wrap'>";
-      html+="<div class='elec-bar' style='height:"+barH+"px;background:"+color+";'></div>";
-      html+="<div class='elec-hour'>"+(showHour?x.h:"")+"</div>";
-      html+="</div>";
+      barsHtml+="<div style='flex:1;display:flex;align-items:flex-end;'><div style='width:100%;height:"+barH+"px;background:"+color+";border-radius:2px 2px 0 0;'></div></div>";
+      hoursHtml+="<div style='flex:1;font-size:6px;color:#445566;text-align:center;'>"+(showHour?x.h:"")+"</div>";
     });
-    html+="</div>";
+    barsHtml+="</div>";
+    hoursHtml+="</div>";
+    html+=barsHtml+hoursHtml;
     card.innerHTML=html;
   })
   .catch(function(e){
