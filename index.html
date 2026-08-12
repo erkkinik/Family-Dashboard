@@ -487,37 +487,57 @@ function render(){
 function buildElectricity(){
   var section=document.getElementById("electricity-section");
   section.innerHTML="<div class='elec-label'>Electricity price today</div><div class='elec-card' id='elec-card'><div style='color:#6a90a8;font-size:10px;padding:10px 0;text-align:center'>Loading...</div></div>";
-  var url="https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&currency=EUR&aggregation=DeliveryPeriod&deliveryAreas=FI";
+  var url="https://public-data.volton.energy/v1/day-ahead-spot-fi/latest.json";
   Promise.race([
     fetch(url),
     new Promise(function(_,r){setTimeout(function(){r(new Error("timeout"));},8000);})
   ])
   .then(function(r){return r.json();})
   .then(function(data){
-    var rows=data.multiAreaEntries||[];
+    var rows=data.rows||[];
     if(!rows.length){throw new Error("no data");}
-    var hours=rows.map(function(r){
-      var t=r.deliveryStart||"";
-      var h=parseInt(t.split("T")[1]||"0");
-      var price=r.entryPerArea&&r.entryPerArea.FI!=null?parseFloat(r.entryPerArea.FI)/10:null;
-      return {h:h,price:price};
-    }).filter(function(x){return x.price!==null;});
-    if(!hours.length){throw new Error("no FI data");}
+    // Get today's date string in Helsinki time
+    var now=new Date();
+    var helsStr=now.toLocaleDateString("fi-FI",{timeZone:"Europe/Helsinki",year:"numeric",month:"2-digit",day:"2-digit"});
+    var parts=helsStr.split(".");
+    var todayStr=parts[2]+"-"+parts[1]+"-"+parts[0]; // YYYY-MM-DD
+    var nowHelsHour=parseInt(now.toLocaleString("fi-FI",{timeZone:"Europe/Helsinki",hour:"2-digit",hour12:false}));
+    // Group 15-min intervals into hours for today
+    var hourMap={};
+    rows.forEach(function(r){
+      var utcStr=r.mtu_start; // "2026-08-12T14:00:00Z"
+      var utcDate=new Date(utcStr);
+      var localDateStr=utcDate.toLocaleDateString("fi-FI",{timeZone:"Europe/Helsinki",year:"numeric",month:"2-digit",day:"2-digit"});
+      var lp=localDateStr.split(".");
+      var localDay=lp[2]+"-"+lp[1]+"-"+lp[0];
+      if(localDay!==todayStr)return;
+      var h=parseInt(utcDate.toLocaleString("fi-FI",{timeZone:"Europe/Helsinki",hour:"2-digit",hour12:false}));
+      if(!hourMap[h])hourMap[h]={sum:0,count:0};
+      hourMap[h].sum+=r.price_eur_mwh;
+      hourMap[h].count++;
+    });
+    var hours=[];
+    for(var h=0;h<24;h++){
+      if(hourMap[h]){
+        hours.push({h:h,price:hourMap[h].sum/hourMap[h].count/10}); // EUR/MWh → c/kWh
+      }
+    }
+    if(!hours.length){throw new Error("no today data");}
     var prices=hours.map(function(x){return x.price;});
     var maxP=Math.max.apply(null,prices);
     var minP=Math.min.apply(null,prices);
-    var avgP=(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(1);
-    var nowH=new Date().getHours();
-    var nowPrice=null;
-    hours.forEach(function(x){if(x.h===nowH)nowPrice=x.price;});
+    var avgP=(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(2);
+    var nowEntry=hours.filter(function(x){return x.h===nowHelsHour;})[0];
+    var nowPrice=nowEntry?nowEntry.price:null;
     var card=document.getElementById("elec-card");
-    var nowStr=nowPrice!==null?". Now: <span style='color:#60b4ff;font-weight:700'>"+nowPrice.toFixed(1)+" c/kWh</span>":"";
-    var html="<div class='elec-meta'><span class='elec-title'>Finland · c/kWh (incl. VAT)</span><span class='elec-avg'>avg "+avgP+"c"+nowStr+"</span></div>";
+    var nowStr=nowPrice!==null?" &nbsp;·&nbsp; Now: <span style='color:#60b4ff;font-weight:700'>"+nowPrice.toFixed(2)+"c</span>":"";
+    var html="<div class='elec-meta'><span class='elec-title'>Finland · c/kWh</span><span class='elec-avg'>avg "+avgP+"c"+nowStr+"</span></div>";
     html+="<div class='elec-chart'>";
     hours.forEach(function(x){
-      var pct=maxP>minP?(x.price-minP)/(maxP-minP):0.5;
+      var range=maxP-minP;
+      var pct=range>0?(x.price-minP)/range:0.5;
       var barH=Math.max(3,Math.round(pct*52));
-      var isCurrent=x.h===nowH;
+      var isCurrent=x.h===nowHelsHour;
       var isHigh=x.price>parseFloat(avgP)*1.3;
       var isLow=x.price<parseFloat(avgP)*0.7;
       var color=isCurrent?"#60b4ff":isHigh?"#f87171":isLow?"#4ade80":"#2a6a9a";
@@ -530,7 +550,7 @@ function buildElectricity(){
     html+="</div>";
     card.innerHTML=html;
   })
-  .catch(function(){
+  .catch(function(e){
     var card=document.getElementById("elec-card");
     if(card)card.innerHTML="<div style='color:#6a90a8;font-size:10px;padding:10px 0;text-align:center'>Price data unavailable</div>";
   });
@@ -555,9 +575,13 @@ setInterval(function(){
   var cards=grid.children;
   if(cards.length<6)return;
   var s1=buildChildCard("Sofia","#ffaa55","S",isWeekend?[]:SOFIA_SCHEDULE[todayDow],true);
+  var s2=buildChildCard("Sofia","#ffaa55","S",SOFIA_SCHEDULE[tmrDow]||[],false);
   var h1=buildChildCard("Helen","#60b4ff","H",isWeekend?[]:HELEN_SCHEDULE[todayDow],true);
+  var h2=buildChildCard("Helen","#60b4ff","H",HELEN_SCHEDULE[tmrDow]||[],false);
   grid.replaceChild(s1,cards[2]);
-  grid.replaceChild(h1,cards[3]);
+  grid.replaceChild(s2,cards[3]);
+  grid.replaceChild(h1,cards[4]);
+  grid.replaceChild(h2,cards[5]);
 },60000);
 
 </script>
