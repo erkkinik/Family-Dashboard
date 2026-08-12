@@ -528,10 +528,8 @@ function buildElectricity(){
       var range=maxP-minP;
       var pct=range>0?(x.price-minP)/range:0.5;
       var barH=Math.max(3,Math.round(pct*48));
-      var isCurrent=x.h===nowH;
-      var isHigh=x.price>parseFloat(avgP)*1.3;
-      var isLow=x.price<parseFloat(avgP)*0.7;
-      var color=isCurrent?"#facc15":isHigh?"#f87171":isLow?"#4ade80":"#2a6a9a";
+      var avg=parseFloat(avgP);
+      var color=x.price>avg*1.25?"#f87171":x.price<avg*0.75?"#4ade80":"#facc15";
       var showHour=(x.h%4===0);
       barsHtml+="<div style='flex:1;display:flex;align-items:flex-end;'><div style='width:100%;height:"+barH+"px;background:"+color+";border-radius:2px 2px 0 0;'></div></div>";
       hoursHtml+="<div style='flex:1;font-size:6px;color:#445566;text-align:center;'>"+(showHour?x.h:"")+"</div>";
