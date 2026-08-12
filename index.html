@@ -35,11 +35,11 @@
     .week-day.normal .week-label, .week-day.normal .week-date { color:#888; }
 
     /* GRID */
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; padding:7px 2px 9px; flex:1; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; padding:7px 2px 9px; grid-auto-rows:auto; align-items:start; }
     .section-label { font-size:8px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:5px; color:#888; }
 
     /* CARDS */
-    .card { border-radius:10px; padding:5px 3px; box-sizing:border-box; height:100%; display:flex; flex-direction:column; }
+    .card { border-radius:10px; padding:5px 3px; box-sizing:border-box; display:flex; flex-direction:column; }
     .card-dark { background:#16161a; }
     .card-blue { background:#0f2440; border:1.5px solid rgba(96,180,255,0.35); align-items:center; }
     .card-blue2 { background:#0d1e2e; border:1.5px solid rgba(96,180,255,0.20); align-items:center; }
@@ -130,6 +130,17 @@
     .cd-glow-school { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#4caf5015,transparent 70%); top:-20px; right:-20px; }
     .cd-glow-greece { position:absolute; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,#60b4ff15,transparent 70%); top:-20px; left:-20px; }
     .cd-section-label { grid-column:1/-1; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin-top:16px; margin-bottom:8px; }
+    #electricity-section { padding:0 2px 12px; }
+    .elec-label { font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin-top:16px; margin-bottom:8px; }
+    .elec-card { background:#0a1a2a; border:1.5px solid rgba(96,180,255,0.2); border-radius:14px; padding:10px 10px 6px; }
+    .elec-meta { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+    .elec-title { font-size:11px; font-weight:600; color:#d8eef8; }
+    .elec-avg { font-size:10px; color:#6a90a8; }
+    .elec-chart { display:flex; align-items:flex-end; gap:2px; height:60px; }
+    .elec-bar-wrap { display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end; }
+    .elec-bar { width:100%; border-radius:2px 2px 0 0; min-height:2px; transition:height 0.3s; }
+    .elec-hour { font-size:6px; color:#445566; margin-top:2px; }
+    .elec-now-line { position:relative; }
   </style>
 </head>
 <body>
@@ -167,23 +178,24 @@
   <div class="grid" id="main-grid"></div>
 
   <div id="countdown-section"></div>
+  <div id="electricity-section"></div>
   <div class="footer">Sofia: Mon/Wed/Thu 08:30 · Tue 09:15 · Fri 10:15 · Helen: Mon/Wed/Thu 08:15 · Tue/Fri 09:15</div>
 </div>
 <script>
 //  DATA 
 const SOFIA_SCHEDULE = {
-  1:[{time:"08:30-09:15",subject:"Matematiikka"},{time:"09:15-10:00",subject:"Suomenkieli"},{time:"10:15-11:00",subject:"Englanti"},{time:"11:10-11:55",subject:"Ymparistoppi"},{time:"12:30-13:15",subject:"Liikunta"},{time:"13:20-14:05",subject:"Liikunta"}],
-  2:[{time:"09:15-10:00",subject:"Englanti"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Historia"},{time:"12:30-13:15",subject:"Suomenkieli"},{time:"13:20-14:05",subject:"Kasityo"},{time:"14:15-15:00",subject:"Kasityo"}],
-  3:[{time:"08:30-09:15",subject:"Uskonto"},{time:"09:15-10:00",subject:"Historia"},{time:"10:15-11:00",subject:"Matematiikka"},{time:"11:10-11:55",subject:"Ymparistoppi"},{time:"12:30-13:15",subject:"Espanja"},{time:"13:20-14:05",subject:"Valinainen"}],
-  4:[{time:"08:30-09:15",subject:"Ruotsi"},{time:"09:15-10:00",subject:"Kuvataide"},{time:"10:15-11:00",subject:"Kuvataide"},{time:"11:10-11:55",subject:"Musiikki"},{time:"12:30-13:15",subject:"Valinainen"},{time:"13:20-14:05",subject:"Valinainen"}],
-  5:[{time:"10:15-11:00",subject:"Suomenkieli"},{time:"11:10-11:55",subject:"Suomenkieli"},{time:"12:30-13:15",subject:"Ruotsi"}],
+  1:[{time:"09:00-10:00",subject:"Kotitalous (KS)"},{time:"10:00-11:00",subject:"Kotitalous (KS)"},{time:"11:00-12:00",subject:"Ruotsi (RUB1)"},{time:"13:00-14:00",subject:"Historia (HI)"}],
+  2:[{time:"09:00-10:00",subject:"Elämänkatsomus (UEEV)"},{time:"09:00-10:00",subject:"Suomenkieli (SUK)"},{time:"10:00-11:00",subject:"Suomenkieli (SUK)"},{time:"11:00-12:00",subject:"Matematiikka (MA)"},{time:"13:00-14:00",subject:"Musiikki (MU)"},{time:"13:00-14:00",subject:"Biologia (BI)"},{time:"14:00-15:00",subject:"Biologia (BI)"},{time:"15:00-16:00",subject:"Englanti (ENA1)"}],
+  3:[{time:"10:00-11:00",subject:"Biologia (BI)"},{time:"11:00-12:00",subject:"Englanti (ENA1)"},{time:"13:00-14:00",subject:"Suomenkieli (SUK)"},{time:"14:00-15:00",subject:"Suomenkieli (SUK)"}],
+  4:[{time:"09:30-10:30",subject:"Kemia (KE)"},{time:"11:00-12:00",subject:"Matematiikka (MA)"},{time:"13:00-14:00",subject:"Matematiikka (MA)"},{time:"14:00-15:00",subject:"Kotitalous (KO)"},{time:"15:00-15:45",subject:"Kotitalous (KO)"}],
+  5:[{time:"09:00-10:00",subject:"Kuvataide (KU)"},{time:"10:00-11:00",subject:"Teknologia (TE)"},{time:"11:00-12:00",subject:"Historia (HI)"},{time:"13:00-14:00",subject:"Liikunta (LI)"},{time:"14:00-14:30",subject:"Liikunta (LI)"},{time:"15:00-16:00",subject:"Ruotsi (RUB1)"}],
 };
 const HELEN_SCHEDULE = {
-  1:[{time:"08:15-10:00",subject:"vEAA2 (OjaKa)"},{time:"10:15-11:00",subject:"SUK (RaiJu)"},{time:"12:00-12:45",subject:"MA (RaiJu)"},{time:"13:00-13:45",subject:"YM (RaiJu)"},{time:"13:45-14:30",subject:"MU (RaiJu)"}],
-  2:[{time:"09:15-10:00",subject:"MA (RaiJu)"},{time:"10:15-11:00",subject:"SUK (RaiJu)"},{time:"12:00-12:45",subject:"ENA1 (LehKi)"},{time:"13:00-13:45",subject:"ENA1 (LehKi)"},{time:"13:45-14:30",subject:"SUK (RaiJu)"}],
-  3:[{time:"08:15-09:00",subject:"UEEV (Ryy)"},{time:"09:15-10:00",subject:"UEEV (Nau)"},{time:"10:15-11:00",subject:"KU (JohAn)"},{time:"11:15-12:00",subject:"SUK (RaiJu)"},{time:"12:00-12:45",subject:"MA (RaiJu)"},{time:"13:00-13:45",subject:"MA (RaiJu)"},{time:"13:45-14:30",subject:"LI (RaiJu)"}],
-  4:[{time:"08:15-09:00",subject:"KU (JohAn)"},{time:"09:15-10:00",subject:"YH (JohAn)"},{time:"10:15-11:00",subject:"KS (SilEe)"},{time:"12:00-12:45",subject:"KS (SilEe)"}],
-  5:[{time:"09:15-10:00",subject:"YM (RaiJu)"},{time:"10:15-11:00",subject:"YM (RaiJu)"},{time:"13:00-13:45",subject:"LI (RaiJu)"},{time:"13:45-14:30",subject:"SUK (RaiJu)"}],
+  1:[{time:"08:15-09:00",subject:"Suomenkieli (SUK)"},{time:"10:45-11:30",subject:"Historia (HI)"},{time:"12:30-13:15",subject:"Matematiikka (MA)"},{time:"13:20-14:05",subject:"Matematiikka (MA)"},{time:"14:20-15:05",subject:"Liikunta (LI)"}],
+  2:[{time:"08:15-09:00",subject:"Englanti (EN)"},{time:"09:15-10:00",subject:"Suomenkieli (SUK)"},{time:"10:00-10:45",subject:"Suomenkieli (SUK)"},{time:"12:30-13:15",subject:"Ympäristö (YM)"},{time:"13:20-14:05",subject:"Historia (HI)"},{time:"14:20-15:05",subject:"Matematiikka (MA)"}],
+  3:[{time:"09:15-10:00",subject:"Liikunta (LI)"},{time:"12:30-13:15",subject:"Suomenkieli (SUK)"},{time:"13:20-14:05",subject:"Musiikki (MU)"},{time:"14:05-14:50",subject:"Suomenkieli (SUK)"}],
+  4:[{time:"08:15-09:00",subject:"Espanja (ES)"},{time:"09:15-10:00",subject:"Espanja (ES)"},{time:"10:00-10:45",subject:"Kuvataide (KU)"},{time:"10:45-11:30",subject:"Kuvataide (KU)"},{time:"12:30-13:15",subject:"Käsityö (KS)"},{time:"13:20-14:05",subject:"Käsityö (KS)"},{time:"14:20-15:05",subject:"Englanti (EN)"}],
+  5:[{time:"08:15-09:00",subject:"Kemia (V.Kem)"},{time:"09:15-10:00",subject:"Kemia (V.Kem)"},{time:"10:00-10:45",subject:"Englanti (EN)"},{time:"12:30-13:15",subject:"Matematiikka (MA)"},{time:"13:20-14:05",subject:"Ympäristö (YM)"},{time:"14:20-15:05",subject:"Espanja (SA)"}],
 };
 const HELEN_EXAMS = [
   {date:"2026-05-08",subject:"SUK - Suomenkieli",detail:"Kielitaito s. 118-142"},
@@ -200,82 +212,50 @@ const SOFIA_EXAMS = [
   {date:"2026-05-12",subject:"HI - Historia",detail:"S. 182-202"},
 ];
 const CALENDAR_DATA = [
-  // May
-  {date:"2026-05-03",time:"09:00",title:"Käsipallo",person:"Sofia",location:"Pirkkola, vanha halli"},
-  {date:"2026-05-04",time:"17:30",title:"Koristreeni / haku 18.30",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-04",time:"18:30",title:"Tennis",person:"Hanna",location:null},
-  {date:"2026-05-04",time:"19:00",title:"Sirkusjumppa loppuesitys",person:"Helen",location:null},
-  {date:"2026-05-05",time:"10:00",title:"Volvo huolto / Bilia Olari",person:null,location:null},
-  {date:"2026-05-05",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-05",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
-  {date:"2026-05-05",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-06",time:"18:00",title:"LK 12 Yhtiökokous",person:null,location:"Botta Events"},
-  {date:"2026-05-06",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
-  {date:"2026-05-07",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-07",time:"15:30",title:"Iltatilaisuus KPMH 100v",person:"Erkki",location:"Finlandiatalo"},
-  {date:"2026-05-07",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-08",time:"09:00",title:"Käsipallo",person:"Sofia",location:"Pirkkola, vanha halli"},
-  {date:"2026-05-08",time:"14:15",title:"Helsinki-Turku bussi",person:"Sofia",location:null},
-  {date:"2026-05-08",time:null,title:"Lauri Markkanen turnaus / Jyväskylä",person:"Helen",location:null},
-  {date:"2026-05-10",time:"09:00",title:"Käsipallo",person:"Sofia",location:"Pirkkola, vanha halli"},
-  {date:"2026-05-10",time:"15:45",title:"Turku-Helsinki bussi",person:"Sofia",location:null},
-  {date:"2026-05-11",time:"17:30",title:"Koristreeni / haku 18.30",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-11",time:"18:30",title:"Tennis",person:"Hanna",location:null},
-  {date:"2026-05-12",time:"16:30",title:"Koristreeni - vanhemmat mukaan",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-12",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
-  {date:"2026-05-12",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-13",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
-  {date:"2026-05-14",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-14",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-15",time:null,title:"Sofian nimipäivä 🌸",person:"Sofia",location:null},
-  {date:"2026-05-15",time:"08:00",title:"Vesikuljetus / Inkoo",person:null,location:null},
-  {date:"2026-05-17",time:"09:00",title:"Käsipallo",person:"Sofia",location:"Pirkkola, vanha halli"},
-  {date:"2026-05-18",time:"17:30",title:"Koristreeni / haku 18.30",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-18",time:"18:30",title:"Tennis",person:"Hanna",location:null},
-  {date:"2026-05-19",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-19",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
-  {date:"2026-05-19",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-20",time:"08:00",title:"Linnanmäki / luokkaretki",person:"Sofia",location:"Linnanmäki"},
-  {date:"2026-05-20",time:"17:30",title:"ToPo kauden päättäjäiset",person:"Hanna",location:null},
-  {date:"2026-05-20",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
-  {date:"2026-05-21",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-21",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-22",time:"17:00",title:"Riikan juhlat",person:"Hanna",location:null},
-  {date:"2026-05-23",time:"12:00",title:"UJ",person:"Erkki",location:null},
-  {date:"2026-05-24",time:"09:00",title:"Käsipallo",person:"Sofia",location:"Pirkkola, vanha halli"},
-  {date:"2026-05-24",time:"10:00",title:"ToPo päättäjäiset / Usvalla",person:null,location:null},
-  {date:"2026-05-25",time:"17:30",title:"Koristreeni / haku 18.30",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-25",time:"18:30",title:"Tennis",person:"Hanna",location:null},
-  {date:"2026-05-26",time:"16:30",title:"Koristreeni",person:"Helen",location:"Pirkkolahalli"},
-  {date:"2026-05-26",time:"17:30",title:"Käsistreenit",person:"Sofia",location:"Lauttasaaren Yhteiskoulu"},
-  {date:"2026-05-26",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-27",time:"18:30",title:"Käsistreeni",person:"Sofia",location:"Pirkkolahalli"},
-  {date:"2026-05-28",time:"13:00",title:"Tennis",person:"Helen",location:"Taivallahti Tennis Center"},
-  {date:"2026-05-28",time:"18:00",title:"Koristreenit",person:"Helen",location:"Munksnäs Högstadieskola"},
-  {date:"2026-05-28",time:"18:00",title:"LK 12 - Taloyhtiön kesäjuhlat",person:null,location:null},
-  {date:"2026-05-30",time:"14:00",title:"Ronja yo-juhlat",person:null,location:null},
-  {date:"2026-05-31",time:"09:00",title:"Käsipallo",person:"Sofia",location:"Pirkkola, vanha halli"},
-  // June
-  {date:"2026-06-02",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-06-03",time:"15:00",title:"Ruotsin risteily Silja Symphony",person:"Sofia",location:"Olympia Terminal"},
-  {date:"2026-06-04",time:"07:00",title:"Oulussa",person:"Hanna",location:null},
-  {date:"2026-06-09",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-06-12",time:"13:30",title:"HLP Kesäjuhlat",person:"Erkki",location:null},
-  {date:"2026-06-14",time:"11:30",title:"Julian konfirmaatio",person:null,location:"Turku"},
-  {date:"2026-06-16",time:"10:00",title:"Rex Hallituksen kokous",person:"Erkki",location:"Hartola"},
-  {date:"2026-06-16",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-06-23",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-06-25",time:"07:00",title:"Oulussa",person:"Hanna",location:null},
-  {date:"2026-06-26",time:"12:00",title:"Kalastusreissu",person:"Erkki",location:"Läsäkoski, Mikkeli"},
-  {date:"2026-06-29",time:null,title:"Thessaloniki - matka alkaa! ✈️",person:null,location:null},
-  {date:"2026-06-30",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  // July
-  {date:"2026-07-07",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-07-14",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-07-21",time:null,title:"Hanko ravut 🦞",person:null,location:null},
-  {date:"2026-07-21",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-07-28",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-07-31",time:null,title:"Helenin nimipäivä 🎂",person:"Helen",location:null},
+  // August - school starts
+  {date:"2026-08-12",time:null,title:"Koulu alkaa 📚",person:null,location:null},
+  {date:"2026-08-12",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-08-13",time:"17:15",title:"Koristreenit / Kisahalli",person:"Helen",location:"Töölön kisahalli"},
+  {date:"2026-08-14",time:"18:00",title:"Kalastusreissu-juna Tampereelta",person:"Erkki",location:null},
+  {date:"2026-08-15",time:"07:00",title:"Kalastamassa / Gaula, Norja",person:"Erkki",location:"Gaula, Norja"},
+  {date:"2026-08-17",time:"16:30",title:"Jalkapallo / Lauttasaari",person:"Sofia",location:"Pyrkän kenttä"},
+  {date:"2026-08-17",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-08-17",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-08-18",time:"18:15",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-08-18",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-08-19",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-08-19",time:"18:30",title:"Jalkapallo / Jätkäsaari",person:"Sofia",location:"Intersport Areena"},
+  {date:"2026-08-20",time:"16:45",title:"Jalkapallo / Jätkäsaari",person:"Sofia",location:"Busholmens konstgräsplan"},
+  {date:"2026-08-20",time:"17:15",title:"Koristreeni / Kisahalli",person:"Helen",location:"Töölön kisahalli"},
+  {date:"2026-08-20",time:"18:30",title:"Yöjuna Kolari-Tampere",person:"Erkki",location:null},
+  {date:"2026-08-22",time:"15:00",title:"Felix: rippijuhlat",person:null,location:"Espoonlahden kirkko"},
+  {date:"2026-08-23",time:null,title:"Edith & Lilja synttärijuhlat",person:null,location:null},
+  {date:"2026-08-24",time:"16:30",title:"Jalkapallo / Lauttasaari",person:"Sofia",location:"Pyrkän kenttä"},
+  {date:"2026-08-24",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-08-24",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-08-25",time:"18:15",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-08-25",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-08-26",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-08-26",time:"16:00",title:"Inkoo",person:"Erkki",location:"Inkoo"},
+  {date:"2026-08-26",time:"18:30",title:"Jalkapallo / Jätkäsaari",person:"Sofia",location:"Intersport Areena"},
+  {date:"2026-08-27",time:null,title:"Oulussa",person:"Hanna",location:null},
+  {date:"2026-08-27",time:"13:00",title:"Tankkaus & Veneen pesu",person:"Erkki",location:"Inkoo"},
+  {date:"2026-08-27",time:"16:45",title:"Jalkapallo / Jätkäsaari",person:"Sofia",location:"Busholmens konstgräsplan"},
+  {date:"2026-08-27",time:"17:15",title:"Koristreenit / Kisahalli",person:"Helen",location:"Töölön kisahalli"},
+  {date:"2026-08-28",time:null,title:"Marjukka 50v juhlat 🎂",person:null,location:null},
+  {date:"2026-08-29",time:"09:30",title:"Leiri / Höga",person:"Helen",location:null},
+  {date:"2026-08-30",time:"10:00",title:"ToPo Inkooseen",person:"Helen",location:"Inkoo"},
+  {date:"2026-08-31",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-08-31",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  // September
+  {date:"2026-09-01",time:"18:15",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-09-01",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  {date:"2026-09-02",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-09-03",time:"17:15",title:"Koris / Haaga",person:"Helen",location:"Haagan peruskoulu"},
+  {date:"2026-09-07",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-09-07",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-09-07",time:"19:00",title:"Sirkus",person:"Hanna",location:"Cable factory"},
+  {date:"2026-09-08",time:"18:15",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
 ];
 function useCalendar(){ return CALENDAR_DATA; }
 
@@ -429,13 +409,13 @@ function buildCountdowns(){
   function daysTo(ds){var t=new Date();t.setHours(0,0,0,0);return Math.max(0,Math.round((new Date(ds)-t)/86400000));}
   var lbl=el("div","cd-section-label","Highlights");
   section.appendChild(lbl);
-  var d1=daysTo("2026-05-30");
+  var d1=daysTo("2026-12-18");
   var c1=el("div","cd-card cd-school");
-  c1.innerHTML="<div class='cd-glow-school'></div><div class='cd-emoji'>&#127958;</div><div class='cd-days'>"+d1+"</div><div class='cd-days-label'>"+(d1===1?"day":"days")+" to go</div><div class='cd-title'>Schools Out for Summer!</div><div class='cd-date'>30 May 2026</div>";
+  c1.innerHTML="<div class='cd-glow-school'></div><div class='cd-emoji'>&#127876;</div><div class='cd-days'>"+d1+"</div><div class='cd-days-label'>"+(d1===1?"day":"days")+" to go</div><div class='cd-title'>Schools Out for Christmas!</div><div class='cd-date'>18 Dec 2026</div>";
   section.appendChild(c1);
-  var d2=daysTo("2026-06-29");
+  var d2=daysTo("2026-10-10");
   var c2=el("div","cd-card cd-greece");
-  c2.innerHTML="<div class='cd-glow-greece'></div><div class='cd-emoji'>&#9992;</div><div class='cd-days'>"+d2+"</div><div class='cd-days-label'>"+(d2===1?"day":"days")+" to go</div><div class='cd-title'>Thessaloniki Here We Come!</div><div class='cd-date'>29 June 2026</div>";
+  c2.innerHTML="<div class='cd-glow-greece'></div><div class='cd-emoji'>&#127774;</div><div class='cd-days'>"+d2+"</div><div class='cd-days-label'>"+(d2===1?"day":"days")+" to go</div><div class='cd-title'>Autumn Holiday!</div><div class='cd-date'>10 Oct 2026</div>";
   section.appendChild(c2);
 }
 
@@ -457,7 +437,7 @@ function render(){
   function lbl(text,color){var d=el("div","section-label");d.style.color=color||"#888";d.innerHTML=text;return d;}
 
   grid.appendChild(lbl("School today  <span style='color:#ffaa55'>"+(isWeekend?"Weekend":getDayName(0))+"</span>","#d4831a"));
-  grid.appendChild(lbl("School "+tmrLabel+"  <span style='color:#60b4ff'>"+getDayName(tmrOff)+"</span>","#3a9ee0"));
+  grid.appendChild(lbl("School "+tmrLabel+"  <span style='color:#aaaaaa'>"+getDayName(tmrOff)+"</span>","#3a9ee0"));
   grid.appendChild(buildChildCard("Sofia","#ffaa55","S",isWeekend?[]:SOFIA_SCHEDULE[todayDow],true));
   grid.appendChild(buildChildCard("Sofia","#ffaa55","S",SOFIA_SCHEDULE[tmrDow]||[],false));
   grid.appendChild(buildChildCard("Helen","#60b4ff","H",isWeekend?[]:HELEN_SCHEDULE[todayDow],true));
@@ -503,11 +483,66 @@ function render(){
     });
 }
 
+// ELECTRICITY PRICE
+function buildElectricity(){
+  var section=document.getElementById("electricity-section");
+  section.innerHTML="<div class='elec-label'>Electricity price today</div><div class='elec-card' id='elec-card'><div style='color:#6a90a8;font-size:10px;padding:10px 0;text-align:center'>Loading...</div></div>";
+  var url="https://data.nordpoolgroup.com/auction/day-ahead/prices?deliveryDate=latest&currency=EUR&aggregation=DeliveryPeriod&deliveryAreas=FI";
+  Promise.race([
+    fetch(url),
+    new Promise(function(_,r){setTimeout(function(){r(new Error("timeout"));},8000);})
+  ])
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var rows=data.multiAreaEntries||[];
+    if(!rows.length){throw new Error("no data");}
+    var hours=rows.map(function(r){
+      var t=r.deliveryStart||"";
+      var h=parseInt(t.split("T")[1]||"0");
+      var price=r.entryPerArea&&r.entryPerArea.FI!=null?parseFloat(r.entryPerArea.FI)/10:null;
+      return {h:h,price:price};
+    }).filter(function(x){return x.price!==null;});
+    if(!hours.length){throw new Error("no FI data");}
+    var prices=hours.map(function(x){return x.price;});
+    var maxP=Math.max.apply(null,prices);
+    var minP=Math.min.apply(null,prices);
+    var avgP=(prices.reduce(function(a,b){return a+b;},0)/prices.length).toFixed(1);
+    var nowH=new Date().getHours();
+    var nowPrice=null;
+    hours.forEach(function(x){if(x.h===nowH)nowPrice=x.price;});
+    var card=document.getElementById("elec-card");
+    var nowStr=nowPrice!==null?". Now: <span style='color:#60b4ff;font-weight:700'>"+nowPrice.toFixed(1)+" c/kWh</span>":"";
+    var html="<div class='elec-meta'><span class='elec-title'>Finland · c/kWh (incl. VAT)</span><span class='elec-avg'>avg "+avgP+"c"+nowStr+"</span></div>";
+    html+="<div class='elec-chart'>";
+    hours.forEach(function(x){
+      var pct=maxP>minP?(x.price-minP)/(maxP-minP):0.5;
+      var barH=Math.max(3,Math.round(pct*52));
+      var isCurrent=x.h===nowH;
+      var isHigh=x.price>parseFloat(avgP)*1.3;
+      var isLow=x.price<parseFloat(avgP)*0.7;
+      var color=isCurrent?"#60b4ff":isHigh?"#f87171":isLow?"#4ade80":"#2a6a9a";
+      var showHour=(x.h%4===0);
+      html+="<div class='elec-bar-wrap'>";
+      html+="<div class='elec-bar' style='height:"+barH+"px;background:"+color+";'></div>";
+      html+="<div class='elec-hour'>"+(showHour?x.h:"")+"</div>";
+      html+="</div>";
+    });
+    html+="</div>";
+    card.innerHTML=html;
+  })
+  .catch(function(){
+    var card=document.getElementById("elec-card");
+    if(card)card.innerHTML="<div style='color:#6a90a8;font-size:10px;padding:10px 0;text-align:center'>Price data unavailable</div>";
+  });
+}
+
 buildCountdowns();
+buildElectricity();
 render();
 var now=new Date();
 var msToMidnight=(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1)-now);
-setTimeout(function(){render();buildCountdowns();setInterval(function(){render();buildCountdowns();},86400000);},msToMidnight);
+setTimeout(function(){render();buildCountdowns();buildElectricity();setInterval(function(){render();buildCountdowns();buildElectricity();},86400000);},msToMidnight);
+setInterval(buildElectricity,3600000);
 
 // Refresh schedule cards every minute so NOW badge stays current for both Sofia and Helen
 setInterval(function(){
