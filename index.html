@@ -187,16 +187,16 @@
 const SOFIA_SCHEDULE = {
   1:[{time:"08:30-09:15",subject:"Kotitalous (KS)"},{time:"09:15-10:00",subject:"Kotitalous (KS)"},{time:"10:15-11:00",subject:"Ruotsi (RUB1)"},{time:"12:30-13:15",subject:"Historia (HI)"}],
   2:[{time:"08:30-09:15",subject:"Elämänkatsomus (UEEV)"},{time:"09:15-10:00",subject:"Suomenkieli (SUK)"},{time:"10:15-11:00",subject:"Suomenkieli (SUK)"},{time:"11:10-11:55",subject:"Matematiikka (MA)"},{time:"12:30-13:15",subject:"Musiikki (MU)"},{time:"13:20-14:05",subject:"Biologia (BI)"},{time:"14:20-15:05",subject:"Englanti (ENA1)"}],
-  3:[{time:"10:15-11:00",subject:"Biologia (BI)"},{time:"11:10-11:55",subject:"Englanti (ENA1)"},{time:"12:30-13:15",subject:"Suomenkieli (SUK)"},{time:"13:20-14:05",subject:"Suomenkieli (SUK)"}],
+  3:[{time:"09:15-10:00",subject:"Biologia (BI)"},{time:"10:15-11:00",subject:"Englanti (ENA1)"},{time:"12:30-13:15",subject:"Suomenkieli (SUK)"},{time:"13:20-14:05",subject:"Suomenkieli (SUK)"}],
   4:[{time:"08:30-09:15",subject:"Kemia (KE)"},{time:"11:10-11:55",subject:"Matematiikka (MA)"},{time:"12:30-13:15",subject:"Matematiikka (MA)"},{time:"13:20-14:05",subject:"Kotitalous (KO)"},{time:"14:20-15:05",subject:"Kotitalous (KO)"}],
-  5:[{time:"09:15-10:00",subject:"Kuvataide (KU)"},{time:"10:15-11:00",subject:"Teknologia (TE)"},{time:"11:10-11:55",subject:"Historia (HI)"},{time:"12:30-13:15",subject:"Liikunta (LI)"},{time:"13:20-14:05",subject:"Liikunta (LI)"},{time:"14:20-15:05",subject:"Ruotsi (RUB1)"}],
+  5:[{time:"08:30-09:15",subject:"Kuvataide (KU)"},{time:"09:15-10:00",subject:"Teknologia (TE)"},{time:"10:15-11:00",subject:"Historia (HI)"},{time:"12:30-13:15",subject:"Liikunta (LI)"},{time:"13:20-14:05",subject:"Liikunta (LI)"},{time:"14:20-15:05",subject:"Ruotsi (RUB1)"}],
 };
 const HELEN_SCHEDULE = {
   1:[{time:"10:00-10:45",subject:"Matematiikka (MA)"},{time:"12:30-13:15",subject:"Suomenkieli (SUK)"},{time:"13:20-14:05",subject:"Suomenkieli (SUK)"},{time:"13:20-14:05",subject:"Ympäristö (YM)"},{time:"14:20-15:05",subject:"Elämänkatsomus (UEEV)"}],
   2:[{time:"08:15-09:00",subject:"Englanti (ENA1)"},{time:"09:15-10:00",subject:"Matematiikka (MA)"},{time:"10:00-10:45",subject:"Matematiikka (MA)"},{time:"12:30-13:15",subject:"Ympäristö (YM)"},{time:"13:20-14:05",subject:"Ympäristö (YM)"},{time:"13:20-14:05",subject:"Suomenkieli (SUK)"},{time:"14:20-15:05",subject:"Suomenkieli (SUK)"}],
   3:[{time:"09:15-10:00",subject:"Liikunta (LI)"},{time:"12:30-13:15",subject:"Suomenkieli (SUK)"},{time:"13:20-14:05",subject:"Musiikki (MU)"},{time:"14:05-14:50",subject:"Historia (HI)"}],
   4:[{time:"08:15-09:00",subject:"A2-kieli (vEAA2)"},{time:"09:15-10:00",subject:"A2-kieli (vEAA2)"},{time:"10:00-10:45",subject:"Kuvataide (KU)"},{time:"10:45-11:30",subject:"Kuvataide (KU)"},{time:"12:30-13:15",subject:"Käsityö (KS)"},{time:"13:20-14:05",subject:"Käsityö (KS)"},{time:"14:20-15:05",subject:"Englanti (ENA1)"}],
-  5:[{time:"08:15-09:00",subject:"Kemia (V.Kem)"},{time:"09:15-10:00",subject:"Kemia (V.Kem)"},{time:"10:00-10:45",subject:"Englanti (ENA1)"},{time:"12:30-13:15",subject:"Historia (HI)"},{time:"13:20-14:05",subject:"Matematiikka (MA)"},{time:"14:20-15:05",subject:"Espanja (SA)"}],
+  5:[{time:"08:15-09:00",subject:"Kemia (V.Kem)"},{time:"09:15-10:00",subject:"Kemia (V.Kem)"},{time:"10:00-10:45",subject:"Englanti (ENA1)"},{time:"11:30-12:15",subject:"Historia (HI)"},{time:"12:30-13:15",subject:"Matematiikka (MA)"}],
 };
 const HELEN_EXAMS = [
   {date:"2026-05-08",subject:"SUK - Suomenkieli",detail:"Kielitaito s. 118-142"},
@@ -213,54 +213,85 @@ const SOFIA_EXAMS = [
   {date:"2026-05-12",subject:"HI - Historia",detail:"S. 182-202"},
 ];
 const CALENDAR_DATA = [
-  // Week of Aug 24
-  {date:"2026-08-24",time:"16:30",title:"Jalkapallo / Lauttasaari",person:"Sofia",location:"Pyrkän kenttä"},
-  {date:"2026-08-24",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
-  {date:"2026-08-24",time:"18:30",title:"Tennis",person:"Hanna",location:null},
-  {date:"2026-08-25",time:"17:40",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
-  {date:"2026-08-25",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-08-26",time:"15:00",title:"Tennis",person:"Helen",location:null},
-  {date:"2026-08-26",time:"16:00",title:"Inkoo",person:"Erkki",location:"Inkoo"},
-  {date:"2026-08-26",time:"17:00",title:"Vanhempainilta (Sofia 7B / Helen oma luokka)",person:null,location:"A217"},
-  {date:"2026-08-26",time:"18:30",title:"Jalkapallo / Jätkäsaari",person:"Sofia",location:"Intersport Areena"},
-  {date:"2026-08-27",time:"07:45",title:"Oulussa (meno 9:10 / paluu 18:35)",person:"Hanna",location:null},
-  {date:"2026-08-27",time:"13:00",title:"Tankkaus & Veneen pesu",person:"Erkki",location:"Inkoo"},
-  {date:"2026-08-27",time:"16:45",title:"Jalkapallo / Jätkäsaari",person:"Sofia",location:"Busholmens konstgräsplan"},
-  {date:"2026-08-27",time:"17:15",title:"Koristreenit / Kisahalli",person:"Helen",location:"Töölön kisahalli"},
-  {date:"2026-08-28",time:null,title:"Marjukka 50v juhlat 🎂",person:null,location:null},
-  {date:"2026-08-29",time:"09:30",title:"Leiri / Höga",person:"Helen",location:null},
-  {date:"2026-08-30",time:"10:00",title:"ToPo Inkooseen klo 10-16",person:"Helen",location:"Inkoo"},
-  // Week of Aug 31
-  {date:"2026-08-31",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
-  {date:"2026-08-31",time:"18:30",title:"Tennis",person:"Hanna",location:null},
-  {date:"2026-09-01",time:"17:40",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
-  {date:"2026-09-01",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-09-02",time:"15:00",title:"Tennis",person:"Helen",location:null},
-  {date:"2026-09-03",time:"17:15",title:"Koris / Haaga",person:"Helen",location:"Haagan peruskoulu"},
-  // Week of Sep 7
-  {date:"2026-09-07",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
-  {date:"2026-09-07",time:"18:30",title:"Tennis",person:"Hanna",location:null},
-  {date:"2026-09-07",time:"19:00",title:"Sirkus",person:"Hanna",location:"Cable factory"},
-  {date:"2026-09-08",time:"17:40",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
-  {date:"2026-09-08",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
-  {date:"2026-09-09",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  // Sep 10
   {date:"2026-09-10",time:"17:15",title:"Koris / Haaga",person:"Helen",location:"Haagan peruskoulu"},
-  // Week of Sep 12
+  {date:"2026-09-10",time:"18:00",title:"Koripallo",person:"Sofia",location:"Haagan Peruskoulu"},
+  // Sep 12-13
   {date:"2026-09-12",time:null,title:"ToPo / Stadium Tournament Tampere",person:"Hanna",location:"Tampere"},
+  // Sep 14
   {date:"2026-09-14",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
   {date:"2026-09-14",time:"17:00",title:"ToPo Vanhempainilta",person:"Helen",location:"Pirkkolan Palloiluhalli"},
   {date:"2026-09-14",time:"18:30",title:"Tennis",person:"Hanna",location:null},
   {date:"2026-09-14",time:"19:00",title:"Sirkus",person:"Hanna",location:"Cable factory"},
-  {date:"2026-09-15",time:"08:30",title:"Rex - Lahti klo 10",person:"Hanna",location:null},
+  {date:"2026-09-14",time:"19:00",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Sep 15
+  {date:"2026-09-15",time:null,title:"Koulukuvaus",person:null,location:null},
   {date:"2026-09-15",time:"17:40",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
   {date:"2026-09-15",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  // Sep 16
   {date:"2026-09-16",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-09-16",time:"16:30",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Sep 17
   {date:"2026-09-17",time:"17:15",title:"Koris / Haaga",person:"Helen",location:"Haagan peruskoulu"},
+  {date:"2026-09-17",time:"18:00",title:"Koripallo",person:"Sofia",location:"Haagan Peruskoulu"},
+  // Sep 18
   {date:"2026-09-18",time:"09:10",title:"Hammaslääkäri",person:"Helen",location:"Lauttasaaren hammashoitola"},
   {date:"2026-09-18",time:"17:30",title:"HLP Rapujuhlat 🦞",person:"Erkki",location:null},
-  // Week of Sep 21
-  {date:"2026-09-21",time:null,title:"Oulussa 2 päivää",person:"Hanna",location:null},
+  // Sep 19
+  {date:"2026-09-19",time:"08:45",title:"ToPo – Beat Basket 2-DIV 9:30",person:"Helen",location:"Kisis A"},
+  {date:"2026-09-19",time:"15:15",title:"ToPo – LoU Basket 3-DIV 16:00",person:"Helen",location:"Järnefeltin liikuntahalli"},
+  // Sep 21
+  {date:"2026-09-21",time:"15:00",title:"Oulussa 2 päivää",person:"Hanna",location:null},
   {date:"2026-09-21",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-09-21",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-09-21",time:"19:00",title:"Sirkus",person:"Hanna",location:"Cable factory"},
+  {date:"2026-09-21",time:"19:00",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Sep 22
+  {date:"2026-09-22",time:"08:35",title:"Hammaslääkäri",person:"Sofia",location:"Kivelän hammashoitola"},
+  {date:"2026-09-22",time:"17:40",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-09-22",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  // Sep 23
+  {date:"2026-09-23",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-09-23",time:"16:30",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Sep 24
+  {date:"2026-09-24",time:"17:15",title:"Koris / Haaga",person:"Helen",location:"Haagan peruskoulu"},
+  {date:"2026-09-24",time:"18:00",title:"Koripallo",person:"Sofia",location:"Haagan Peruskoulu"},
+  // Sep 27
+  {date:"2026-09-27",time:"12:15",title:"ToPo – Helmi Basket 2-DIV 13:00",person:"Helen",location:"Helmi Center"},
+  // Sep 28
+  {date:"2026-09-28",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-09-28",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-09-28",time:"19:00",title:"Sirkus",person:"Hanna",location:"Cable factory"},
+  {date:"2026-09-28",time:"19:00",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Sep 29
+  {date:"2026-09-29",time:"17:40",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-09-29",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  // Sep 30
+  {date:"2026-09-30",time:"08:30",title:"Rex - Lahti",person:"Hanna",location:null},
+  {date:"2026-09-30",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-09-30",time:"16:30",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Oct 1
+  {date:"2026-10-01",time:"08:15",title:"Stefan Toivola / Terassi",person:"Erkki",location:null},
+  {date:"2026-10-01",time:"17:15",title:"Koris / Haaga",person:"Helen",location:"Haagan peruskoulu"},
+  {date:"2026-10-01",time:"18:00",title:"Koripallo",person:"Sofia",location:"Haagan Peruskoulu"},
+  // Oct 4
+  {date:"2026-10-04",time:"12:15",title:"ToPo – Helmi Basket 1-DIV 13:00",person:"Helen",location:"Helmi Center"},
+  // Oct 5
+  {date:"2026-10-05",time:"17:00",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-10-05",time:"18:30",title:"Tennis",person:"Hanna",location:null},
+  {date:"2026-10-05",time:"19:00",title:"Sirkus",person:"Hanna",location:"Cable factory"},
+  {date:"2026-10-05",time:"19:00",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Oct 6
+  {date:"2026-10-06",time:"17:40",title:"Koris / Pirkkola",person:"Helen",location:"Pirkkolan Palloiluhalli"},
+  {date:"2026-10-06",time:"19:30",title:"Tennis",person:"Erkki",location:"Taivallahti Tennis Center"},
+  // Oct 7
+  {date:"2026-10-07",time:"15:00",title:"Tennis",person:"Helen",location:null},
+  {date:"2026-10-07",time:"15:00",title:"Kiinni / Seminaari",person:"Erkki",location:null},
+  {date:"2026-10-07",time:"16:30",title:"Koripallo",person:"Sofia",location:"Pirkkolahalli kenttä 4"},
+  // Oct 8
+  {date:"2026-10-08",time:"10:00",title:"HLP Strategiapäivät",person:"Erkki",location:"Tallinna"},
+  // Oct 13
+  {date:"2026-10-13",time:null,title:"Lanzarote - matka alkaa! ✈️",person:null,location:null},
 ];
 function useCalendar(){ return CALENDAR_DATA; }
 
@@ -418,9 +449,9 @@ function buildCountdowns(){
   var c1=el("div","cd-card cd-school");
   c1.innerHTML="<div class='cd-glow-school'></div><div class='cd-emoji'>&#127876;</div><div class='cd-days'>"+d1+"</div><div class='cd-days-label'>"+(d1===1?"day":"days")+" to go</div><div class='cd-title'>Schools Out for Christmas!</div><div class='cd-date'>18 Dec 2026</div>";
   section.appendChild(c1);
-  var d2=daysTo("2026-10-10");
+  var d2=daysTo("2026-10-13");
   var c2=el("div","cd-card cd-greece");
-  c2.innerHTML="<div class='cd-glow-greece'></div><div class='cd-emoji'>&#127774;</div><div class='cd-days'>"+d2+"</div><div class='cd-days-label'>"+(d2===1?"day":"days")+" to go</div><div class='cd-title'>Autumn Holiday!</div><div class='cd-date'>10 Oct 2026</div>";
+  c2.innerHTML="<div class='cd-glow-greece'></div><div class='cd-emoji'>&#127958;</div><div class='cd-days'>"+d2+"</div><div class='cd-days-label'>"+(d2===1?"day":"days")+" to go</div><div class='cd-title'>Lanzarote Here We Come!</div><div class='cd-date'>13 Oct 2026</div>";
   section.appendChild(c2);
 }
 
